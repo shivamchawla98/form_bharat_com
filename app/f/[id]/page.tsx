@@ -308,37 +308,37 @@ export default function PublicFormPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white py-6 md:py-12 px-3 md:px-4">
       <div className="max-w-2xl mx-auto">
         {/* Branding Header */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-4 hover:opacity-80 transition">
-            <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-pink-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">F</span>
+        <div className="text-center mb-6 md:mb-8">
+          <Link href="/" className="inline-flex items-center gap-2 mb-3 md:mb-4 hover:opacity-80 transition">
+            <div className="w-8 md:w-10 h-8 md:h-10 bg-gradient-to-br from-orange-500 to-pink-500 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-lg md:text-xl">F</span>
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
+            <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
               FormBharat
             </span>
           </Link>
           <button
             onClick={handleShareWhatsApp}
-            className="mt-2 text-sm text-green-600 hover:text-green-700 flex items-center gap-1 mx-auto"
+            className="mt-2 text-xs md:text-sm text-green-600 hover:text-green-700 flex items-center gap-1 mx-auto"
           >
-            <Share2 className="h-4 w-4" />
+            <Share2 className="h-3 md:h-4 w-3 md:w-4" />
             Share via WhatsApp
           </button>
         </div>
 
         {/* Form Card */}
         <Card className="shadow-xl">
-          <CardHeader className="bg-gradient-to-r from-orange-50 to-pink-50 border-b">
-            <CardTitle className="text-3xl font-bold">{form.title}</CardTitle>
+          <CardHeader className="bg-gradient-to-r from-orange-50 to-pink-50 border-b p-4 md:p-6">
+            <CardTitle className="text-xl md:text-2xl lg:text-3xl font-bold">{form.title}</CardTitle>
             {form.description && (
-              <CardDescription className="text-base mt-2">{form.description}</CardDescription>
+              <CardDescription className="text-sm md:text-base mt-2">{form.description}</CardDescription>
             )}
           </CardHeader>
-          <CardContent className="pt-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <CardContent className="p-4 md:p-6 pt-6 md:pt-8">
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
               {form.multiStepEnabled && (() => {
                 const pages = getPages(form.fields as FormField[])
                 const totalPages = pages.length
@@ -346,12 +346,12 @@ export default function PublicFormPage() {
                 return (
                   <>
                     {/* Progress Bar */}
-                    <div className="mb-8">
+                    <div className="mb-6 md:mb-8">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium text-gray-600">
+                        <span className="text-xs md:text-sm font-medium text-gray-600">
                           Page {currentPage + 1} of {totalPages}
                         </span>
-                        <span className="text-sm text-gray-500">
+                        <span className="text-xs md:text-sm text-gray-500">
                           {Math.round(((currentPage + 1) / totalPages) * 100)}% Complete
                         </span>
                       </div>
@@ -366,7 +366,7 @@ export default function PublicFormPage() {
                     {/* Current Page Fields */}
                     {pages[currentPage]?.map((field, index) => (
                       <div key={field.id} className="space-y-2">
-                        <Label className="text-base font-medium">
+                        <Label className="text-sm md:text-base font-medium">
                           {currentPage * fieldsPerPage + index + 1}. {field.label}
                           {field.required && <span className="text-red-500 ml-1">*</span>}
                         </Label>
@@ -375,13 +375,13 @@ export default function PublicFormPage() {
                     ))}
 
                     {/* Navigation Buttons */}
-                    <div className="flex gap-3 pt-4">
+                    <div className="flex gap-2 md:gap-3 pt-4">
                       {currentPage > 0 && (
                         <Button 
                           type="button"
                           variant="outline"
                           onClick={() => setCurrentPage(currentPage - 1)}
-                          className="flex-1"
+                          className="flex-1 text-sm md:text-base h-10 md:h-11"
                         >
                           Previous
                         </Button>
@@ -389,11 +389,11 @@ export default function PublicFormPage() {
                       <Button 
                         type="submit" 
                         disabled={submitting} 
-                        className="flex-1 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+                        className="flex-1 text-sm md:text-base h-10 md:h-11 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
                       >
                         {submitting ? (
                           <>
-                            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                            <Loader2 className="mr-2 h-4 md:h-5 w-4 md:w-5 animate-spin" />
                             Submitting...
                           </>
                         ) : currentPage < totalPages - 1 ? (
@@ -411,7 +411,7 @@ export default function PublicFormPage() {
                 <>
                   {(form.fields as FormField[]).map((field, index) => (
                     <div key={field.id} className="space-y-2">
-                      <Label className="text-base font-medium">
+                      <Label className="text-sm md:text-base font-medium">
                         {index + 1}. {field.label}
                         {field.required && <span className="text-red-500 ml-1">*</span>}
                       </Label>
@@ -423,11 +423,11 @@ export default function PublicFormPage() {
                     <Button 
                       type="submit" 
                       disabled={submitting} 
-                      className="w-full h-12 text-lg bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+                      className="w-full h-11 md:h-12 text-base md:text-lg bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
                     >
                       {submitting ? (
                         <>
-                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                          <Loader2 className="mr-2 h-4 md:h-5 w-4 md:w-5 animate-spin" />
                           Submitting...
                         </>
                       ) : (
@@ -442,7 +442,7 @@ export default function PublicFormPage() {
         </Card>
 
         {/* Footer */}
-        <div className="text-center mt-8 text-sm text-gray-500">
+        <div className="text-center mt-6 md:mt-8 text-xs md:text-sm text-gray-500">
           <p>
             Powered by{' '}
             <Link href="/" className="text-orange-600 hover:underline font-medium">

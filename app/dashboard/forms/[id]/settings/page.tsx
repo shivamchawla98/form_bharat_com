@@ -188,48 +188,37 @@ export default function FormSettingsPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <Link href="/dashboard">
-              <Button variant="ghost" size="sm">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Dashboard
+        <div className="container mx-auto px-4 py-3 md:py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 md:gap-4">
+              <Button variant="ghost" size="sm" onClick={() => router.back()}>
+                <ArrowLeft className="h-4 w-4" />
               </Button>
-            </Link>
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-pink-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">F</span>
+              <div>
+                <h1 className="text-lg md:text-xl font-bold">Form Settings</h1>
+                <p className="text-xs md:text-sm text-gray-500 line-clamp-1">{form?.title}</p>
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
-                FormBharat
-              </span>
-            </Link>
+            </div>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">{form?.title} - Settings</h1>
-          <p className="text-gray-600">Configure notifications, integrations, and advanced features</p>
-        </div>
-
-        <div className="space-y-6">
+      <main className="container mx-auto px-4 py-6 md:py-8">
+        <div className="max-w-4xl mx-auto space-y-4 md:space-y-6">
           {/* Email Notifications */}
           <Card>
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Bell className="h-5 w-5 text-blue-600" />
+            <CardHeader className="p-4 md:p-6">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="w-8 md:w-10 h-8 md:h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Bell className="h-4 md:h-5 w-4 md:w-5 text-blue-600" />
                 </div>
-                <div>
-                  <CardTitle>Email Notifications</CardTitle>
-                  <CardDescription>Get notified when someone submits this form</CardDescription>
+                <div className="min-w-0">
+                  <CardTitle className="text-base md:text-lg">Email Notifications</CardTitle>
+                  <CardDescription className="text-xs md:text-sm">Get notified when someone submits this form</CardDescription>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 md:space-y-4 p-4 md:p-6 pt-0">
               <div className="flex items-center justify-between">
                 <Label htmlFor="email-enabled">Enable email notifications</Label>
                 <Switch
@@ -270,18 +259,18 @@ export default function FormSettingsPage() {
 
           {/* Webhook Integration */}
           <Card>
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <Webhook className="h-5 w-5 text-purple-600" />
+            <CardHeader className="p-4 md:p-6">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="w-8 md:w-10 h-8 md:h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Webhook className="h-4 md:h-5 w-4 md:w-5 text-purple-600" />
                 </div>
-                <div>
-                  <CardTitle>Webhook Integration</CardTitle>
-                  <CardDescription>Send form responses to external services</CardDescription>
+                <div className="min-w-0">
+                  <CardTitle className="text-base md:text-lg">Webhook Integration</CardTitle>
+                  <CardDescription className="text-xs md:text-sm">Send form data to your server in real-time</CardDescription>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 md:space-y-4 p-4 md:p-6 pt-0">
               <div className="flex items-center justify-between">
                 <Label htmlFor="webhook-enabled">Enable webhook</Label>
                 <Switch
@@ -365,18 +354,18 @@ export default function FormSettingsPage() {
 
           {/* Multi-Step Forms */}
           <Card>
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Zap className="h-5 w-5 text-green-600" />
+            <CardHeader className="p-4 md:p-6">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="w-8 md:w-10 h-8 md:h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Zap className="h-4 md:h-5 w-4 md:w-5 text-green-600" />
                 </div>
-                <div>
-                  <CardTitle>Multi-Step Form</CardTitle>
-                  <CardDescription>Break your form into multiple pages</CardDescription>
+                <div className="min-w-0">
+                  <CardTitle className="text-base md:text-lg">Multi-Step Forms</CardTitle>
+                  <CardDescription className="text-xs md:text-sm">Break long forms into multiple pages</CardDescription>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 md:space-y-4 p-4 md:p-6 pt-0">
               <div className="flex items-center justify-between">
                 <Label htmlFor="multistep-enabled">Enable multi-step form</Label>
                 <Switch
@@ -399,18 +388,18 @@ export default function FormSettingsPage() {
 
           {/* Embed Code */}
           <Card>
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                  <Code className="h-5 w-5 text-orange-600" />
+            <CardHeader className="p-4 md:p-6">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="w-8 md:w-10 h-8 md:h-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Code className="h-4 md:h-5 w-4 md:w-5 text-orange-600" />
                 </div>
-                <div>
-                  <CardTitle>Embed Form</CardTitle>
-                  <CardDescription>Add this form to your website</CardDescription>
+                <div className="min-w-0">
+                  <CardTitle className="text-base md:text-lg">Embed Form</CardTitle>
+                  <CardDescription className="text-xs md:text-sm">Add this form to your website</CardDescription>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 md:space-y-4 p-4 md:p-6 pt-0">
               <Button 
                 variant="outline" 
                 onClick={() => setShowEmbedCode(!showEmbedCode)}
@@ -424,9 +413,9 @@ export default function FormSettingsPage() {
                 <div className="space-y-4">
                   {/* iFrame Embed */}
                   <div>
-                    <Label className="text-sm font-semibold">iFrame Embed</Label>
+                    <Label className="text-xs md:text-sm font-semibold">iFrame Embed</Label>
                     <div className="mt-2 relative">
-                      <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg text-xs overflow-x-auto">
+                      <pre className="bg-gray-900 text-gray-100 p-3 md:p-4 rounded-lg text-[10px] md:text-xs overflow-x-auto">
 {`<iframe 
   src="${window.location.origin}/f/${params.id}"
   width="100%"
@@ -469,13 +458,13 @@ export default function FormSettingsPage() {
           </Card>
 
           {/* Save Button */}
-          <div className="flex justify-end gap-3">
-            <Button variant="outline" onClick={() => router.push('/dashboard')}>
+          <div className="flex flex-col sm:flex-row justify-end gap-2 md:gap-3 sticky bottom-0 bg-gray-50 py-4 -mx-4 px-4 border-t sm:border-t-0 sm:static sm:bg-transparent sm:py-0">
+            <Button variant="outline" onClick={() => router.push('/dashboard')} className="w-full sm:w-auto">
               Cancel
             </Button>
             <Button 
               onClick={saveSettings}
-              className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+              className="w-full sm:w-auto bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
             >
               Save Settings
             </Button>
