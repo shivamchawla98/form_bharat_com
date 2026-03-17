@@ -21,6 +21,11 @@ export default function PublicFormPage() {
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [formData, setFormData] = useState<Record<string, any>>({})
+  
+  // Multi-step form state
+  const [currentPage, setCurrentPage] = useState(0)
+  const [startTime] = useState(new Date())
+  const [fieldsPerPage] = useState(4)
 
   useEffect(() => {
     fetchForm()
@@ -47,25 +52,56 @@ export default function PublicFormPage() {
     e.preventDefault()
 
     const fields = form.fields as FormField[]
-    const requiredFields = fields.filter(f => f.required)
     
-    for (const field of requiredFields) {
-      if (!formData[field.id] || (Array.isArray(formData[field.id]) && formData[field.id].length === 0)) {
-        toast({
-          title: 'Validation Error',
-          description: `${field.label} is required`,
-          variant: 'destructive',
-        })
+    // For multi-step, only validate current page fields
+    if (form.multiStepEnabled) {
+      const pages = getPages(fields)
+      const currentPageFields = pages[currentPage] || []
+      const requiredFields = currentPageFields.filter(f => f.required)
+      
+      for (const field of requiredFields) {
+        if (!formData[field.id] || (Array.isArray(formData[field.id]) && formData[field.id].length === 0)) {
+          toast({
+            title: 'Validation Error',
+            description: `${field.label} is required`,
+            variant: 'destructive',
+          })
+          return
+        }
+      }
+      
+      // If not last page, go to next page
+      if (currentPage < pages.length - 1) {
+        setCurrentPage(currentPage + 1)
         return
+      }
+    } else {
+      // Single page validation
+      const requiredFields = fields.filter(f => f.required)
+      for (const field of requiredFields) {
+        if (!formData[field.id] || (Array.isArray(formData[field.id]) && formData[field.id].length === 0)) {
+          toast({
+            title: 'Validation Error',
+            description: `${field.label} is required`,
+            variant: 'destructive',
+          })
+          return
+        }
       }
     }
 
     setSubmitting(true)
     try {
+      const submissionData = {
+        ...formData,
+        _startedAt: startTime.toISOString(),
+        _currentPage: currentPage,
+      }
+      
       const response = await fetch(`/api/forms/${params.id}/responses`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(submissionData),
       })
 
       if (!response.ok) throw new Error('Submission failed')
@@ -84,6 +120,14 @@ export default function PublicFormPage() {
     } finally {
       setSubmitting(false)
     }
+  }
+
+  const getPages = (fields: FormField[]) => {
+    const pages: FormField[][] = []
+    for (let i = 0; i < fields.length; i += fieldsPerPage) {
+      pages.push(fields.slice(i, i + fieldsPerPage))
+    }
+    return pages
   }
 
   const handleFieldChange = (fieldId: string, value: any) => {
@@ -295,32 +339,104 @@ export default function PublicFormPage() {
           </CardHeader>
           <CardContent className="pt-8">
             <form onSubmit={handleSubmit} className="space-y-6">
-              {(form.fields as FormField[]).map((field, index) => (
-                <div key={field.id} className="space-y-2">
-                  <Label className="text-base font-medium">
-                    {index + 1}. {field.label}
-                    {field.required && <span className="text-red-500 ml-1">*</span>}
-                  </Label>
-                  {renderField(field)}
-                </div>
-              ))}
-              
-              <div className="pt-4">
-                <Button 
-                  type="submit" 
-                  disabled={submitting} 
-                  className="w-full h-12 text-lg bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
-                >
-                  {submitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      Submitting...
-                    </>
-                  ) : (
-                    'Submit Response'
-                  )}
-                </Button>
-              </div>
+              {form.multiStepEnabled && (() => {
+                const pages = getPages(form.fields as FormField[])
+                const totalPages = pages.length
+                
+                return (
+                  <>
+                    {/* Progress Bar */}
+                    <div className="mb-8">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-gray-600">
+                          Page {currentPage + 1} of {totalPages}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                          {Math.round(((currentPage + 1) / totalPages) * 100)}% Complete
+                        </span>
+                      </div>
+                      <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-gradient-to-r from-orange-500 to-pink-500 transition-all duration-300"
+                          style={{ width: `${((currentPage + 1) / totalPages) * 100}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Current Page Fields */}
+                    {pages[currentPage]?.map((field, index) => (
+                      <div key={field.id} className="space-y-2">
+                        <Label className="text-base font-medium">
+                          {currentPage * fieldsPerPage + index + 1}. {field.label}
+                          {field.required && <span className="text-red-500 ml-1">*</span>}
+                        </Label>
+                        {renderField(field)}
+                      </div>
+                    ))}
+
+                    {/* Navigation Buttons */}
+                    <div className="flex gap-3 pt-4">
+                      {currentPage > 0 && (
+                        <Button 
+                          type="button"
+                          variant="outline"
+                          onClick={() => setCurrentPage(currentPage - 1)}
+                          className="flex-1"
+                        >
+                          Previous
+                        </Button>
+                      )}
+                      <Button 
+                        type="submit" 
+                        disabled={submitting} 
+                        className="flex-1 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+                      >
+                        {submitting ? (
+                          <>
+                            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                            Submitting...
+                          </>
+                        ) : currentPage < totalPages - 1 ? (
+                          'Next'
+                        ) : (
+                          'Submit Response'
+                        )}
+                      </Button>
+                    </div>
+                  </>
+                )
+              })()}
+
+              {!form.multiStepEnabled && (
+                <>
+                  {(form.fields as FormField[]).map((field, index) => (
+                    <div key={field.id} className="space-y-2">
+                      <Label className="text-base font-medium">
+                        {index + 1}. {field.label}
+                        {field.required && <span className="text-red-500 ml-1">*</span>}
+                      </Label>
+                      {renderField(field)}
+                    </div>
+                  ))}
+                  
+                  <div className="pt-4">
+                    <Button 
+                      type="submit" 
+                      disabled={submitting} 
+                      className="w-full h-12 text-lg bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+                    >
+                      {submitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                          Submitting...
+                        </>
+                      ) : (
+                        'Submit Response'
+                      )}
+                    </Button>
+                  </div>
+                </>
+              )}
             </form>
           </CardContent>
         </Card>

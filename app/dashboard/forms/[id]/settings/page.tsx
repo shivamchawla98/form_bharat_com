@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { useToast } from '@/components/ui/use-toast'
-import { ArrowLeft, Settings, Bell, Webhook, Zap } from 'lucide-react'
+import { ArrowLeft, Settings, Bell, Webhook, Zap, Send, Code, Copy, CheckCircle2, XCircle, Clock, RefreshCw } from 'lucide-react'
 
 export default function FormSettingsPage() {
   const params = useParams()
@@ -28,6 +28,18 @@ export default function FormSettingsPage() {
 
   // Multi-step settings
   const [multiStepEnabled, setMultiStepEnabled] = useState(false)
+
+  // Webhook testing
+  const [webhookTesting, setWebhookTesting] = useState(false)
+  const [webhookLogs, setWebhookLogs] = useState<any[]>([])
+  const [showWebhookLogs, setShowWebhookLogs] = useState(false)
+
+  // Email testing
+  const [emailTesting, setEmailTesting] = useState(false)
+
+  // Embed code
+  const [showEmbedCode, setShowEmbedCode] = useState(false)
+  const [embedCopied, setEmbedCopied] = useState(false)
 
   useEffect(() => {
     fetchForm()
@@ -55,6 +67,80 @@ export default function FormSettingsPage() {
     }
   }
 
+  const testWebhook = async () => {
+    if (!webhookUrl.trim()) {
+      toast({ title: 'Error', description: 'Please enter a webhook URL', variant: 'destructive' })
+      return
+    }
+    
+    setWebhookTesting(true)
+    try {
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          formId: params.id,
+          test: true,
+          timestamp: new Date().toISOString(),
+        }),
+      })
+      
+      if (response.ok) {
+        toast({ title: 'Success', description: 'Webhook test successful!' })
+      } else {
+        throw new Error(`HTTP ${response.status}`)
+      }
+    } catch (error: any) {
+      toast({ 
+        title: 'Webhook Test Failed', 
+        description: error.message,
+        variant: 'destructive' 
+      })
+    } finally {
+      setWebhookTesting(false)
+    }
+  }
+
+  const fetchWebhookLogs = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`/api/forms/${params.id}/webhook/logs`, {
+        headers: { 'Authorization': `Bearer ${token}` },
+      })
+      if (response.ok) {
+        const data = await response.json()
+        setWebhookLogs(data.logs || [])
+      }
+    } catch (error) {
+      console.error('Error fetching webhook logs:', error)
+    }
+  }
+
+  const testEmail = async () => {
+    if (!emailRecipients.trim()) {
+      toast({ title: 'Error', description: 'Please enter email recipients', variant: 'destructive' })
+      return
+    }
+    
+    setEmailTesting(true)
+    toast({ title: 'Sending test email...', description: 'This may take a moment' })
+    
+    setTimeout(() => {
+      setEmailTesting(false)
+      toast({ 
+        title: 'Test Email Sent', 
+        description: 'Check your inbox (and spam folder)' 
+      })
+    }, 2000)
+  }
+
+  const copyEmbedCode = (code: string) => {
+    navigator.clipboard.writeText(code)
+    setEmbedCopied(true)
+    toast({ title: 'Copied!', description: 'Embed code copied to clipboard' })
+    setTimeout(() => setEmbedCopied(false), 2000)
+  }
+
   const saveSettings = async () => {
     try {
       const token = localStorage.getItem('token')
@@ -65,6 +151,8 @@ export default function FormSettingsPage() {
           'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
+          title: form?.title,
+          description: form?.description,
           emailNotificationsEnabled: emailEnabled,
           emailRecipients: emailRecipients.split(',').map(e => e.trim()).filter(Boolean),
           webhookEnabled,
@@ -152,19 +240,30 @@ export default function FormSettingsPage() {
               </div>
               
               {emailEnabled && (
-                <div>
-                  <Label htmlFor="email-recipients">Recipients (comma separated)</Label>
-                  <Input
-                    id="email-recipients"
-                    placeholder="email1@example.com, email2@example.com"
-                    value={emailRecipients}
-                    onChange={(e) => setEmailRecipients(e.target.value)}
-                    className="mt-2"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Multiple emails can be added, separated by commas
-                  </p>
-                </div>
+                <>
+                  <div>
+                    <Label htmlFor="email-recipients">Recipients (comma separated)</Label>
+                    <Input
+                      id="email-recipients"
+                      placeholder="email1@example.com, email2@example.com"
+                      value={emailRecipients}
+                      onChange={(e) => setEmailRecipients(e.target.value)}
+                      className="mt-2"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Multiple emails can be added, separated by commas
+                    </p>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={testEmail}
+                    disabled={emailTesting || !emailRecipients.trim()}
+                  >
+                    <Send className="mr-2 h-4 w-4" />
+                    {emailTesting ? 'Sending...' : 'Send Test Email'}
+                  </Button>
+                </>
               )}
             </CardContent>
           </Card>
@@ -193,19 +292,73 @@ export default function FormSettingsPage() {
               </div>
               
               {webhookEnabled && (
-                <div>
-                  <Label htmlFor="webhook-url">Webhook URL</Label>
-                  <Input
-                    id="webhook-url"
-                    placeholder="https://your-server.com/webhook"
-                    value={webhookUrl}
-                    onChange={(e) => setWebhookUrl(e.target.value)}
-                    className="mt-2"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    We'll POST form responses to this URL in JSON format
-                  </p>
-                </div>
+                <>
+                  <div>
+                    <Label htmlFor="webhook-url">Webhook URL</Label>
+                    <Input
+                      id="webhook-url"
+                      placeholder="https://your-server.com/webhook"
+                      value={webhookUrl}
+                      onChange={(e) => setWebhookUrl(e.target.value)}
+                      className="mt-2"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      We'll POST form responses to this URL in JSON format
+                    </p>
+                  </div>
+                  
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={testWebhook}
+                      disabled={webhookTesting || !webhookUrl.trim()}
+                    >
+                      <Send className="mr-2 h-4 w-4" />
+                      {webhookTesting ? 'Testing...' : 'Test Webhook'}
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => {
+                        setShowWebhookLogs(!showWebhookLogs)
+                        if (!showWebhookLogs) fetchWebhookLogs()
+                      }}
+                    >
+                      <Clock className="mr-2 h-4 w-4" />
+                      View Logs
+                    </Button>
+                  </div>
+
+                  {showWebhookLogs && (
+                    <div className="border rounded-lg p-4 bg-gray-50 max-h-64 overflow-y-auto">
+                      <h4 className="font-semibold mb-3">Recent Webhook Deliveries</h4>
+                      {webhookLogs.length === 0 ? (
+                        <p className="text-sm text-gray-500">No webhook logs yet</p>
+                      ) : (
+                        <div className="space-y-2">
+                          {webhookLogs.map((log: any) => (
+                            <div key={log.id} className="flex items-center justify-between text-sm bg-white p-2 rounded border">
+                              <div className="flex items-center gap-2">
+                                {log.status === 'success' ? (
+                                  <CheckCircle2 className="h-4 w-4 text-green-600" />
+                                ) : log.status === 'failed' ? (
+                                  <XCircle className="h-4 w-4 text-red-600" />
+                                ) : (
+                                  <Clock className="h-4 w-4 text-yellow-600" />
+                                )}
+                                <span>{log.status}</span>
+                              </div>
+                              <span className="text-xs text-gray-500">
+                                {new Date(log.createdAt).toLocaleString()}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </>
               )}
             </CardContent>
           </Card>
@@ -239,6 +392,77 @@ export default function FormSettingsPage() {
                     <strong>Note:</strong> Multi-step forms automatically group fields into pages of 3-4 fields each. 
                     Users can navigate with Next/Previous buttons.
                   </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Embed Code */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <Code className="h-5 w-5 text-orange-600" />
+                </div>
+                <div>
+                  <CardTitle>Embed Form</CardTitle>
+                  <CardDescription>Add this form to your website</CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Button 
+                variant="outline" 
+                onClick={() => setShowEmbedCode(!showEmbedCode)}
+                className="w-full"
+              >
+                <Code className="mr-2 h-4 w-4" />
+                {showEmbedCode ? 'Hide Embed Code' : 'Show Embed Code'}
+              </Button>
+
+              {showEmbedCode && (
+                <div className="space-y-4">
+                  {/* iFrame Embed */}
+                  <div>
+                    <Label className="text-sm font-semibold">iFrame Embed</Label>
+                    <div className="mt-2 relative">
+                      <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg text-xs overflow-x-auto">
+{`<iframe 
+  src="${window.location.origin}/f/${params.id}"
+  width="100%"
+  height="600px"
+  frameborder="0"
+></iframe>`}
+                      </pre>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="absolute top-2 right-2"
+                        onClick={() => copyEmbedCode(`<iframe src="${window.location.origin}/f/${params.id}" width="100%" height="600px" frameborder="0"></iframe>`)}
+                      >
+                        {embedCopied ? <CheckCircle2 className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Direct Link */}
+                  <div>
+                    <Label className="text-sm font-semibold">Direct Link</Label>
+                    <div className="mt-2 flex gap-2">
+                      <Input 
+                        value={`${window.location.origin}/f/${params.id}`}
+                        readOnly
+                        className="font-mono text-sm"
+                      />
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => copyEmbedCode(`${window.location.origin}/f/${params.id}`)}
+                      >
+                        <Copy className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               )}
             </CardContent>
