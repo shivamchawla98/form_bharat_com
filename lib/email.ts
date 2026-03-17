@@ -1,127 +1,92 @@
-// Email notification utilities
+import { Resend } from 'resend'
+import { prisma } from './prisma'
 
-export interface EmailNotificationSettings {
-  enabled: boolean
-  recipients: string[]
-  subject?: string
-  includeResponseData: boolean
-}
+const resend = new Resend(process.env.RESEND_API_KEY)
 
-export async function sendEmailNotification(
-  formTitle: string,
-  responseData: Record<string, any>,
-  settings: EmailNotificationSettings
-) {
-  if (!settings.enabled || settings.recipients.length === 0) {
-    return { success: false, message: 'Email notifications not enabled' }
-  }
-
+export async function sendFormNotification(
+  formId: string,
+  responseId: string,
+  responseData: Record<string, any>
+): Promise<void> {
   try {
-    const emailHtml = generateEmailTemplate(formTitle, responseData)
+    const form = await prisma.form.findUnique({
+      where: { id: formId },
+      select: {
+        title: true,
+      },
+    }) as any
+
+    if (!form?.emailNotificationsEnabled || !form.emailRecipients || form.emailRecipients.length === 0) {
+      return
+    }
+
+    if (!resend) {
+      console.log('Email notifications not configured (missing RESEND_API_KEY)')
+      return
+    }
+
+    const emailHtml = generateEmailTemplate(form.title, responseId, responseData)
 
     await resend.emails.send({
       from: 'FormBharat <notifications@formbharat.com>',
-    // For now, we'll structure the data for future integration
-    
-    const emailPayload = {
-      to: settings.recipients,
-      subject: settings.subject || `New response for ${formTitle}`,
-      html: generateEmailHTML(formTitle, responseData, settings.includeResponseData),
-      text: generateEmailText(formTitle, responseData, settings.includeResponseData)
-    }
-
-    // TODO: Integrate with actual email service
-    console.log('Email notification payload:', emailPayload)
-    
-    return { 
-      success: true, 
-      message: 'Email notification sent',
-      payload: emailPayload 
-    }
+      to: form.emailRecipients,
+      subject: `New response: ${form.title}`,
+      html: emailHtml,
+    })
   } catch (error) {
-    console.error('Error sending email notification:', error)
-    return { success: false, message: 'Failed to send email notification' }
+    console.error('Email notification error:', error)
   }
 }
 
-function generateEmailHTML(
+function generateEmailTemplate(
   formTitle: string,
-  responseData: Record<string, any>,
-  includeData: boolean
+  responseId: string,
+  data: Record<string, any>
 ): string {
-  let html = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background: linear-gradient(135deg, #f97316 0%, #ec4899 100%); color: white; padding: 20px; border-radius: 8px 8px 0 0; }
-        .content { background: #f9fafb; padding: 20px; border-radius: 0 0 8px 8px; }
-        .field { margin-bottom: 15px; padding: 10px; background: white; border-radius: 4px; }
-        .field-label { font-weight: bold; color: #666; font-size: 14px; }
-        .field-value { margin-top: 5px; color: #111; }
-        .footer { margin-top: 20px; text-align: center; color: #666; font-size: 12px; }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <div class="header">
-          <h2>🎉 New Form Response</h2>
-          <p>${formTitle}</p>
-        </div>
-        <div class="content">
-          <p>You've received a new response!</p>
+  const dataRows = Object.entries(data)
+    .map(
+      ([key, value]) => `
+    <tr>
+      <td style="padding: 12px; border: 1px solid #e5e7eb; font-weight: 600;">${key}</td>
+      <td style="padding: 12px; border: 1px solid #e5e7eb;">${value}</td>
+    </tr>
   `
+    )
+    .join('')
 
-  if (includeData) {
-    html += '<div style="margin-top: 20px;">'
-    Object.entries(responseData).forEach(([key, value]) => {
-      html += `
-        <div class="field">
-          <div class="field-label">${key}</div>
-          <div class="field-value">${Array.isArray(value) ? value.join(', ') : String(value)}</div>
-        </div>
-      `
-    })
-    html += '</div>'
-  } else {
-    html += '<p><a href="https://formb harat.com/dashboard" style="color: #f97316;">View response in dashboard →</a></p>'
-  }
-
-  html += `
-        </div>
-        <div class="footer">
-          <p>Sent by FormBharat | Form Builder Made for India 🇮🇳</p>
-        </div>
-      </div>
-    </body>
-    </html>
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(135deg, #f97316 0%, #ec4899 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0;">FormBharat</h1>
+    <p style="color: white; margin: 10px 0 0 0;">New Form Response</p>
+  </div>
+  
+  <div style="background: #f9fafb; padding: 30px; border-radius: 0 0 8px 8px;">
+    <h2 style="color: #1f2937; margin-top: 0;">${formTitle}</h2>
+    <p style="color: #6b7280; margin-bottom: 20px;">You received a new response</p>
+    
+    <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden;">
+      ${dataRows}
+    </table>
+    
+    <div style="margin-top: 30px; text-align: center;">
+      <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard" 
+         style="display: inline-block; background: linear-gradient(135deg, #f97316 0%, #ec4899 100%); color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: 600;">
+        View in Dashboard
+      </a>
+    </div>
+    
+    <p style="color: #9ca3af; font-size: 12px; margin-top: 30px; text-align: center;">
+      This is an automated notification from FormBharat
+    </p>
+  </div>
+</body>
+</html>
   `
-
-  return html
-}
-
-function generateEmailText(
-  formTitle: string,
-  responseData: Record<string, any>,
-  includeData: boolean
-): string {
-  let text = `New Form Response: ${formTitle}\n\n`
-  text += 'You have received a new response!\n\n'
-
-  if (includeData) {
-    text += 'Response Data:\n'
-    text += '---\n'
-    Object.entries(responseData).forEach(([key, value]) => {
-      text += `${key}: ${Array.isArray(value) ? value.join(', ') : String(value)}\n`
-    })
-  } else {
-    text += 'View the full response in your FormBharat dashboard.\n'
-  }
-
-  text += '\n---\n'
-  text += 'Sent by FormBharat - Form Builder Made for India'
-
-  return text
 }

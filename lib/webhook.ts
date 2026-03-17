@@ -17,12 +17,9 @@ export async function sendWebhook(
     const form = await prisma.form.findUnique({
       where: { id: formId },
       select: {
-        webhookUrl: true,
-        webhookEnabled: true,
-        webhookSecret: true,
         title: true,
       },
-    })
+    }) as any
 
     if (!form?.webhookEnabled || !form?.webhookUrl) {
       return
@@ -41,7 +38,7 @@ export async function sendWebhook(
       data: {
         formId,
         status: 'pending',
-        payload,
+        payload: payload as any,
         attempts: 0,
       },
     })
@@ -86,7 +83,7 @@ async function deliverWebhook(
         where: { id: logId },
         data: {
           status: 'success',
-          response: { status: response.status, body: responseData },
+          response: { status: response.status, body: responseData } as any,
           attempts: attempt,
         },
       })
@@ -129,7 +126,7 @@ export async function retryWebhook(logId: string): Promise<boolean> {
     await deliverWebhook(
       logId,
       log.form.webhookUrl,
-      log.payload as WebhookPayload,
+      log.payload as unknown as WebhookPayload,
       log.form.webhookSecret,
       log.attempts + 1
     )
