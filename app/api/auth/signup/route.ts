@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
       try {
         await prisma.user.upsert({
           where: { email: authData.user.email! },
-          update: {},
+          update: {}, // If user exists, just use existing record
           create: {
             id: authData.user.id,
             email: authData.user.email!,

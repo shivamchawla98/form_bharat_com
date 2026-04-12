@@ -25,10 +25,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Ensure user exists in our database
-    await prisma.user.upsert({
-      where: { id: user.id },
-      update: {},
+    // Ensure user exists in our database (find or create by email)
+    const dbUser = await prisma.user.upsert({
+      where: { email: user.email! },
+      update: {}, // If user exists, just use existing record
       create: {
         id: user.id,
         email: user.email!,
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       data: {
         title,
         description: description || '',
-        userId: user.id,
+        userId: dbUser.id, // Use the database user ID
         fields,
         published: true,
       },
@@ -70,10 +70,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Ensure user exists in our database
-    await prisma.user.upsert({
-      where: { id: user.id },
-      update: {},
+    // Ensure user exists in our database (find or create by email)
+    const dbUser = await prisma.user.upsert({
+      where: { email: user.email! },
+      update: {}, // If user exists, just use existing record
       create: {
         id: user.id,
         email: user.email!,
@@ -82,7 +82,7 @@ export async function GET(request: NextRequest) {
     })
 
     const forms = await prisma.form.findMany({
-      where: { userId: user.id },
+      where: { userId: dbUser.id }, // Use the database user ID
       include: {
         _count: {
           select: { responses: true },
