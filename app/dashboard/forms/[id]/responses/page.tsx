@@ -1,16 +1,17 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
+import ProtectedRoute from '@/components/ProtectedRoute'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/components/ui/use-toast'
 import { ArrowLeft, Download, BarChart3, Calendar, Loader2 } from 'lucide-react'
 
-export default function ResponsesPage() {
-  const params = useParams()
+function ResponsesContent() {
   const router = useRouter()
+  const params = useParams()
   const { toast } = useToast()
   const [form, setForm] = useState<any>(null)
   const [responses, setResponses] = useState<any[]>([])
@@ -253,5 +254,13 @@ export default function ResponsesPage() {
         )}
       </main>
     </div>
+  )
+}
+
+export default function ResponsesPage() {
+  return (
+    <ProtectedRoute>
+      <ResponsesContent />
+    </ProtectedRoute>
   )
 }

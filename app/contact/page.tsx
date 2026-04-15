@@ -1,21 +1,7 @@
-import type { Metadata } from 'next'
+'use client'
+
 import Footer from '@/components/Footer'
-
-export const metadata: Metadata = {
-  title: 'Contact FormBharat - Support & Help Center',
-  description: 'Get in touch with FormBharat team. Email us at hello@formbharat.com, chat with support, or browse our help center. We respond within 24 hours.',
-  keywords: ['contact FormBharat', 'form builder support', 'help center', 'customer support India', 'form builder help'],
-  alternates: {
-    canonical: 'https://formbharat.com/contact',
-  },
-  openGraph: {
-    title: 'Contact FormBharat - We are here to help',
-    description: 'Get support via email, chat, or browse our help center. Quick responses guaranteed.',
-    url: 'https://formbharat.com/contact',
-    type: 'website',
-  },
-}
-
+import Header from '@/components/Header'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
@@ -27,34 +13,7 @@ import LiveChatButton from '@/components/LiveChatButton'
 export default function ContactPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <header className="border-b bg-white/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-pink-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">F</span>
-            </div>
-            <span className="text-lg md:text-xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
-              FormBharat
-            </span>
-          </Link>
-          <div className="hidden md:flex gap-4 items-center">
-            <Link href="/features" className="text-gray-600 hover:text-gray-900 text-sm">Features</Link>
-            <Link href="/templates" className="text-gray-600 hover:text-gray-900 text-sm">Templates</Link>
-            <Link href="/about" className="text-gray-600 hover:text-gray-900 text-sm">About</Link>
-            <Link href="/contact" className="text-gray-900 font-medium text-sm">Contact</Link>
-            <Link href="/auth/login">
-              <Button variant="outline" size="sm">Login</Button>
-            </Link>
-            <Link href="/builder">
-              <Button size="sm" className="bg-gradient-to-r from-orange-500 to-pink-500">Start Free</Button>
-            </Link>
-          </div>
-          <Link href="/builder" className="md:hidden">
-            <Button size="sm" className="bg-gradient-to-r from-orange-500 to-pink-500">Start Free</Button>
-          </Link>
-        </div>
-      </header>
+      <Header />
 
       {/* Hero */}
       <section className="pt-12 md:pt-20 pb-12 md:pb-16 px-4 bg-gradient-to-b from-orange-50 to-white">

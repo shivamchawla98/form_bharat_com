@@ -1,35 +1,16 @@
+'use client'
+
 import Link from 'next/link'
 import Footer from '@/components/Footer'
+import Header from '@/components/Header'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Github, Star, GitFork, Code2, Users, Heart, BookOpen, MessageSquare, Zap, Shield, Globe } from 'lucide-react'
 
-export const metadata = {
-  title: 'Open Source - FormBharat',
-  description: 'FormBharat is open source and free forever. Join our community, contribute, and help build the best form builder for Indian businesses.',
-}
-
 export default function OpenSourcePage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="border-b bg-white sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-pink-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">F</span>
-              </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
-                FormBharat
-              </span>
-            </Link>
-            <Link href="/">
-              <Button variant="ghost">← Back to Home</Button>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Hero Section */}
       <section className="py-20 px-4 bg-gradient-to-b from-orange-50 to-white">

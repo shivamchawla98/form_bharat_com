@@ -3,12 +3,13 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import ProtectedRoute from '@/components/ProtectedRoute'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ArrowLeft, TrendingUp, Users, Clock, BarChart3, PieChart } from 'lucide-react'
 import { calculateFormAnalytics, FormAnalytics } from '@/lib/analytics'
 
-export default function AnalyticsPage() {
+function AnalyticsContent() {
   const params = useParams()
   const [form, setForm] = useState<any>(null)
   const [responses, setResponses] = useState<any[]>([])
@@ -234,5 +235,13 @@ export default function AnalyticsPage() {
         </div>
       </main>
     </div>
+  )
+}
+
+export default function AnalyticsPage() {
+  return (
+    <ProtectedRoute>
+      <AnalyticsContent />
+    </ProtectedRoute>
   )
 }

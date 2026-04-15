@@ -1,21 +1,7 @@
-import type { Metadata } from 'next'
+'use client'
+
 import Footer from '@/components/Footer'
-
-export const metadata: Metadata = {
-  title: 'Form Builder Features - WhatsApp Integration & Indian Templates',
-  description: 'Discover FormBharat features: Drag-drop builder, WhatsApp sharing, Indian templates (GST, LPA), multi-step forms, analytics, webhooks, and 100% free during early access. Compare with Typeform and JotForm.',
-  keywords: ['form builder features', 'WhatsApp forms', 'Indian form templates', 'free Typeform alternative', 'form analytics', 'multi-step forms', 'webhook integration'],
-  alternates: {
-    canonical: 'https://formbharat.com/features',
-  },
-  openGraph: {
-    title: 'FormBharat Features - Best Free Form Builder for India',
-    description: 'Drag-drop builder, WhatsApp integration, Indian templates, analytics - all free. See how we compare to Typeform and JotForm.',
-    url: 'https://formbharat.com/features',
-    type: 'website',
-  },
-}
-
+import Header from '@/components/Header'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
@@ -195,34 +181,7 @@ const comparisonFeatures = [
 export default function FeaturesPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white border-b">
-        <div className="container mx-auto px-4 py-3 md:py-4">
-          <div className="flex justify-between items-center">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-pink-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">F</span>
-              </div>
-              <span className="text-lg md:text-xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">FormBharat</span>
-            </Link>
-            <div className="hidden md:flex gap-4 items-center">
-              <Link href="/features" className="text-gray-900 font-medium text-sm">Features</Link>
-              <Link href="/templates" className="text-gray-600 hover:text-gray-900 text-sm">Templates</Link>
-              <Link href="/about" className="text-gray-600 hover:text-gray-900 text-sm">About</Link>
-              <Link href="/contact" className="text-gray-600 hover:text-gray-900 text-sm">Contact</Link>
-              <Link href="/auth/login">
-                <Button variant="outline" size="sm">Login</Button>
-              </Link>
-              <Link href="/builder">
-                <Button size="sm" className="bg-gradient-to-r from-orange-500 to-pink-500">Start Free</Button>
-              </Link>
-            </div>
-            <Link href="/builder" className="md:hidden">
-              <Button size="sm" className="bg-gradient-to-r from-orange-500 to-pink-500">Start Free</Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <Header />
 
       {/* Hero */}
       <section className="py-12 md:py-20 px-4 bg-gradient-to-b from-orange-50 to-white">

@@ -1,18 +1,8 @@
-import type { Metadata } from 'next'
-import Footer from '@/components/Footer'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'Terms of Service - FormBharat User Agreement',
-  description: 'FormBharat Terms of Service. Read our user agreement, acceptable use policy, and service terms. By using FormBharat, you agree to these terms.',
-  keywords: ['FormBharat terms', 'terms of service', 'user agreement', 'acceptable use policy', 'service terms'],
-  alternates: {
-    canonical: 'https://formbharat.com/terms',
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-}
+import Footer from '@/components/Footer'
+import Header from '@/components/Header'
+
 
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -20,32 +10,8 @@ import { ArrowLeft } from 'lucide-react'
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white border-b">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-pink-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">F</span>
-              </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">FormBharat</span>
-            </Link>
-            <div className="flex gap-4 items-center">
-              <Link href="/features" className="text-gray-600 hover:text-gray-900">Features</Link>
-              <Link href="/templates" className="text-gray-600 hover:text-gray-900">Templates</Link>
-              <Link href="/about" className="text-gray-600 hover:text-gray-900">About</Link>
-              <Link href="/contact" className="text-gray-600 hover:text-gray-900">Contact</Link>
-              <Link href="/auth/login">
-                <Button variant="outline">Login</Button>
-              </Link>
-              <Link href="/builder">
-                <Button className="bg-gradient-to-r from-orange-500 to-pink-500">Start Free</Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-gray-50">
+      <Header />
 
       {/* Content */}
       <div className="container mx-auto px-4 py-16 max-w-4xl">

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import ProtectedRoute from '@/components/ProtectedRoute'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -11,7 +12,7 @@ import { Switch } from '@/components/ui/switch'
 import { useToast } from '@/components/ui/use-toast'
 import { ArrowLeft, Settings, Bell, Webhook, Zap, Send, Code, Copy, CheckCircle2, XCircle, Clock, RefreshCw } from 'lucide-react'
 
-export default function FormSettingsPage() {
+function FormSettingsContent() {
   const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
@@ -472,5 +473,13 @@ export default function FormSettingsPage() {
         </div>
       </main>
     </div>
+  )
+}
+
+export default function FormSettingsPage() {
+  return (
+    <ProtectedRoute>
+      <FormSettingsContent />
+    </ProtectedRoute>
   )
 }

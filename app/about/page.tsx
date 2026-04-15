@@ -1,57 +1,17 @@
-import type { Metadata } from 'next'
-import Footer from '@/components/Footer'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'About FormBharat - Form Builder Made for Indian Businesses',
-  description: 'Learn about FormBharat mission: Making form building simple and free for Indian SMBs. Built with love in India for Indian businesses. Our story, values, and vision.',
-  keywords: ['about FormBharat', 'Indian form builder company', 'form builder mission', 'made in India software', 'Indian startup'],
-  alternates: {
-    canonical: 'https://formbharat.com/about',
-  },
-  openGraph: {
-    title: 'About FormBharat - Built for Indian Businesses',
-    description: 'Our mission to make form building simple, accessible, and free for every Indian business.',
-    url: 'https://formbharat.com/about',
-    type: 'website',
-  },
-}
+import Footer from '@/components/Footer'
+import Header from '@/components/Header'
 
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Target, Heart, Users, Zap } from 'lucide-react'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
+import { Heart, Users, Target, Zap } from 'lucide-react'
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <header className="border-b bg-white/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-pink-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">F</span>
-            </div>
-            <span className="text-lg md:text-xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
-              FormBharat
-            </span>
-          </Link>
-          <div className="hidden md:flex gap-4 items-center">
-            <Link href="/features" className="text-gray-600 hover:text-gray-900 text-sm">Features</Link>
-            <Link href="/templates" className="text-gray-600 hover:text-gray-900 text-sm">Templates</Link>
-            <Link href="/about" className="text-gray-900 font-medium text-sm">About</Link>
-            <Link href="/contact" className="text-gray-600 hover:text-gray-900 text-sm">Contact</Link>
-            <Link href="/auth/login">
-              <Button variant="outline" size="sm">Login</Button>
-            </Link>
-            <Link href="/builder">
-              <Button size="sm" className="bg-gradient-to-r from-orange-500 to-pink-500">Start Free</Button>
-            </Link>
-          </div>
-          <Link href="/builder" className="md:hidden">
-            <Button size="sm" className="bg-gradient-to-r from-orange-500 to-pink-500">Start Free</Button>
-          </Link>
-        </div>
-      </header>
+      <Header />
 
       {/* Hero */}
       <section className="pt-12 md:pt-20 pb-12 md:pb-16 px-4 bg-gradient-to-b from-orange-50 to-white">

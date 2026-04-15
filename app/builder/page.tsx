@@ -107,10 +107,10 @@ export default function BuilderPage() {
       return
     }
 
-    // Check if user is already logged in
+    // Check if user is logged in
     const token = localStorage.getItem('token')
     if (token) {
-      // User is logged in, save form directly
+      // User is logged in, save directly
       await saveForm(data, token)
     } else {
       // User not logged in, show auth dialog
@@ -148,7 +148,7 @@ export default function BuilderPage() {
         localStorage.setItem('token', result.session.access_token)
       }
 
-      // Save the form if we have form data
+      // Save the form after successful auth
       if (formData) {
         const token = localStorage.getItem('token')
         if (token) {
@@ -179,35 +179,37 @@ export default function BuilderPage() {
           <DialogHeader>
             <DialogTitle>{isSignUp ? 'Sign up to save your form' : 'Login to save your form'}</DialogTitle>
             <DialogDescription>
-              {isSignUp 
-                ? 'Create an account to save and manage your forms'
-                : 'Login to your account to save this form'}
+              {isSignUp ? 'Create an account to save and manage your forms' : 'Sign in to save this form'}
             </DialogDescription>
           </DialogHeader>
-          
-          <div className="space-y-4">
-            <div>
-              <Label>Email</Label>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
               <Input
+                id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
               />
             </div>
-            <div>
-              <Label>Password</Label>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
               <Input
+                id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password"
+                placeholder="••••••••"
               />
             </div>
-            <Button onClick={handleAuth} className="w-full">
-              {isSignUp ? 'Sign Up & Save Form' : 'Login & Save Form'}
+            <Button 
+              onClick={handleAuth}
+              className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+            >
+              {isSignUp ? 'Sign up & Save Form' : 'Login & Save Form'}
             </Button>
-            <Button
+            <Button 
               variant="ghost"
               onClick={() => setIsSignUp(!isSignUp)}
               className="w-full"
