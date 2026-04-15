@@ -6,7 +6,23 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/components/ui/use-toast'
-import { Copy, ExternalLink, Eye, Trash2, Plus, BarChart3, FileText, Users, TrendingUp, MoreVertical, Edit, Share2, CopyPlus, LineChart, Settings } from 'lucide-react'
+import { 
+  CopyIcon, 
+  ExternalLinkIcon, 
+  EyeIcon, 
+  TrashIcon, 
+  PlusIcon, 
+  AnalyticsIcon, 
+  CopyIcon as FileTextIcon, 
+  UsersIcon, 
+  GrowthIcon, 
+  SettingsIcon, 
+  EditIcon, 
+  ShareIcon, 
+  PlusIcon as CopyPlusIcon, 
+  AnalyticsIcon as LineChartIcon,
+  MessageIcon as MoreVerticalIcon
+} from '@/components/icons/CustomIcons'
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -116,7 +132,7 @@ export default function DashboardPage() {
             <div className="flex gap-2 md:gap-4 items-center">
               <Link href="/builder">
                 <Button size="sm" className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
-                  <Plus className="mr-0 md:mr-2 h-4 w-4" />
+                  <PlusIcon className="mr-0 md:mr-2 h-4 w-4" />
                   <span className="hidden sm:inline">Create Form</span>
                   <span className="sm:hidden">New</span>
                 </Button>
@@ -138,7 +154,7 @@ export default function DashboardPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-4 md:p-6">
               <CardTitle className="text-xs md:text-sm font-medium">Total Forms</CardTitle>
-              <FileText className="h-3 md:h-4 w-3 md:w-4 text-gray-600" />
+              <FileTextIcon className="h-3 md:h-4 w-3 md:w-4 text-gray-600" />
             </CardHeader>
             <CardContent className="p-4 pt-0 md:p-6 md:pt-0">
               <div className="text-xl md:text-2xl font-bold">{totalForms}</div>
@@ -147,7 +163,7 @@ export default function DashboardPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-4 md:p-6">
               <CardTitle className="text-xs md:text-sm font-medium">Responses</CardTitle>
-              <Users className="h-3 md:h-4 w-3 md:w-4 text-gray-600" />
+              <UsersIcon className="h-3 md:h-4 w-3 md:w-4 text-gray-600" />
             </CardHeader>
             <CardContent className="p-4 pt-0 md:p-6 md:pt-0">
               <div className="text-xl md:text-2xl font-bold">{totalResponses}</div>
@@ -156,7 +172,7 @@ export default function DashboardPage() {
           <Card className="hidden md:block">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Response Rate</CardTitle>
-              <TrendingUp className="h-4 w-4 text-gray-600" />
+              <GrowthIcon className="h-4 w-4 text-gray-600" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">-</div>
@@ -165,7 +181,7 @@ export default function DashboardPage() {
           <Card className="hidden md:block">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Avg. Completion</CardTitle>
-              <BarChart3 className="h-4 w-4 text-gray-600" />
+              <AnalyticsIcon className="h-4 w-4 text-gray-600" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">-</div>
@@ -179,7 +195,7 @@ export default function DashboardPage() {
           {forms.length > 0 && (
             <Link href="/builder">
               <Button variant="outline" size="sm" className="hidden sm:flex">
-                <Plus className="mr-2 h-4 w-4" />
+                <PlusIcon className="mr-2 h-4 w-4" />
                 New Form
               </Button>
             </Link>
@@ -197,7 +213,7 @@ export default function DashboardPage() {
           <Card className="border-2 border-dashed">
             <CardContent className="py-12 md:py-16 text-center px-4">
               <div className="w-12 md:w-16 h-12 md:h-16 bg-gradient-to-br from-orange-100 to-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FileText className="h-6 md:h-8 w-6 md:w-8 text-orange-500" />
+                <FileTextIcon className="h-6 md:h-8 w-6 md:w-8 text-orange-500" />
               </div>
               <h3 className="text-lg md:text-xl font-semibold mb-2">No forms yet</h3>
               <p className="text-sm md:text-base text-gray-600 mb-6 max-w-md mx-auto">
@@ -206,7 +222,7 @@ export default function DashboardPage() {
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link href="/builder" className="w-full sm:w-auto">
                   <Button className="w-full sm:w-auto bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
-                    <Plus className="mr-2 h-4 w-4" />
+                    <PlusIcon className="mr-2 h-4 w-4" />
                     Create Your First Form
                   </Button>
                 </Link>
@@ -260,7 +276,7 @@ export default function DashboardPage() {
                           className="flex-1 text-xs md:text-sm"
                           onClick={() => copyFormLink(form.id)}
                         >
-                          <Copy className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
+                          <CopyIcon className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
                           Copy
                         </Button>
                         <Button
@@ -269,7 +285,7 @@ export default function DashboardPage() {
                           className="flex-1 bg-green-50 hover:bg-green-100 text-green-700 border-green-200 text-xs md:text-sm"
                           onClick={() => shareOnWhatsApp(form.id, form.title)}
                         >
-                          <Share2 className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
+                          <ShareIcon className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
                           <span className="hidden sm:inline">WhatsApp</span>
                           <span className="sm:hidden">Share</span>
                         </Button>
@@ -278,7 +294,7 @@ export default function DashboardPage() {
                           size="sm"
                           onClick={() => window.open(`/f/${form.id}`, '_blank')}
                         >
-                          <ExternalLink className="h-3 md:h-4 w-3 md:w-4" />
+                          <ExternalLinkIcon className="h-3 md:h-4 w-3 md:w-4" />
                         </Button>
                       </div>
 
@@ -289,7 +305,7 @@ export default function DashboardPage() {
                             size="sm" 
                             className="w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white hover:from-orange-600 hover:to-pink-600 text-xs md:text-sm"
                           >
-                            <Eye className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
+                            <EyeIcon className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
                             Responses
                           </Button>
                         </Link>
@@ -299,7 +315,7 @@ export default function DashboardPage() {
                             size="sm"
                             title="View Analytics"
                           >
-                            <LineChart className="h-3 md:h-4 w-3 md:w-4" />
+                            <LineChartIcon className="h-3 md:h-4 w-3 md:w-4" />
                           </Button>
                         </Link>
                         <Link href={`/dashboard/forms/${form.id}/settings`}>
@@ -308,7 +324,7 @@ export default function DashboardPage() {
                             size="sm"
                             title="Form Settings"
                           >
-                            <Settings className="h-3 md:h-4 w-3 md:w-4" />
+                            <SettingsIcon className="h-3 md:h-4 w-3 md:w-4" />
                           </Button>
                         </Link>
                         <Button
@@ -318,7 +334,7 @@ export default function DashboardPage() {
                           className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
                           title="Duplicate form"
                         >
-                          <CopyPlus className="h-3 md:h-4 w-3 md:w-4" />
+                          <CopyPlusIcon className="h-3 md:h-4 w-3 md:w-4" />
                         </Button>
                         <Button
                           variant="ghost"
@@ -327,7 +343,7 @@ export default function DashboardPage() {
                           className="text-red-600 hover:text-red-700 hover:bg-red-50"
                           title="Delete form"
                         >
-                          <Trash2 className="h-3 md:h-4 w-3 md:w-4" />
+                          <TrashIcon className="h-3 md:h-4 w-3 md:w-4" />
                         </Button>
                       </div>
                     </div>

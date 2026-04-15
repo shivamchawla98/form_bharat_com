@@ -11,7 +11,13 @@ import { Card } from '@/components/ui/card'
 import { FormField, FieldType } from '@/lib/types'
 import { SortableField } from './SortableField'
 import { FieldTypeSelector } from './FieldTypeSelector'
-import { Save, Eye, Plus, FileText, Palette, Settings } from 'lucide-react'
+import { 
+  SaveIcon, 
+  EyeIcon, 
+  PlusIcon, 
+  CopyIcon, 
+  SettingsIcon 
+} from '@/components/icons/CustomIcons'
 import Link from 'next/link'
 
 interface FormBuilderProps {
@@ -107,12 +113,12 @@ export function FormBuilder({
             <div className="flex gap-2">
               {onPreview && (
                 <Button variant="outline">
-                  <Eye className="mr-2 h-4 w-4" />
+                  <EyeIcon className="mr-2 h-4 w-4" />
                   Preview
                 </Button>
               )}
               <Button onClick={handleSave} className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
-                <Save className="mr-2 h-4 w-4" />
+                <SaveIcon className="mr-2 h-4 w-4" />
                 Save Form
               </Button>
             </div>
@@ -127,7 +133,7 @@ export function FormBuilder({
           <div className="lg:sticky lg:top-24 h-fit">
             <Card className="p-4">
               <h2 className="font-semibold mb-4 flex items-center gap-2">
-                <Plus className="h-5 w-5 text-orange-500" />
+                <PlusIcon className="h-5 w-5 text-orange-500" />
                 Add Fields
               </h2>
               <FieldTypeSelector onSelectType={addField} />
@@ -139,7 +145,7 @@ export function FormBuilder({
             {/* Form Settings */}
             <Card className="p-6">
               <div className="flex items-center gap-2 mb-6">
-                <FileText className="h-5 w-5 text-orange-500" />
+                <CopyIcon className="h-5 w-5 text-orange-500" />
                 <h2 className="text-lg font-semibold">Form Details</h2>
               </div>
               <div className="space-y-4">
@@ -173,7 +179,7 @@ export function FormBuilder({
             <Card className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
-                  <FileText className="h-5 w-5 text-orange-500" />
+                  <CopyIcon className="h-5 w-5 text-orange-500" />
                   <h2 className="text-lg font-semibold">Form Fields</h2>
                 </div>
                 <span className="text-sm text-gray-500">{fields.length} field{fields.length !== 1 ? 's' : ''}</span>
@@ -182,7 +188,7 @@ export function FormBuilder({
               {fields.length === 0 ? (
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
                   <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Plus className="h-8 w-8 text-gray-400" />
+                    <PlusIcon className="h-8 w-8 text-gray-400" />
                   </div>
                   <h3 className="font-medium text-gray-900 mb-2">No fields yet</h3>
                   <p className="text-gray-500 text-sm mb-4">

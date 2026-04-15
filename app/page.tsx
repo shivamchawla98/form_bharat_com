@@ -4,7 +4,19 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { CheckCircle2, Zap, Shield, TrendingUp, Users, Smartphone, BarChart3, Globe, ArrowRight, Menu, X } from 'lucide-react'
+import { 
+  CheckIcon, 
+  DragDropIcon, 
+  WhatsAppIcon, 
+  AnalyticsIcon, 
+  SecurityIcon, 
+  GrowthIcon, 
+  UsersIcon, 
+  GlobeIcon, 
+  ArrowRightIcon, 
+  MenuIcon, 
+  CloseIcon 
+} from '@/components/icons/CustomIcons'
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -46,7 +58,7 @@ export default function Home() {
               className="md:hidden p-2 text-gray-600 hover:text-gray-900"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {mobileMenuOpen ? <CloseIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
             </button>
           </div>
 
@@ -92,7 +104,7 @@ export default function Home() {
               <Link href="/builder" className="w-full sm:w-auto">
                 <Button size="lg" className="w-full sm:w-auto text-base md:text-lg px-6 md:px-8 h-12 md:h-14 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
                   Create Your First Form
-                  <ArrowRight className="ml-2 h-4 md:h-5 w-4 md:w-5" />
+                  <ArrowRightIcon className="ml-2 h-4 md:h-5 w-4 md:w-5" />
                 </Button>
               </Link>
               <Link href="#features" className="w-full sm:w-auto">
@@ -103,15 +115,15 @@ export default function Home() {
             </div>
             <div className="flex flex-wrap gap-3 md:gap-6 justify-center text-xs md:text-sm text-gray-600 px-4">
               <div className="flex items-center gap-1.5 md:gap-2">
-                <CheckCircle2 className="h-4 md:h-5 w-4 md:w-5 text-green-500 flex-shrink-0" />
+                <CheckIcon className="h-4 md:h-5 w-4 md:w-5 text-green-500 flex-shrink-0" />
                 <span>No credit card required</span>
               </div>
               <div className="flex items-center gap-1.5 md:gap-2">
-                <CheckCircle2 className="h-4 md:h-5 w-4 md:w-5 text-green-500 flex-shrink-0" />
+                <CheckIcon className="h-4 md:h-5 w-4 md:w-5 text-green-500 flex-shrink-0" />
                 <span>Early access free</span>
               </div>
               <div className="flex items-center gap-1.5 md:gap-2">
-                <CheckCircle2 className="h-4 md:h-5 w-4 md:w-5 text-green-500 flex-shrink-0" />
+                <CheckIcon className="h-4 md:h-5 w-4 md:w-5 text-green-500 flex-shrink-0" />
                 <span>Made in India 🇮🇳</span>
               </div>
             </div>
@@ -166,7 +178,7 @@ export default function Home() {
             <Card className="border-2 hover:border-orange-200 transition">
               <CardHeader>
                 <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                  <Zap className="h-6 w-6 text-orange-600" />
+                  <DragDropIcon className="h-6 w-6 text-orange-600" />
                 </div>
                 <CardTitle>Drag & Drop Builder</CardTitle>
                 <CardDescription>
@@ -178,7 +190,7 @@ export default function Home() {
             <Card className="border-2 hover:border-orange-200 transition">
               <CardHeader>
                 <div className="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mb-4">
-                  <Smartphone className="h-6 w-6 text-pink-600" />
+                  <WhatsAppIcon className="h-6 w-6 text-pink-600" />
                 </div>
                 <CardTitle>WhatsApp Integration</CardTitle>
                 <CardDescription>
@@ -190,7 +202,7 @@ export default function Home() {
             <Card className="border-2 hover:border-orange-200 transition">
               <CardHeader>
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                  <BarChart3 className="h-6 w-6 text-blue-600" />
+                  <AnalyticsIcon className="h-6 w-6 text-blue-600" />
                 </div>
                 <CardTitle>Smart Analytics</CardTitle>
                 <CardDescription>
@@ -202,7 +214,7 @@ export default function Home() {
             <Card className="border-2 hover:border-orange-200 transition">
               <CardHeader>
                 <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                  <Shield className="h-6 w-6 text-green-600" />
+                  <SecurityIcon className="h-6 w-6 text-green-600" />
                 </div>
                 <CardTitle>Secure & Private</CardTitle>
                 <CardDescription>
@@ -214,7 +226,7 @@ export default function Home() {
             <Card className="border-2 hover:border-orange-200 transition">
               <CardHeader>
                 <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                  <Globe className="h-6 w-6 text-purple-600" />
+                  <GlobeIcon className="h-6 w-6 text-purple-600" />
                 </div>
                 <CardTitle>Custom Branding</CardTitle>
                 <CardDescription>
@@ -226,7 +238,7 @@ export default function Home() {
             <Card className="border-2 hover:border-orange-200 transition">
               <CardHeader>
                 <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
-                  <TrendingUp className="h-6 w-6 text-yellow-600" />
+                  <GrowthIcon className="h-6 w-6 text-yellow-600" />
                 </div>
                 <CardTitle>Real-time Updates</CardTitle>
                 <CardDescription>
