@@ -1,3 +1,20 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'About FormBharat - Form Builder Made for Indian Businesses',
+  description: 'Learn about FormBharat mission: Making form building simple and free for Indian SMBs. Built with love in India for Indian businesses. Our story, values, and vision.',
+  keywords: ['about FormBharat', 'Indian form builder company', 'form builder mission', 'made in India software', 'Indian startup'],
+  alternates: {
+    canonical: 'https://formbharat.com/about',
+  },
+  openGraph: {
+    title: 'About FormBharat - Built for Indian Businesses',
+    description: 'Our mission to make form building simple, accessible, and free for every Indian business.',
+    url: 'https://formbharat.com/about',
+    type: 'website',
+  },
+}
+
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'

@@ -1,3 +1,18 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy - FormBharat Data Protection',
+  description: 'FormBharat privacy policy. Learn how we collect, use, and protect your personal information and form data. GDPR compliant with Indian data hosting.',
+  keywords: ['FormBharat privacy', 'privacy policy', 'data protection', 'GDPR compliance', 'Indian data hosting'],
+  alternates: {
+    canonical: 'https://formbharat.com/privacy',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+}
+
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'

@@ -1,3 +1,18 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Terms of Service - FormBharat User Agreement',
+  description: 'FormBharat Terms of Service. Read our user agreement, acceptable use policy, and service terms. By using FormBharat, you agree to these terms.',
+  keywords: ['FormBharat terms', 'terms of service', 'user agreement', 'acceptable use policy', 'service terms'],
+  alternates: {
+    canonical: 'https://formbharat.com/terms',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+}
+
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'

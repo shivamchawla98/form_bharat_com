@@ -1,3 +1,20 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Contact FormBharat - Support & Help Center',
+  description: 'Get in touch with FormBharat team. Email us at hello@formbharat.com, chat with support, or browse our help center. We respond within 24 hours.',
+  keywords: ['contact FormBharat', 'form builder support', 'help center', 'customer support India', 'form builder help'],
+  alternates: {
+    canonical: 'https://formbharat.com/contact',
+  },
+  openGraph: {
+    title: 'Contact FormBharat - We are here to help',
+    description: 'Get support via email, chat, or browse our help center. Quick responses guaranteed.',
+    url: 'https://formbharat.com/contact',
+    type: 'website',
+  },
+}
+
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'

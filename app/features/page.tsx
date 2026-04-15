@@ -1,3 +1,20 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Form Builder Features - WhatsApp Integration & Indian Templates',
+  description: 'Discover FormBharat features: Drag-drop builder, WhatsApp sharing, Indian templates (GST, LPA), multi-step forms, analytics, webhooks, and 100% free during early access. Compare with Typeform and JotForm.',
+  keywords: ['form builder features', 'WhatsApp forms', 'Indian form templates', 'free Typeform alternative', 'form analytics', 'multi-step forms', 'webhook integration'],
+  alternates: {
+    canonical: 'https://formbharat.com/features',
+  },
+  openGraph: {
+    title: 'FormBharat Features - Best Free Form Builder for India',
+    description: 'Drag-drop builder, WhatsApp integration, Indian templates, analytics - all free. See how we compare to Typeform and JotForm.',
+    url: 'https://formbharat.com/features',
+    type: 'website',
+  },
+}
+
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
