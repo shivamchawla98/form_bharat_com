@@ -6,17 +6,17 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { 
-  Zap, MessageSquare, BarChart3, Webhook, Mail, FileText, 
-  Layers, Share2, Download, Settings, Shield, Clock,
+  Zap, MessageSquare, BarChart3, Webhook, Mail, FileText,
+  Layers, Share2, Download, Shield, Clock,
   Smartphone, Globe, Users, CheckCircle2, Star, TrendingUp,
-  Palette, Lock, Database, Code2, ArrowRight
+  Lock, Database, Code2, ArrowRight, Link2, Copy, LayoutTemplate, GitBranch, ShieldCheck
 } from 'lucide-react'
 
 const features = [
   {
     category: 'Form Building',
     icon: FileText,
-    color: 'orange',
+    bgClass: 'bg-orange-100', textClass: 'text-orange-600',
     items: [
       {
         name: 'Drag & Drop Builder',
@@ -31,19 +31,19 @@ const features = [
       {
         name: '12 Ready Templates',
         description: 'Professional templates for events, jobs, orders, feedback, and more.',
-        icon: FileText,
+        icon: LayoutTemplate,
       },
       {
         name: 'Multi-Step Forms',
         description: 'Break long forms into multiple pages for better user experience.',
-        icon: Layers,
+        icon: GitBranch,
       },
     ]
   },
   {
     category: 'India-Specific',
     icon: MessageSquare,
-    color: 'green',
+    bgClass: 'bg-green-100', textClass: 'text-green-600',
     items: [
       {
         name: 'WhatsApp Integration',
@@ -66,7 +66,7 @@ const features = [
   {
     category: 'Analytics & Insights',
     icon: BarChart3,
-    color: 'blue',
+    bgClass: 'bg-blue-100', textClass: 'text-blue-600',
     items: [
       {
         name: 'Analytics Dashboard',
@@ -93,7 +93,7 @@ const features = [
   {
     category: 'Integrations',
     icon: Webhook,
-    color: 'purple',
+    bgClass: 'bg-purple-100', textClass: 'text-purple-600',
     items: [
       {
         name: 'Webhooks',
@@ -115,17 +115,17 @@ const features = [
   {
     category: 'Sharing & Distribution',
     icon: Share2,
-    color: 'pink',
+    bgClass: 'bg-pink-100', textClass: 'text-pink-600',
     items: [
       {
         name: 'Public Links',
         description: 'Share forms with a simple URL. No login required for respondents.',
-        icon: Share2,
+        icon: Link2,
       },
       {
         name: 'Copy Link',
         description: 'One-click copy to share via email, SMS, or any platform.',
-        icon: Share2,
+        icon: Copy,
       },
       {
         name: 'Embed Forms',
@@ -142,12 +142,12 @@ const features = [
   {
     category: 'Security & Reliability',
     icon: Shield,
-    color: 'red',
+    bgClass: 'bg-red-100', textClass: 'text-red-600',
     items: [
       {
         name: 'Secure Hosting',
         description: 'HTTPS encryption for all forms. Your data is safe and secure.',
-        icon: Shield,
+        icon: ShieldCheck,
       },
       {
         name: 'Data Privacy',
@@ -184,7 +184,7 @@ export default function FeaturesPage() {
       <Header />
 
       {/* Hero */}
-      <section className="py-12 md:py-20 px-4 bg-gradient-to-b from-orange-50 to-white">
+      <section className="py-12 md:py-20 px-4">
         <div className="container mx-auto max-w-6xl text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
             Everything you need to create <br className="hidden sm:block" />
@@ -220,8 +220,8 @@ export default function FeaturesPage() {
             return (
               <div key={idx} className="mb-12 md:mb-16">
                 <div className="flex items-center gap-2 md:gap-3 mb-6 md:mb-8">
-                  <div className={`w-10 md:w-12 h-10 md:h-12 bg-${category.color}-100 rounded-lg flex items-center justify-center flex-shrink-0`}>
-                    <CategoryIcon className={`h-5 md:h-6 w-5 md:w-6 text-${category.color}-600`} />
+                  <div className={`w-10 md:w-12 h-10 md:h-12 ${category.bgClass} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                    <CategoryIcon className={`h-5 md:h-6 w-5 md:w-6 ${category.textClass}`} />
                   </div>
                   <h2 className="text-2xl md:text-3xl font-bold">{category.category}</h2>
                 </div>
@@ -339,62 +339,6 @@ export default function FeaturesPage() {
             <p className="text-gray-600 mb-4">
               ⭐ FormBharat gives you more features for <strong>FREE</strong> than others charge $25-34/month for
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Why FormBharat */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Built for Indian Businesses</h2>
-            <p className="text-xl text-gray-600">
-              We understand what Indian SMBs need
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="h-full">
-              <CardHeader className="text-center">
-                <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center">
-                    <MessageSquare className="h-8 w-8 text-green-600" />
-                  </div>
-                </div>
-                <CardTitle>WhatsApp First</CardTitle>
-                <CardDescription>
-                  Share forms where your customers are. One-click WhatsApp sharing for 500M+ Indian users.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="h-full">
-              <CardHeader className="text-center">
-                <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center">
-                    <FileText className="h-8 w-8 text-blue-600" />
-                  </div>
-                </div>
-                <CardTitle>Indian Templates</CardTitle>
-                <CardDescription>
-                  Templates with GST fields, LPA salary ranges, Indian phone formats, and local business needs.
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card className="h-full">
-              <CardHeader className="text-center">
-                <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center">
-                    <Star className="h-8 w-8 text-orange-600" />
-                  </div>
-                </div>
-                <CardTitle>100% Free</CardTitle>
-                <CardDescription>
-                  No hidden costs, no credit card needed, unlimited forms and responses. Free forever for early users.
-                </CardDescription>
-              </CardHeader>
-            </Card>
           </div>
         </div>
       </section>

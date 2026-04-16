@@ -14,7 +14,7 @@ export default function AboutPage() {
       <Header />
 
       {/* Hero */}
-      <section className="pt-12 md:pt-20 pb-12 md:pb-16 px-4 bg-gradient-to-b from-orange-50 to-white">
+      <section className="pt-12 md:pt-20 pb-12 md:pb-16 px-4">
         <div className="container mx-auto max-w-4xl text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
             Built for <span className="bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">Indian Businesses</span>
@@ -40,8 +40,13 @@ export default function AboutPage() {
                 manage registrations, and grow their operations - all for free.
               </p>
             </div>
-            <div className="bg-gradient-to-br from-orange-100 to-pink-100 rounded-2xl p-8 md:p-12 flex items-center justify-center">
-              <Heart className="h-24 md:h-32 w-24 md:w-32 text-orange-500" />
+            <div className="grid grid-cols-2 gap-4">
+              {[{n:'10,000+',l:'Businesses to empower'},{n:'2 min',l:'To build a form'},{n:'Free',l:'Forever, no catch'},{n:'🇮🇳',l:'Made in India'}].map(s=>(
+                <div key={s.l} className="bg-gray-50 border border-gray-100 rounded-2xl p-5">
+                  <div className="text-2xl font-bold text-gray-900 mb-1">{s.n}</div>
+                  <div className="text-sm text-gray-500">{s.l}</div>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -52,8 +57,8 @@ export default function AboutPage() {
               <Card className="h-full">
                 <CardHeader className="text-center">
                   <div className="flex justify-center mb-4">
-                    <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center">
-                      <Target className="h-8 w-8 text-orange-600" />
+                    <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                      <Target className="h-5 w-5 text-orange-600" />
                     </div>
                   </div>
                   <CardTitle className="text-xl">India First</CardTitle>
@@ -66,8 +71,8 @@ export default function AboutPage() {
               <Card className="h-full">
                 <CardHeader className="text-center">
                   <div className="flex justify-center mb-4">
-                    <div className="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center">
-                      <Heart className="h-8 w-8 text-pink-600" />
+                    <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center">
+                      <Heart className="h-5 w-5 text-pink-600" />
                     </div>
                   </div>
                   <CardTitle className="text-xl">Always Free</CardTitle>
@@ -80,8 +85,8 @@ export default function AboutPage() {
               <Card className="h-full">
                 <CardHeader className="text-center">
                   <div className="flex justify-center mb-4">
-                    <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center">
-                      <Users className="h-8 w-8 text-blue-600" />
+                    <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                      <Users className="h-5 w-5 text-blue-600" />
                     </div>
                   </div>
                   <CardTitle className="text-xl">User Focused</CardTitle>
@@ -94,8 +99,8 @@ export default function AboutPage() {
               <Card className="h-full">
                 <CardHeader className="text-center">
                   <div className="flex justify-center mb-4">
-                    <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center">
-                      <Zap className="h-8 w-8 text-green-600" />
+                    <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                      <Zap className="h-5 w-5 text-green-600" />
                     </div>
                   </div>
                   <CardTitle className="text-xl">Fast & Simple</CardTitle>
