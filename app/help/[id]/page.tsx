@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { ArrowLeft, ThumbsUp, ThumbsDown, MessageSquare } from 'lucide-react'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 
 const helpArticles: Record<string, any> = {
   'getting-started': {
@@ -485,25 +487,19 @@ export default function HelpArticlePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white border-b">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-pink-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">F</span>
-              </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">FormBharat</span>
-            </Link>
-            <Link href="/help">
-              <Button variant="ghost">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Help Center
-              </Button>
-            </Link>
-          </div>
+      <Header />
+
+      {/* Back link */}
+      <div className="border-b bg-gray-50">
+        <div className="container mx-auto px-4 py-2">
+          <Link href="/help">
+            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 -ml-2">
+              <ArrowLeft className="mr-1.5 h-4 w-4" />
+              Back to Help Center
+            </Button>
+          </Link>
         </div>
-      </nav>
+      </div>
 
       {/* Article */}
       <div className="container mx-auto px-4 py-12 max-w-4xl">
@@ -562,6 +558,7 @@ export default function HelpArticlePage() {
           </CardContent>
         </Card>
       </div>
+      <Footer />
     </div>
   )
 }

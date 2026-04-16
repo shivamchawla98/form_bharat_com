@@ -1,4 +1,9 @@
-# Phase 2 & 3 Implementation Status
+# ⚠️ SUPERSEDED (March 2024)
+
+**→ See: [PROGRESS.md](./PROGRESS.md)** for current project status.
+
+---
+*(archived content below)*
 
 **Date:** March 12, 2024
 

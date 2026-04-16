@@ -1,131 +1,16 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { CheckCircle2, Zap, Shield, TrendingUp, Users, Smartphone, BarChart3, Globe, ArrowRight, Menu, X, MessageSquare, PartyPopper, Briefcase, Target, ShoppingCart, Ticket, ClipboardList, LogOut } from 'lucide-react'
+import { CheckCircle2, Zap, Shield, TrendingUp, Users, Smartphone, BarChart3, Globe, ArrowRight, MessageSquare, PartyPopper, Briefcase, Target, ShoppingCart, Ticket, ClipboardList } from 'lucide-react'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 
 export default function Home() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const router = useRouter()
-
-  useEffect(() => {
-    // Check if user is logged in
-    const token = localStorage.getItem('token')
-    setIsLoggedIn(!!token)
-  }, [])
-
-  const handleLogout = () => {
-    localStorage.removeItem('token')
-    setIsLoggedIn(false)
-    router.push('/')
-  }
-  
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <header className="border-b bg-white/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-3 md:py-4">
-          <div className="flex justify-between items-center">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-pink-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">F</span>
-              </div>
-              <span className="text-lg md:text-xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">
-                FormBharat
-              </span>
-            </Link>
-            
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex gap-6 lg:gap-8 items-center">
-              <Link href="/features" className="text-gray-600 hover:text-gray-900 transition text-sm lg:text-base">Features</Link>
-              <Link href="/templates" className="text-gray-600 hover:text-gray-900 transition text-sm lg:text-base">Templates</Link>
-              <Link href="/about" className="text-gray-600 hover:text-gray-900 transition text-sm lg:text-base">About</Link>
-              <Link href="/contact" className="text-gray-600 hover:text-gray-900 transition text-sm lg:text-base">Contact</Link>
-              
-              {isLoggedIn ? (
-                <>
-                  <Link href="/dashboard">
-                    <Button variant="outline" size="sm">My Forms</Button>
-                  </Link>
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={handleLogout}
-                    className="text-gray-600 hover:text-gray-900"
-                  >
-                    <LogOut className="h-4 w-4 mr-2" />
-                    Logout
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Link href="/auth/login">
-                    <Button variant="outline" size="sm">Login</Button>
-                  </Link>
-                  <Link href="/builder">
-                    <Button size="sm" className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
-                      Start Free
-                    </Button>
-                  </Link>
-                </>
-              )}
-            </nav>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-gray-600 hover:text-gray-900"
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
-          </div>
-
-          {/* Mobile Navigation */}
-          {mobileMenuOpen && (
-            <nav className="md:hidden mt-4 pb-4 flex flex-col gap-3 border-t pt-4">
-              <Link href="/features" className="text-gray-600 hover:text-gray-900 transition py-2" onClick={() => setMobileMenuOpen(false)}>Features</Link>
-              <Link href="/templates" className="text-gray-600 hover:text-gray-900 transition py-2" onClick={() => setMobileMenuOpen(false)}>Templates</Link>
-              <Link href="/about" className="text-gray-600 hover:text-gray-900 transition py-2" onClick={() => setMobileMenuOpen(false)}>About</Link>
-              <Link href="/contact" className="text-gray-600 hover:text-gray-900 transition py-2" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
-              
-              {isLoggedIn ? (
-                <>
-                  <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="outline" className="w-full">My Forms</Button>
-                  </Link>
-                  <Button 
-                    variant="ghost" 
-                    className="w-full justify-center"
-                    onClick={() => {
-                      handleLogout()
-                      setMobileMenuOpen(false)
-                    }}
-                  >
-                    <LogOut className="h-4 w-4 mr-2" />
-                    Logout
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Link href="/auth/login" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="outline" className="w-full">Login</Button>
-                  </Link>
-                  <Link href="/builder" onClick={() => setMobileMenuOpen(false)}>
-                    <Button className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
-                      Start Free
-                    </Button>
-                  </Link>
-                </>
-              )}
-            </nav>
-          )}
-        </div>
-      </header>
+      <Header />
 
       {/* Hero Section */}
       <section className="pt-12 md:pt-20 pb-16 md:pb-24 px-4">
@@ -368,58 +253,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-300 py-8 md:py-12 px-4">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-8">
-            <div className="sm:col-span-2 md:col-span-1">
-              <div className="flex items-center gap-2 mb-3 md:mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-pink-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold">F</span>
-                </div>
-                <span className="text-white font-bold text-lg">FormBharat</span>
-              </div>
-              <p className="text-sm">
-                The form builder made for Indian businesses. Simple, powerful, and free.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-white font-semibold mb-3 md:mb-4">Product</h3>
-              <ul className="space-y-2 text-sm">
-                <li><Link href="#features" className="hover:text-white transition">Features</Link></li>
-                <li><Link href="/templates" className="hover:text-white transition">Templates</Link></li>
-                <li><Link href="/builder" className="hover:text-white transition">Form Builder</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-white font-semibold mb-3 md:mb-4">Open Source</h3>
-              <ul className="space-y-2 text-sm">
-                <li><a href="https://github.com/formbharat/formbharat" target="_blank" rel="noopener noreferrer" className="hover:text-white transition flex items-center gap-1">GitHub ↗</a></li>
-                <li><Link href="/open-source" className="hover:text-white transition">Documentation</Link></li>
-                <li><Link href="/open-source#contribute" className="hover:text-white transition">Contribute</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-white font-semibold mb-3 md:mb-4">Company</h3>
-              <ul className="space-y-2 text-sm">
-                <li><Link href="/about" className="hover:text-white transition">About</Link></li>
-                <li><Link href="/contact" className="hover:text-white transition">Contact</Link></li>
-                <li><Link href="/help" className="hover:text-white transition">Help Center</Link></li>
-                <li><Link href="/privacy" className="hover:text-white transition">Privacy</Link></li>
-                <li><Link href="/terms" className="hover:text-white transition">Terms</Link></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 pt-6 md:pt-8 text-center text-xs md:text-sm">
-            <p>© 2024 FormBharat. Open Source & Made with ❤️ in India 🇮🇳</p>
-            <p className="text-gray-500 mt-2">
-              <a href="https://github.com/formbharat/formbharat" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
-                Star us on GitHub ⭐
-              </a>
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

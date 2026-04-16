@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { Metadata } from 'next'
+import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -127,34 +128,7 @@ export default function HelpPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white border-b">
-        <div className="container mx-auto px-4 py-3 md:py-4">
-          <div className="flex justify-between items-center">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-pink-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">F</span>
-              </div>
-              <span className="text-lg md:text-xl font-bold bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">FormBharat</span>
-            </Link>
-            <div className="hidden md:flex gap-4 items-center">
-              <Link href="/features" className="text-gray-600 hover:text-gray-900 text-sm">Features</Link>
-              <Link href="/templates" className="text-gray-600 hover:text-gray-900 text-sm">Templates</Link>
-              <Link href="/about" className="text-gray-600 hover:text-gray-900 text-sm">About</Link>
-              <Link href="/contact" className="text-gray-600 hover:text-gray-900 text-sm">Contact</Link>
-              <Link href="/auth/login">
-                <Button variant="outline" size="sm">Login</Button>
-              </Link>
-              <Link href="/builder">
-                <Button size="sm" className="bg-gradient-to-r from-orange-500 to-pink-500">Start Free</Button>
-              </Link>
-            </div>
-            <Link href="/builder" className="md:hidden">
-              <Button size="sm" className="bg-gradient-to-r from-orange-500 to-pink-500">Start Free</Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <Header />
 
       {/* Hero */}
       <section className="py-12 md:py-20 px-4 bg-gradient-to-b from-orange-50 to-white">

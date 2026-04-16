@@ -1,7 +1,11 @@
-# FormBharat - Deployment Ready Summary
+# ⚠️ SUPERSEDED (March 2024)
 
-**Date:** March 12, 2024  
-**Status:** ✅ PRODUCTION READY
+**→ See: [PROGRESS.md](./PROGRESS.md)** for current project status.
+
+---
+*(archived content below)*
+
+**Date:** March 12, 2024
 
 ---
 

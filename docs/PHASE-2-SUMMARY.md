@@ -1,7 +1,9 @@
-# Phase 2: Core Features - COMPLETED ✅
+# ⚠️ SUPERSEDED (March 2024)
 
-**Date:** March 12, 2024  
-**Status:** Core features implemented successfully
+**→ See: [PROGRESS.md](./PROGRESS.md)** for current project status.
+
+---
+*(archived content below)*
 
 ---
 
