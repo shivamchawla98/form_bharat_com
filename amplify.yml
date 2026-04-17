@@ -15,7 +15,7 @@ frontend:
         - echo "SUPABASE_SERVICE_ROLE_KEY=$SUPABASE_SERVICE_ROLE_KEY" >> .env.production
         - echo "RESEND_API_KEY=$RESEND_API_KEY" >> .env.production
         - echo "NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL" >> .env.production
-        - echo "AWS_REGION=$AWS_REGION" >> .env.production
+        - echo "REGION_AWS=$REGION_AWS" >> .env.production
         - echo "S3_BUCKET_NAME=$S3_BUCKET_NAME" >> .env.production
         - echo "S3_PUBLIC_URL=$S3_PUBLIC_URL" >> .env.production
         - npm run build

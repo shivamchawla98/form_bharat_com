@@ -4,7 +4,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { nanoid } from 'nanoid'
 
 const s3 = new S3Client({
-  region: process.env.AWS_REGION ?? process.env.AWS_DEFAULT_REGION ?? 'ap-south-1',
+  region: process.env.REGION_AWS ?? process.env.AWS_DEFAULT_REGION ?? 'ap-south-1',
   // No credentials config — SDK automatically uses the Amplify Lambda execution role.
   // For local dev, set AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY in .env.local.
   ...(process.env.AWS_ACCESS_KEY_ID && {
