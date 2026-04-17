@@ -9,8 +9,8 @@ import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { FormField } from '@/lib/types'
 import { Textarea } from '@/components/ui/textarea'
-import { GripVertical, Trash2, Plus, X, Minus, Image as ImageIcon, AlignCenter, SeparatorHorizontal } from 'lucide-react'
-import { useState } from 'react'
+import { GripVertical, Trash2, Plus, X, Image as ImageIcon, AlignCenter, SeparatorHorizontal, Upload, Loader2, Link as LinkIcon } from 'lucide-react'
+import { useState, useRef } from 'react'
 
 interface SortableFieldProps {
   field: FormField
@@ -29,6 +29,42 @@ export function SortableField({ field, onUpdate, onDelete }: SortableFieldProps)
   } = useSortable({ id: field.id })
 
   const [newOption, setNewOption] = useState('')
+  const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState('')
+  const [showUrlInput, setShowUrlInput] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handleImageUpload = async (file: File) => {
+    setUploadError('')
+    if (!file.type.startsWith('image/')) {
+      setUploadError('Only image files are allowed')
+      return
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadError('File must be under 5 MB')
+      return
+    }
+    setUploading(true)
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: file.name, contentType: file.type, sizeBytes: file.size }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Failed to get upload URL')
+      await fetch(data.uploadUrl, {
+        method: 'PUT',
+        body: file,
+        headers: { 'Content-Type': file.type },
+      })
+      onUpdate(field.id, { placeholder: data.publicUrl })
+    } catch (err: any) {
+      setUploadError(err.message || 'Upload failed')
+    } finally {
+      setUploading(false)
+    }
+  }
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -137,20 +173,84 @@ export function SortableField({ field, onUpdate, onDelete }: SortableFieldProps)
               <div className="flex items-center gap-2 text-xs font-semibold text-purple-500 uppercase tracking-wider">
                 <ImageIcon className="h-3.5 w-3.5" /> Image
               </div>
-              <Input
-                value={field.placeholder || ''}
-                onChange={(e) => onUpdate(field.id, { placeholder: e.target.value })}
-                placeholder="Image URL (e.g. https://example.com/image.jpg)"
-              />
+
+              {/* Upload area */}
+              {!field.placeholder ? (
+                <div
+                  className="border-2 border-dashed border-purple-200 rounded-lg p-6 text-center cursor-pointer hover:bg-purple-50 transition-colors"
+                  onClick={() => !uploading && fileInputRef.current?.click()}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={(e) => {
+                    e.preventDefault()
+                    const file = e.dataTransfer.files[0]
+                    if (file) handleImageUpload(file)
+                  }}
+                >
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file) handleImageUpload(file)
+                    }}
+                  />
+                  {uploading ? (
+                    <div className="flex flex-col items-center gap-2">
+                      <Loader2 className="h-7 w-7 text-purple-400 animate-spin" />
+                      <p className="text-xs text-purple-500">Uploading…</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center gap-2">
+                      <Upload className="h-7 w-7 text-purple-300" />
+                      <p className="text-xs font-medium text-gray-600">Click or drag an image here</p>
+                      <p className="text-xs text-gray-400">JPEG, PNG, GIF, WebP · max 5 MB</p>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="relative group">
+                  <img
+                    src={field.placeholder}
+                    alt={field.label}
+                    className="max-h-40 w-full rounded-lg object-cover border border-purple-100"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                  />
+                  <button
+                    onClick={() => onUpdate(field.id, { placeholder: '' })}
+                    className="absolute top-2 right-2 w-6 h-6 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <X className="h-3.5 w-3.5 text-gray-500" />
+                  </button>
+                </div>
+              )}
+
+              {uploadError && <p className="text-xs text-red-500">{uploadError}</p>}
+
+              {/* URL fallback toggle */}
+              <button
+                onClick={() => setShowUrlInput(!showUrlInput)}
+                className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <LinkIcon className="h-3 w-3" />
+                {showUrlInput ? 'Hide URL input' : 'Or paste an image URL'}
+              </button>
+              {showUrlInput && (
+                <Input
+                  value={field.placeholder || ''}
+                  onChange={(e) => onUpdate(field.id, { placeholder: e.target.value })}
+                  placeholder="https://example.com/image.jpg"
+                  className="text-sm"
+                />
+              )}
+
               <Input
                 value={field.label}
                 onChange={(e) => onUpdate(field.id, { label: e.target.value })}
                 placeholder="Caption (optional)"
                 className="text-sm"
               />
-              {field.placeholder && (
-                <img src={field.placeholder} alt={field.label} className="max-h-32 rounded-lg object-cover border border-gray-200" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
-              )}
             </div>
             <div className="flex items-start">
               <Button variant="ghost" size="icon" onClick={() => onDelete(field.id)} className="text-destructive hover:text-destructive">
