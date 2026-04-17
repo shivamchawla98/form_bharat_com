@@ -16,8 +16,6 @@ frontend:
         - echo "RESEND_API_KEY=$RESEND_API_KEY" >> .env.production
         - echo "NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL" >> .env.production
         - echo "AWS_REGION=$AWS_REGION" >> .env.production
-        - echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" >> .env.production
-        - echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" >> .env.production
         - echo "S3_BUCKET_NAME=$S3_BUCKET_NAME" >> .env.production
         - echo "S3_PUBLIC_URL=$S3_PUBLIC_URL" >> .env.production
         - npm run build
