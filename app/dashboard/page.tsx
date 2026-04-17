@@ -312,6 +312,16 @@ function DashboardContent() {
                             Responses
                           </Button>
                         </Link>
+                        <Link href={`/builder/${form.id}`}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            title="Edit form"
+                            className="text-blue-600 border-blue-200 hover:bg-blue-50"
+                          >
+                            <Edit className="h-3 md:h-4 w-3 md:w-4" />
+                          </Button>
+                        </Link>
                         <Link href={`/dashboard/forms/${form.id}/analytics`}>
                           <Button
                             variant="outline"
@@ -330,15 +340,6 @@ function DashboardContent() {
                             <Settings className="h-3 md:h-4 w-3 md:w-4" />
                           </Button>
                         </Link>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {}}
-                          className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                          title="Duplicate form"
-                        >
-                          <CopyPlus className="h-3 md:h-4 w-3 md:w-4" />
-                        </Button>
                         <Button
                           variant="ghost"
                           size="sm"

@@ -19,6 +19,7 @@ export default function BuilderPage() {
   const [password, setPassword] = useState('')
   const [isSignUp, setIsSignUp] = useState(true)
   const [templateData, setTemplateData] = useState<{ title: string; description: string; fields: FormField[] } | null>(null)
+  const [isSaving, setIsSaving] = useState(false)
 
   useEffect(() => {
     const savedTemplate = localStorage.getItem('selected-template')
@@ -56,6 +57,7 @@ export default function BuilderPage() {
   }, [toast])
 
   const saveForm = async (data: { title: string; description: string; fields: FormField[] }, token: string) => {
+    setIsSaving(true)
     try {
       const saveResponse = await fetch('/api/forms', {
         method: 'POST',
@@ -85,10 +87,13 @@ export default function BuilderPage() {
         description: error.message || 'Failed to save form',
         variant: 'destructive',
       })
+    } finally {
+      setIsSaving(false)
     }
   }
 
   const handleSave = async (data: { title: string; description: string; fields: FormField[] }) => {
+    if (isSaving) return
     if (!data.title.trim()) {
       toast({
         title: 'Error',
@@ -169,6 +174,7 @@ export default function BuilderPage() {
     <>
       <FormBuilder 
         onSave={handleSave}
+        isSaving={isSaving}
         initialTitle={templateData?.title}
         initialDescription={templateData?.description}
         initialFields={templateData?.fields}

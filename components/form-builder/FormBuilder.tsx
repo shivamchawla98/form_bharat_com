@@ -11,7 +11,8 @@ import { Card } from '@/components/ui/card'
 import { FormField, FieldType } from '@/lib/types'
 import { SortableField } from './SortableField'
 import { FieldTypeSelector } from './FieldTypeSelector'
-import { Save, Eye, Plus, FileText, Palette, Settings, ChevronLeft, LayoutGrid, Home, HelpCircle, BookTemplate } from 'lucide-react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Save, Eye, Plus, FileText, ChevronLeft, LayoutGrid, Home, HelpCircle, BookTemplate } from 'lucide-react'
 import Link from 'next/link'
 
 interface FormBuilderProps {
@@ -19,7 +20,70 @@ interface FormBuilderProps {
   initialDescription?: string
   initialFields?: FormField[]
   onSave?: (data: { title: string; description: string; fields: FormField[] }) => void
-  onPreview?: () => void
+  isSaving?: boolean
+  mode?: 'create' | 'edit'
+}
+
+function renderPreviewField(field: FormField) {
+  switch (field.type) {
+    case 'section':
+      return (
+        <div className="border-t-2 border-gray-200 pt-5 mt-2">
+          {field.label && <h3 className="text-base font-semibold text-gray-800">{field.label}</h3>}
+          {field.description && <p className="text-sm text-gray-500 mt-1">{field.description}</p>}
+        </div>
+      )
+    case 'heading':
+      return (
+        <div className="py-1">
+          {field.label && <p className="text-base font-semibold text-gray-800">{field.label}</p>}
+          {field.description && <p className="text-sm text-gray-500 mt-1">{field.description}</p>}
+        </div>
+      )
+    case 'image':
+      return (
+        <div className="space-y-1">
+          {field.placeholder
+            ? <img src={field.placeholder} alt={field.label} className="max-w-full rounded-lg border border-gray-200" />
+            : <div className="bg-gray-100 rounded-lg p-8 text-center text-sm text-gray-400">No image URL set</div>
+          }
+          {field.label && <p className="text-xs text-gray-400 text-center">{field.label}</p>}
+        </div>
+      )
+    case 'textarea':
+      return <textarea disabled placeholder={field.placeholder || ''} rows={3} className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm resize-none bg-gray-50" />
+    case 'dropdown':
+      return (
+        <select disabled className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-gray-50 text-gray-400">
+          <option>Select an option</option>
+          {field.options?.map((o, i) => <option key={i}>{o}</option>)}
+        </select>
+      )
+    case 'radio':
+      return (
+        <div className="space-y-2">
+          {field.options?.map((o, i) => (
+            <label key={i} className="flex items-center gap-2 text-sm text-gray-700 cursor-not-allowed">
+              <input type="radio" disabled className="h-4 w-4" /> {o}
+            </label>
+          ))}
+        </div>
+      )
+    case 'checkbox':
+      return (
+        <div className="space-y-2">
+          {field.options?.map((o, i) => (
+            <label key={i} className="flex items-center gap-2 text-sm text-gray-700 cursor-not-allowed">
+              <input type="checkbox" disabled className="h-4 w-4" /> {o}
+            </label>
+          ))}
+        </div>
+      )
+    case 'file':
+      return <input type="file" disabled className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-gray-50" />
+    default:
+      return <input type={field.type === 'email' ? 'email' : field.type === 'phone' ? 'tel' : 'text'} disabled placeholder={field.placeholder || `Enter ${field.label.toLowerCase()}`} className="w-full border border-gray-200 rounded-md px-3 py-2 text-sm bg-gray-50" />
+  }
 }
 
 export function FormBuilder({ 
@@ -27,11 +91,13 @@ export function FormBuilder({
   initialDescription = '',
   initialFields = [],
   onSave,
-  onPreview
+  isSaving = false,
+  mode = 'create',
 }: FormBuilderProps) {
   const [title, setTitle] = useState(initialTitle)
   const [description, setDescription] = useState(initialDescription)
   const [fields, setFields] = useState<FormField[]>(initialFields)
+  const [showPreview, setShowPreview] = useState(false)
 
   // Update state when props change (template loading)
   useEffect(() => {
@@ -49,10 +115,15 @@ export function FormBuilder({
   )
 
   const addField = (type: FieldType) => {
+    const defaultLabels: Partial<Record<FieldType, string>> = {
+      section: 'Section Title',
+      heading: 'Heading Text',
+      image: '',
+    }
     const newField: FormField = {
       id: nanoid(),
       type,
-      label: `${type.charAt(0).toUpperCase() + type.slice(1)} Field`,
+      label: defaultLabels[type] ?? `${type.charAt(0).toUpperCase() + type.slice(1)} Field`,
       placeholder: '',
       required: false,
       options: type === 'dropdown' || type === 'radio' || type === 'checkbox' ? ['Option 1', 'Option 2'] : undefined,
@@ -81,7 +152,7 @@ export function FormBuilder({
   }
 
   const handleSave = () => {
-    if (onSave) {
+    if (onSave && !isSaving) {
       onSave({ title, description, fields })
     }
   }
@@ -139,20 +210,19 @@ export function FormBuilder({
 
             {/* Right Section - Action Buttons */}
             <div className="flex gap-2">
-              {onPreview && (
-                <Button variant="outline" size="sm" className="hidden sm:flex">
-                  <Eye className="mr-0 sm:mr-2 h-4 w-4" />
-                  <span className="hidden sm:inline">Preview</span>
-                </Button>
-              )}
+              <Button variant="outline" size="sm" onClick={() => setShowPreview(true)}>
+                <Eye className="mr-0 sm:mr-2 h-4 w-4" />
+                <span className="hidden sm:inline">Preview</span>
+              </Button>
               <Button 
-                onClick={handleSave} 
+                onClick={handleSave}
+                disabled={isSaving}
                 size="sm"
-                className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+                className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 disabled:opacity-60"
               >
                 <Save className="mr-0 sm:mr-2 h-4 w-4" />
-                <span className="hidden sm:inline">Save Form</span>
-                <span className="sm:hidden">Save</span>
+                <span className="hidden sm:inline">{isSaving ? 'Saving…' : mode === 'edit' ? 'Update Form' : 'Save Form'}</span>
+                <span className="sm:hidden">{isSaving ? '…' : 'Save'}</span>
               </Button>
             </div>
           </div>
@@ -186,6 +256,43 @@ export function FormBuilder({
           </nav>
         </div>
       </header>
+
+      {/* Preview Modal */}
+      <Dialog open={showPreview} onOpenChange={setShowPreview}>
+        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center justify-between">
+              <span>Form Preview</span>
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-6 py-2">
+            {title && <div>
+              <h2 className="text-xl font-bold text-gray-900">{title}</h2>
+              {description && <p className="text-sm text-gray-500 mt-1">{description}</p>}
+            </div>}
+            {fields.length === 0 ? (
+              <p className="text-sm text-gray-400 text-center py-8">No fields added yet</p>
+            ) : (
+              fields.map((field) => (
+                <div key={field.id}>
+                  {field.type !== 'section' && field.type !== 'heading' && field.type !== 'image' && (
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      {field.label}
+                      {field.required && <span className="text-red-500 ml-1">*</span>}
+                    </label>
+                  )}
+                  {renderPreviewField(field)}
+                </div>
+              ))
+            )}
+            {fields.some(f => !['section','heading','image'].includes(f.type)) && (
+              <button disabled className="w-full py-2.5 rounded-lg bg-gradient-to-r from-orange-400 to-pink-400 text-white text-sm font-semibold opacity-70 cursor-not-allowed">
+                Submit
+              </button>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">

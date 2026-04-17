@@ -247,6 +247,30 @@ export default function PublicFormPage() {
           </div>
         )
       
+      case 'section':
+        return (
+          <div className="border-t-2 border-gray-200 pt-4 -mt-2">
+            {field.label && <h3 className="font-semibold text-gray-800">{field.label}</h3>}
+            {field.description && <p className="text-sm text-gray-500 mt-1">{field.description}</p>}
+          </div>
+        )
+      
+      case 'heading':
+        return (
+          <div className="py-1">
+            {field.label && <p className="font-semibold text-gray-800">{field.label}</p>}
+            {field.description && <p className="text-sm text-gray-500 mt-1">{field.description}</p>}
+          </div>
+        )
+      
+      case 'image':
+        return field.placeholder ? (
+          <div className="space-y-1">
+            <img src={field.placeholder} alt={field.label} className="max-w-full rounded-lg border border-gray-100" />
+            {field.label && <p className="text-xs text-gray-400 text-center">{field.label}</p>}
+          </div>
+        ) : null
+      
       default:
         return null
     }
@@ -364,15 +388,20 @@ export default function PublicFormPage() {
                     </div>
 
                     {/* Current Page Fields */}
-                    {pages[currentPage]?.map((field, index) => (
-                      <div key={field.id} className="space-y-2">
-                        <Label className="text-sm md:text-base font-medium">
-                          {currentPage * fieldsPerPage + index + 1}. {field.label}
-                          {field.required && <span className="text-red-500 ml-1">*</span>}
-                        </Label>
-                        {renderField(field)}
-                      </div>
-                    ))}
+                    {pages[currentPage]?.map((field) => {
+                      const isLayout = field.type === 'section' || field.type === 'heading' || field.type === 'image'
+                      return (
+                        <div key={field.id} className="space-y-2">
+                          {!isLayout && (
+                            <Label className="text-sm md:text-base font-medium">
+                              {field.label}
+                              {field.required && <span className="text-red-500 ml-1">*</span>}
+                            </Label>
+                          )}
+                          {renderField(field)}
+                        </div>
+                      )
+                    })}
 
                     {/* Navigation Buttons */}
                     <div className="flex gap-2 md:gap-3 pt-4">
@@ -409,15 +438,21 @@ export default function PublicFormPage() {
 
               {!form.multiStepEnabled && (
                 <>
-                  {(form.fields as FormField[]).map((field, index) => (
-                    <div key={field.id} className="space-y-2">
-                      <Label className="text-sm md:text-base font-medium">
-                        {index + 1}. {field.label}
-                        {field.required && <span className="text-red-500 ml-1">*</span>}
-                      </Label>
-                      {renderField(field)}
-                    </div>
-                  ))}
+                  {(form.fields as FormField[]).map((field, index) => {
+                    const isLayout = field.type === 'section' || field.type === 'heading' || field.type === 'image'
+                    const inputIndex = (form.fields as FormField[]).slice(0, index).filter((f: FormField) => f.type !== 'section' && f.type !== 'heading' && f.type !== 'image').length + 1
+                    return (
+                      <div key={field.id} className="space-y-2">
+                        {!isLayout && (
+                          <Label className="text-sm md:text-base font-medium">
+                            {inputIndex}. {field.label}
+                            {field.required && <span className="text-red-500 ml-1">*</span>}
+                          </Label>
+                        )}
+                        {renderField(field)}
+                      </div>
+                    )
+                  })}
                   
                   <div className="pt-4">
                     <Button 

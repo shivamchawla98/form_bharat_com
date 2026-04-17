@@ -1,4 +1,4 @@
-export type FieldType = 'text' | 'email' | 'phone' | 'textarea' | 'dropdown' | 'radio' | 'checkbox' | 'file'
+export type FieldType = 'text' | 'email' | 'phone' | 'textarea' | 'dropdown' | 'radio' | 'checkbox' | 'file' | 'section' | 'heading' | 'image'
 
 export interface FormField {
   id: string
@@ -7,6 +7,7 @@ export interface FormField {
   placeholder?: string
   required: boolean
   options?: string[]
+  description?: string
 }
 
 export interface FormData {
