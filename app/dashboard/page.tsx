@@ -7,13 +7,15 @@ import ProtectedRoute from '@/components/ProtectedRoute'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/components/ui/use-toast'
-import { Copy, ExternalLink, Eye, Trash2, Plus, BarChart3, FileText, Users, TrendingUp, MoreVertical, Edit, Share2, CopyPlus, LineChart, Settings, LogOut } from 'lucide-react'
+import { Copy, ExternalLink, Eye, Trash2, Plus, BarChart3, FileText, Users, TrendingUp, MoreVertical, Edit, Share2, CopyPlus, LineChart, Settings, LogOut, Sparkles } from 'lucide-react'
+import { AIFormGenerator } from '@/components/AIFormGenerator'
 
 function DashboardContent() {
   const router = useRouter()
   const { toast } = useToast()
   const [forms, setForms] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [showAIGenerator, setShowAIGenerator] = useState(false)
 
   useEffect(() => {
     fetchForms()
@@ -77,6 +79,50 @@ function DashboardContent() {
     })
   }
 
+  const handleAIFormGenerated = async (form: { title: string; description: string; fields: any[] }) => {
+    try {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        router.push('/auth/login')
+        return
+      }
+
+      // Save the AI-generated form
+      const response = await fetch('/api/forms', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: form.title,
+          description: form.description,
+          fields: form.fields,
+        }),
+      })
+
+      if (!response.ok) throw new Error('Failed to save form')
+
+      const savedForm = await response.json()
+
+      toast({
+        title: 'Form created! ✨',
+        description: 'Your AI-generated form has been saved. Redirecting to builder...',
+      })
+
+      // Redirect to builder to edit the form
+      setTimeout(() => {
+        router.push(`/builder/${savedForm.id}`)
+      }, 1000)
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to save AI-generated form',
+        variant: 'destructive',
+      })
+    }
+  }
+
   const deleteForm = async (formId: string) => {
     if (!confirm('Are you sure you want to delete this form?')) return
 
@@ -124,6 +170,15 @@ function DashboardContent() {
               </span>
             </Link>
             <div className="flex gap-2 md:gap-4 items-center">
+              <Button 
+                size="sm" 
+                onClick={() => setShowAIGenerator(true)}
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+              >
+                <Sparkles className="mr-0 md:mr-2 h-4 w-4" />
+                <span className="hidden md:inline">AI Generate</span>
+                <span className="md:hidden">AI</span>
+              </Button>
               <Link href="/builder">
                 <Button size="sm" className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
                   <Plus className="mr-0 md:mr-2 h-4 w-4" />
@@ -358,6 +413,13 @@ function DashboardContent() {
           </div>
         )}
       </main>
+
+      {/* AI Form Generator Modal */}
+      <AIFormGenerator
+        open={showAIGenerator}
+        onOpenChange={setShowAIGenerator}
+        onFormGenerated={handleAIFormGenerated}
+      />
     </div>
   )
 }

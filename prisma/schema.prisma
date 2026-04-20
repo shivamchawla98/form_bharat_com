@@ -9,12 +9,13 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
+  id        String     @id @default(uuid())
+  email     String     @unique
   name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   forms     Form[]
+  aiUsage   AIUsage[]
 }
 
 model Form {
@@ -69,4 +70,19 @@ model WebhookLog {
 
   @@index([formId])
   @@index([status])
+}
+
+model AIUsage {
+  id         String   @id @default(uuid())
+  userId     String
+  feature    String   // 'generate-form', 'translate', 'analyze-responses', etc.
+  tokensUsed Int
+  cost       Float    // in USD
+  metadata   Json?    // additional context (description, language, etc.)
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([feature])
+  @@index([createdAt])
 }
