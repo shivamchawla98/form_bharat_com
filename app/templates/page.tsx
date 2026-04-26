@@ -6,9 +6,9 @@ import Link from 'next/link'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import { Button } from '@/components/ui/button'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
-import { Search, FileText, Users, Calendar, ShoppingCart, Briefcase, MessageSquare, ClipboardList, Award, Phone, Mail } from 'lucide-react'
+import { Search, FileText, Users, Calendar, ShoppingCart, Briefcase, MessageSquare, ClipboardList, Award, Phone, Mail, ArrowRight } from 'lucide-react'
 import { formTemplates } from '@/lib/templates-data'
+import AnimatedSection from '@/components/AnimatedSection'
 
 const iconMap: any = {
   MessageSquare, Calendar, Briefcase, ShoppingCart, Mail, ClipboardList, Users, Phone, Award, FileText
@@ -21,14 +21,7 @@ export default function TemplatesPage() {
 
   const handleUseTemplate = (templateId: string) => {
     const template = formTemplates.find(t => t.id === templateId)
-    console.log('Selected template ID:', templateId)
-    console.log('Found template:', template)
     if (template) {
-      console.log('Saving template to localStorage:', {
-        id: template.id,
-        title: template.title,
-        fieldsCount: template.fields.length
-      })
       localStorage.setItem('selected-template', JSON.stringify(template))
       router.push('/builder')
     }
@@ -44,27 +37,29 @@ export default function TemplatesPage() {
     )
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-x-hidden">
       <Header />
 
       {/* Hero */}
-      <section className="py-12 md:py-20 px-4 bg-gradient-to-b from-orange-50 to-white">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
-            Form <span className="bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent">Templates</span>
+      <section className="bg-orange-50 py-16 md:py-24 px-4">
+        <div className="container mx-auto max-w-3xl text-center">
+          <p className="text-xs font-semibold uppercase tracking-widest text-orange-500 mb-4">Templates</p>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 mb-4 leading-[1.1]">
+            Start in seconds,<br />
+            <span className="text-orange-500">not hours</span>
           </h1>
-          <p className="text-base md:text-lg lg:text-xl text-gray-600 mb-6 md:mb-8">
-            Start quickly with professionally designed form templates. Customize to your needs.
+          <p className="text-base md:text-lg text-gray-500 mb-8 max-w-md mx-auto">
+            Professionally designed templates for every use case. Customize and go live in minutes.
           </p>
           <div className="max-w-md mx-auto">
             <div className="relative">
-              <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search templates..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 md:py-3 text-sm md:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="w-full pl-10 pr-4 py-3 text-sm border border-gray-200 bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-300 shadow-sm"
               />
             </div>
           </div>
@@ -72,50 +67,51 @@ export default function TemplatesPage() {
       </section>
 
       {/* Templates Grid */}
-      <section className="py-8 md:py-12 px-4">
-        <div className="container mx-auto">
+      <section className="py-10 md:py-16 px-4">
+        <div className="container mx-auto max-w-6xl">
           {/* Category Filter */}
-          <div className="flex flex-wrap gap-2 mb-6 md:mb-8 justify-center">
+          <div className="flex flex-wrap gap-2 mb-8 justify-center">
             {categories.map(cat => (
-              <Button
+              <button
                 key={cat}
-                variant={selectedCategory === cat ? 'default' : 'outline'}
                 onClick={() => setSelectedCategory(cat)}
-                className={selectedCategory === cat ? 'bg-gradient-to-r from-orange-500 to-pink-500' : ''}
+                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+                  selectedCategory === cat
+                    ? 'bg-orange-500 text-white shadow-sm'
+                    : 'bg-white border border-gray-200 text-gray-600 hover:border-orange-300 hover:text-orange-600'
+                }`}
               >
                 {cat}
-              </Button>
+              </button>
             ))}
-          </div>1md2g3 gap-md:-6 max-wxl mx-auto
+          </div>
 
           {/* Templates */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredTemplates.map((template) => {
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {filteredTemplates.map((template, i) => {
               const Icon = iconMap[template.icon] || FileText
               return (
-                <Card key={template.id} className="hover:shadow-lg transition group h-full flex flex-col">
-                  <CardHeader className="text-center">
-                    <div className="flex justify-center mb-4">
-                      <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center group-hover:scale-110 transition">
-                        <Icon className="h-8 w-8 text-orange-600" />
-                      </div>
+                <AnimatedSection key={template.id} delay={i * 40}>
+                  <div className="group bg-white rounded-2xl border border-gray-100 hover:border-orange-200 hover:shadow-md transition-all duration-300 p-5 flex flex-col h-full">
+                    <div className="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center mb-4 group-hover:bg-orange-100 transition-colors">
+                      <Icon className="h-5 w-5 text-orange-500" />
                     </div>
-                    <CardTitle className="text-lg">{template.title}</CardTitle>
-                    <CardDescription className="min-h-[2.5rem]">{template.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="mt-auto">
-                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                      <span className="bg-gray-100 px-2 py-1 rounded text-xs">{template.category}</span>
-                      <span>{template.fields.length} fields</span>
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <h3 className="font-semibold text-gray-900 text-sm leading-snug">{template.title}</h3>
+                      <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full flex-shrink-0">{template.category}</span>
                     </div>
-                    <Button 
-                      onClick={() => handleUseTemplate(template.id)}
-                      className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
-                    >
-                      Use Template
-                    </Button>
-                  </CardContent>
-                </Card>
+                    <p className="text-xs text-gray-500 leading-relaxed flex-1 mb-4">{template.description}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-400">{template.fields.length} fields</span>
+                      <button
+                        onClick={() => handleUseTemplate(template.id)}
+                        className="text-xs font-semibold text-orange-500 hover:text-orange-600 flex items-center gap-1 transition-colors"
+                      >
+                        Use template <ArrowRight className="h-3 w-3" />
+                      </button>
+                    </div>
+                  </div>
+                </AnimatedSection>
               )
             })}
           </div>
@@ -129,17 +125,17 @@ export default function TemplatesPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-4 bg-gray-50">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-4xl font-bold mb-4">Can't Find What You Need?</h2>
-          <p className="text-xl text-gray-600 mb-8">
-            Start from scratch with our drag-and-drop builder
-          </p>
-          <Link href="/builder">
-            <Button size="lg" className="bg-gradient-to-r from-orange-500 to-pink-500 text-lg px-8">
-              Create Custom Form
-            </Button>
-          </Link>
+      <section className="py-20 md:py-28 px-4 bg-orange-500">
+        <div className="container mx-auto max-w-2xl text-center">
+          <AnimatedSection>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Can&apos;t find what you need?</h2>
+            <p className="text-orange-100 mb-8">Describe it in plain English — AI builds it in 10 seconds.</p>
+            <Link href="/builder">
+              <Button size="lg" className="bg-white text-orange-600 hover:bg-orange-50 font-semibold px-8 rounded-xl shadow-md">
+                Create custom form <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          </AnimatedSection>
         </div>
       </section>
 

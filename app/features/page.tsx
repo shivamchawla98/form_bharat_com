@@ -4,10 +4,11 @@ import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import AnimatedSection from '@/components/AnimatedSection'
 import {
   Zap, MessageSquare, BarChart3, Webhook, Mail, FileText,
   Layers, Share2, Download, Shield, Clock,
-  Smartphone, Globe, Users, CheckCircle2, TrendingUp,
+  Smartphone, Globe, Users, TrendingUp,
   Lock, Database, Code2, ArrowRight, Check, X, Sparkles, Wand2, Languages
 } from 'lucide-react'
 
@@ -115,30 +116,28 @@ function Tick({ on, primary }: { on: boolean; primary?: boolean }) {
 
 export default function FeaturesPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-x-hidden">
       <Header />
 
       {/* Hero */}
-      <section className="pt-16 md:pt-24 pb-14 md:pb-20 px-4">
+      <section className="bg-orange-50 pt-16 md:pt-24 pb-14 md:pb-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-orange-500 mb-4">Features</p>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 mb-5 leading-[1.1]">
-            Everything you need,<br />
-            <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">
-              nothing you don't
-            </span>
+            Everything you need,{' '}
+            <span className="text-orange-500">nothing you don&apos;t</span>
           </h1>
           <p className="text-lg text-gray-500 max-w-xl mx-auto leading-relaxed mb-8">
             AI-powered form generation, WhatsApp sharing, and analytics — built for Indian businesses. All features free during early access.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/builder">
-              <Button size="lg" className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 shadow-sm px-8">
+              <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white shadow-sm px-8 rounded-xl">
                 Start building free <ArrowRight className="ml-1.5 w-4 h-4" />
               </Button>
             </Link>
             <Link href="/templates">
-              <Button size="lg" variant="outline" className="px-8">Browse templates</Button>
+              <Button size="lg" variant="outline" className="px-8 rounded-xl border-gray-200 hover:border-orange-300">Browse templates</Button>
             </Link>
           </div>
         </div>
@@ -147,10 +146,10 @@ export default function FeaturesPage() {
       {/* Features Grid */}
       <section className="py-16 md:py-20 px-4 border-t border-gray-100">
         <div className="max-w-6xl mx-auto space-y-16">
-          {featureGroups.map((group) => {
+          {featureGroups.map((group, gi) => {
             const GroupIcon = group.icon
             return (
-              <div key={group.label}>
+              <AnimatedSection key={group.label} delay={gi * 60}>
                 <div className="flex items-center gap-2.5 mb-6">
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${group.bg}`}>
                     <GroupIcon className={`w-4 h-4 ${group.color}`} />
@@ -180,19 +179,20 @@ export default function FeaturesPage() {
                     )
                   })}
                 </div>
-              </div>
+              </AnimatedSection>
             )
           })}
         </div>
       </section>
 
       {/* Comparison */}
-      <section className="py-16 md:py-20 px-4 bg-gray-50/50 border-y border-gray-100">
+      <section className="py-16 md:py-20 px-4 bg-gray-50 border-y border-gray-100">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10">
+          <AnimatedSection className="text-center mb-10">
             <p className="text-xs font-semibold uppercase tracking-widest text-orange-500 mb-3">How we compare</p>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">FormBharat vs the rest</h2>
-          </div>
+          </AnimatedSection>
+          <AnimatedSection delay={100}>
           <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -200,7 +200,7 @@ export default function FeaturesPage() {
                   <tr className="border-b border-gray-100">
                     <th className="px-5 py-4 text-left text-gray-500 font-medium w-[40%]">Feature</th>
                     <th className="px-4 py-4 text-center font-semibold">
-                      <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent">FormBharat</span>
+                      <span className="text-orange-500">FormBharat</span>
                       <div className="text-[10px] font-normal text-green-500 mt-0.5">FREE</div>
                     </th>
                     <th className="px-4 py-4 text-center text-gray-400 font-medium">
@@ -231,24 +231,27 @@ export default function FeaturesPage() {
               </table>
             </div>
           </div>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-16 md:py-20 px-4">
+      <section className="py-20 md:py-28 px-4 bg-orange-500">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Ready to build your first form?</h2>
-          <p className="text-gray-500 mb-8">Free during early access. No credit card needed.</p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/builder">
-              <Button size="lg" className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 shadow-sm px-8">
-                Start building free <ArrowRight className="ml-1.5 w-4 h-4" />
-              </Button>
-            </Link>
-            <Link href="/templates">
-              <Button size="lg" variant="outline" className="px-8">Browse templates</Button>
-            </Link>
-          </div>
+          <AnimatedSection>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Ready to build your first form?</h2>
+            <p className="text-orange-100 mb-8">Free during early access. No credit card needed.</p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link href="/builder">
+                <Button size="lg" className="bg-white text-orange-600 hover:bg-orange-50 font-semibold px-8 rounded-xl shadow-md">
+                  Start building free <ArrowRight className="ml-1.5 w-4 h-4" />
+                </Button>
+              </Link>
+              <Link href="/templates">
+                <Button size="lg" variant="outline" className="px-8 rounded-xl border-white/40 text-white hover:bg-white/10">Browse templates</Button>
+              </Link>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
