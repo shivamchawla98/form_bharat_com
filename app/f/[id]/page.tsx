@@ -11,6 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useToast } from '@/components/ui/use-toast'
 import { FormField } from '@/lib/types'
+import { shouldShowField } from '@/lib/conditional-logic'
 import { Loader2, CheckCircle2, Share2 } from 'lucide-react'
 
 export default function PublicFormPage() {
@@ -57,7 +58,9 @@ export default function PublicFormPage() {
     if (form.multiStepEnabled) {
       const pages = getPages(fields)
       const currentPageFields = pages[currentPage] || []
-      const requiredFields = currentPageFields.filter(f => f.required)
+      const requiredFields = currentPageFields.filter(
+        f => f.required && shouldShowField(f, fields, formData)
+      )
       
       for (const field of requiredFields) {
         if (!formData[field.id] || (Array.isArray(formData[field.id]) && formData[field.id].length === 0)) {
@@ -76,8 +79,8 @@ export default function PublicFormPage() {
         return
       }
     } else {
-      // Single page validation
-      const requiredFields = fields.filter(f => f.required)
+      // Single page validation — skip hidden fields
+      const requiredFields = fields.filter(f => f.required && shouldShowField(f, fields, formData))
       for (const field of requiredFields) {
         if (!formData[field.id] || (Array.isArray(formData[field.id]) && formData[field.id].length === 0)) {
           toast({
@@ -105,6 +108,11 @@ export default function PublicFormPage() {
       })
 
       if (!response.ok) throw new Error('Submission failed')
+
+      if (form.redirectUrl) {
+        window.location.href = form.redirectUrl
+        return
+      }
 
       setSubmitted(true)
       toast({
@@ -318,7 +326,7 @@ export default function PublicFormPage() {
             </div>
             <CardTitle className="text-2xl">Thank You!</CardTitle>
             <CardDescription className="text-base">
-              Your response has been submitted successfully. We appreciate your time!
+              {form?.successMessage || 'Your response has been submitted successfully. We appreciate your time!'}
             </CardDescription>
           </CardHeader>
           <CardContent className="text-center space-y-4">
@@ -388,7 +396,7 @@ export default function PublicFormPage() {
                     </div>
 
                     {/* Current Page Fields */}
-                    {pages[currentPage]?.map((field) => {
+                    {pages[currentPage]?.filter((field) => shouldShowField(field, form.fields as FormField[], formData)).map((field) => {
                       const isLayout = field.type === 'section' || field.type === 'heading' || field.type === 'image'
                       return (
                         <div key={field.id} className="space-y-2">
@@ -438,9 +446,9 @@ export default function PublicFormPage() {
 
               {!form.multiStepEnabled && (
                 <>
-                  {(form.fields as FormField[]).map((field, index) => {
+                  {(form.fields as FormField[]).filter((field) => shouldShowField(field, form.fields as FormField[], formData)).map((field, index) => {
                     const isLayout = field.type === 'section' || field.type === 'heading' || field.type === 'image'
-                    const inputIndex = (form.fields as FormField[]).slice(0, index).filter((f: FormField) => f.type !== 'section' && f.type !== 'heading' && f.type !== 'image').length + 1
+                    const inputIndex = index + 1
                     return (
                       <div key={field.id} className="space-y-2">
                         {!isLayout && (

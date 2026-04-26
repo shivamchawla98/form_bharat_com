@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Card } from '@/components/ui/card'
 import { FormField, FieldType } from '@/lib/types'
+import { shouldShowField } from '@/lib/conditional-logic'
 import { SortableField } from './SortableField'
 import { FieldTypeSelector } from './FieldTypeSelector'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -270,10 +271,10 @@ export function FormBuilder({
               <h2 className="text-xl font-bold text-gray-900">{title}</h2>
               {description && <p className="text-sm text-gray-500 mt-1">{description}</p>}
             </div>}
-            {fields.length === 0 ? (
+{fields.length === 0 ? (
               <p className="text-sm text-gray-400 text-center py-8">No fields added yet</p>
             ) : (
-              fields.map((field) => (
+              fields.filter((f) => shouldShowField(f, fields, {})).map((field) => (
                 <div key={field.id}>
                   {field.type !== 'section' && field.type !== 'heading' && field.type !== 'image' && (
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -390,6 +391,7 @@ export function FormBuilder({
                         <SortableField
                           key={field.id}
                           field={field}
+                          allFields={fields}
                           onUpdate={updateField}
                           onDelete={deleteField}
                         />

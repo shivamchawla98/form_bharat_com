@@ -10,7 +10,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { useToast } from '@/components/ui/use-toast'
-import { ArrowLeft, Settings, Bell, Webhook, Zap, Send, Code, Copy, CheckCircle2, XCircle, Clock, RefreshCw } from 'lucide-react'
+import { ArrowLeft, Bell, Webhook, Zap, Send, Code, Copy, CheckCircle2, XCircle, Clock, Download, QrCode, CornerDownRight } from 'lucide-react'
+import QRCode from 'qrcode'
 
 function FormSettingsContent() {
   const params = useParams()
@@ -42,6 +43,14 @@ function FormSettingsContent() {
   const [showEmbedCode, setShowEmbedCode] = useState(false)
   const [embedCopied, setEmbedCopied] = useState(false)
 
+  // Custom thank-you
+  const [successMessage, setSuccessMessage] = useState('')
+  const [redirectUrl, setRedirectUrl] = useState('')
+
+  // QR code
+  const [qrDataUrl, setQrDataUrl] = useState('')
+  const [qrLoading, setQrLoading] = useState(false)
+
   useEffect(() => {
     fetchForm()
   }, [])
@@ -61,6 +70,8 @@ function FormSettingsContent() {
       setWebhookEnabled(data.webhookEnabled || false)
       setWebhookUrl(data.webhookUrl || '')
       setMultiStepEnabled(data.multiStepEnabled || false)
+      setSuccessMessage(data.successMessage || '')
+      setRedirectUrl(data.redirectUrl || '')
     } catch (error) {
       console.error('Error fetching form:', error)
     } finally {
@@ -135,6 +146,26 @@ function FormSettingsContent() {
     }, 2000)
   }
 
+  const generateQR = async () => {
+    setQrLoading(true)
+    try {
+      const url = `${window.location.origin}/f/${params.id}`
+      const dataUrl = await QRCode.toDataURL(url, { width: 400, margin: 2, color: { dark: '#111827', light: '#ffffff' } })
+      setQrDataUrl(dataUrl)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setQrLoading(false)
+    }
+  }
+
+  const downloadQR = () => {
+    const a = document.createElement('a')
+    a.href = qrDataUrl
+    a.download = `form-${params.id}-qr.png`
+    a.click()
+  }
+
   const copyEmbedCode = (code: string) => {
     navigator.clipboard.writeText(code)
     setEmbedCopied(true)
@@ -158,7 +189,9 @@ function FormSettingsContent() {
           emailRecipients: emailRecipients.split(',').map(e => e.trim()).filter(Boolean),
           webhookEnabled,
           webhookUrl: webhookUrl.trim() || null,
-          multiStepEnabled
+          multiStepEnabled,
+          successMessage: successMessage.trim() || null,
+          redirectUrl: redirectUrl.trim() || null,
         }),
       })
 
@@ -387,6 +420,45 @@ function FormSettingsContent() {
             </CardContent>
           </Card>
 
+          {/* Custom Thank-You */}
+          <Card>
+            <CardHeader className="p-4 md:p-6">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="w-8 md:w-10 h-8 md:h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <CornerDownRight className="h-4 md:h-5 w-4 md:w-5 text-green-600" />
+                </div>
+                <div className="min-w-0">
+                  <CardTitle className="text-base md:text-lg">After Submission</CardTitle>
+                  <CardDescription className="text-xs md:text-sm">Customize what happens after someone submits</CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4 p-4 md:p-6 pt-0">
+              <div>
+                <Label htmlFor="success-message" className="text-sm">Custom success message</Label>
+                <Input
+                  id="success-message"
+                  placeholder="Thank you! We'll be in touch soon."
+                  value={successMessage}
+                  onChange={(e) => setSuccessMessage(e.target.value)}
+                  className="mt-2"
+                />
+                <p className="text-xs text-gray-500 mt-1">Shown on the success screen. Leave blank for the default message.</p>
+              </div>
+              <div>
+                <Label htmlFor="redirect-url" className="text-sm">Redirect URL <span className="text-gray-400 font-normal">(optional)</span></Label>
+                <Input
+                  id="redirect-url"
+                  placeholder="https://yoursite.com/thank-you"
+                  value={redirectUrl}
+                  onChange={(e) => setRedirectUrl(e.target.value)}
+                  className="mt-2"
+                />
+                <p className="text-xs text-gray-500 mt-1">Redirect respondents to this URL after submission instead of showing the success screen.</p>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Embed Code */}
           <Card>
             <CardHeader className="p-4 md:p-6">
@@ -453,6 +525,48 @@ function FormSettingsContent() {
                       </Button>
                     </div>
                   </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* QR Code */}
+          <Card>
+            <CardHeader className="p-4 md:p-6">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="w-8 md:w-10 h-8 md:h-10 bg-pink-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <QrCode className="h-4 md:h-5 w-4 md:w-5 text-pink-600" />
+                </div>
+                <div className="min-w-0">
+                  <CardTitle className="text-base md:text-lg">QR Code</CardTitle>
+                  <CardDescription className="text-xs md:text-sm">Print or share a QR code for this form</CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4 p-4 md:p-6 pt-0">
+              {!qrDataUrl ? (
+                <Button
+                  variant="outline"
+                  onClick={generateQR}
+                  disabled={qrLoading}
+                  className="w-full"
+                >
+                  <QrCode className="mr-2 h-4 w-4" />
+                  {qrLoading ? 'Generating…' : 'Generate QR Code'}
+                </Button>
+              ) : (
+                <div className="flex flex-col items-center gap-4">
+                  <img src={qrDataUrl} alt="QR code" className="w-40 h-40 border border-gray-100 rounded-xl shadow-sm" />
+                  <div className="flex gap-2 w-full">
+                    <Button variant="outline" className="flex-1" onClick={downloadQR}>
+                      <Download className="mr-2 h-4 w-4" />
+                      Download PNG
+                    </Button>
+                    <Button variant="ghost" className="flex-1" onClick={() => setQrDataUrl('')}>
+                      Regenerate
+                    </Button>
+                  </div>
+                  <p className="text-xs text-gray-400 text-center">Put this on menus, banners, posters, or receipts to collect responses offline.</p>
                 </div>
               )}
             </CardContent>

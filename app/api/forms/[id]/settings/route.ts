@@ -14,7 +14,17 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { title, description } = await request.json()
+    const {
+      title,
+      description,
+      emailNotificationsEnabled,
+      emailRecipients,
+      webhookEnabled,
+      webhookUrl,
+      multiStepEnabled,
+      successMessage,
+      redirectUrl,
+    } = await request.json()
 
     // Verify form ownership
     const form = await prisma.form.findUnique({
@@ -30,8 +40,15 @@ export async function PUT(
     const updatedForm = await prisma.form.update({
       where: { id: id },
       data: {
-        title,
-        description
+        ...(title !== undefined && { title }),
+        ...(description !== undefined && { description }),
+        ...(emailNotificationsEnabled !== undefined && { emailNotificationsEnabled }),
+        ...(emailRecipients !== undefined && { emailRecipients }),
+        ...(webhookEnabled !== undefined && { webhookEnabled }),
+        ...(webhookUrl !== undefined && { webhookUrl }),
+        ...(multiStepEnabled !== undefined && { multiStepEnabled }),
+        ...(successMessage !== undefined && { successMessage }),
+        ...(redirectUrl !== undefined && { redirectUrl }),
       }
     })
 

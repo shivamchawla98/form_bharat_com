@@ -1,5 +1,13 @@
 export type FieldType = 'text' | 'email' | 'phone' | 'textarea' | 'dropdown' | 'radio' | 'checkbox' | 'file' | 'section' | 'heading' | 'image'
 
+export type ConditionOperator = 'equals' | 'not_equals' | 'contains' | 'is_empty' | 'is_not_empty'
+
+export interface FieldCondition {
+  fieldId: string
+  operator: ConditionOperator
+  value: string
+}
+
 export interface FormField {
   id: string
   type: FieldType
@@ -8,6 +16,7 @@ export interface FormField {
   required: boolean
   options?: string[]
   description?: string
+  condition?: FieldCondition
 }
 
 export interface FormData {

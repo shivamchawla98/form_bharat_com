@@ -7,18 +7,27 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
-import { FormField } from '@/lib/types'
+import { FormField, ConditionOperator } from '@/lib/types'
 import { Textarea } from '@/components/ui/textarea'
 import { GripVertical, Trash2, Plus, X, Image as ImageIcon, AlignCenter, SeparatorHorizontal, Upload, Loader2, Link as LinkIcon } from 'lucide-react'
 import { useState, useRef } from 'react'
 
+const OPERATORS: { value: ConditionOperator; label: string; needsValue: boolean }[] = [
+  { value: 'equals',       label: 'equals',         needsValue: true  },
+  { value: 'not_equals',   label: 'does not equal', needsValue: true  },
+  { value: 'contains',     label: 'contains',       needsValue: true  },
+  { value: 'is_empty',     label: 'is empty',       needsValue: false },
+  { value: 'is_not_empty', label: 'is not empty',   needsValue: false },
+]
+
 interface SortableFieldProps {
   field: FormField
+  allFields: FormField[]
   onUpdate: (id: string, updates: Partial<FormField>) => void
   onDelete: (id: string) => void
 }
 
-export function SortableField({ field, onUpdate, onDelete }: SortableFieldProps) {
+export function SortableField({ field, allFields, onUpdate, onDelete }: SortableFieldProps) {
   const {
     attributes,
     listeners,
@@ -355,6 +364,88 @@ export function SortableField({ field, onUpdate, onDelete }: SortableFieldProps)
               />
               <Label>Required field</Label>
             </div>
+
+            {/* Conditional Logic */}
+            {(() => {
+              const triggerFields = allFields.filter(
+                (f) => f.id !== field.id && !['section', 'heading', 'image'].includes(f.type) && f.label
+              )
+              const conditionEnabled = !!field.condition?.fieldId
+              const triggerField = triggerFields.find((f) => f.id === field.condition?.fieldId)
+              const choiceOptions = triggerField?.options ?? []
+              const operator = field.condition?.operator ?? 'equals'
+              const needsValue = OPERATORS.find((o) => o.value === operator)?.needsValue ?? true
+              return (
+                <div className="border-t border-dashed border-gray-200 pt-3 mt-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Switch
+                      checked={conditionEnabled}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          const first = triggerFields[0]
+                          onUpdate(field.id, { condition: { fieldId: first?.id ?? '', operator: 'equals', value: '' } })
+                        } else {
+                          onUpdate(field.id, { condition: undefined })
+                        }
+                      }}
+                    />
+                    <Label className="text-xs text-gray-500 cursor-pointer">Show conditionally</Label>
+                  </div>
+                  {conditionEnabled && triggerFields.length > 0 && (
+                    <div className="space-y-2 pl-1">
+                      <p className="text-xs text-gray-400">Show this field when</p>
+                      <div className="grid grid-cols-1 gap-2">
+                        {/* Trigger field */}
+                        <select
+                          className="w-full border border-gray-200 rounded-md px-2 py-1.5 text-xs bg-white"
+                          value={field.condition?.fieldId ?? ''}
+                          onChange={(e) => onUpdate(field.id, { condition: { ...field.condition!, fieldId: e.target.value, value: '' } })}
+                        >
+                          {triggerFields.map((f) => (
+                            <option key={f.id} value={f.id}>{f.label || f.type}</option>
+                          ))}
+                        </select>
+                        {/* Operator */}
+                        <select
+                          className="w-full border border-gray-200 rounded-md px-2 py-1.5 text-xs bg-white"
+                          value={operator}
+                          onChange={(e) => onUpdate(field.id, { condition: { ...field.condition!, operator: e.target.value as ConditionOperator, value: '' } })}
+                        >
+                          {OPERATORS.map((o) => (
+                            <option key={o.value} value={o.value}>{o.label}</option>
+                          ))}
+                        </select>
+                        {/* Value */}
+                        {needsValue && (
+                          choiceOptions.length > 0 ? (
+                            <select
+                              className="w-full border border-gray-200 rounded-md px-2 py-1.5 text-xs bg-white"
+                              value={field.condition?.value ?? ''}
+                              onChange={(e) => onUpdate(field.id, { condition: { ...field.condition!, value: e.target.value } })}
+                            >
+                              <option value="">Select value…</option>
+                              {choiceOptions.map((opt) => (
+                                <option key={opt} value={opt}>{opt}</option>
+                              ))}
+                            </select>
+                          ) : (
+                            <Input
+                              className="text-xs h-7"
+                              placeholder="Value…"
+                              value={field.condition?.value ?? ''}
+                              onChange={(e) => onUpdate(field.id, { condition: { ...field.condition!, value: e.target.value } })}
+                            />
+                          )
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {conditionEnabled && triggerFields.length === 0 && (
+                    <p className="text-xs text-gray-400 pl-1">Add other fields first to set conditions.</p>
+                  )}
+                </div>
+              )
+            })()}
           </div>
 
           <div className="flex items-start">
