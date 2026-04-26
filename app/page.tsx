@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { CheckCircle2, Zap, Shield, TrendingUp, Smartphone, BarChart3, Globe, MessageSquare, PartyPopper, Briefcase, Target, ShoppingCart, Ticket, ClipboardList, Sparkles } from 'lucide-react'
+import { Zap, Shield, TrendingUp, Smartphone, BarChart3, Globe, MessageSquare, PartyPopper, Briefcase, Target, ShoppingCart, Ticket, ClipboardList, Sparkles, CheckCircle2 } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { useToast } from '@/components/ui/use-toast'
@@ -19,115 +19,97 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <Header />
 
-      {/* Hero Banner */}
-      <section className="bg-white border-b border-gray-100 px-4 pt-16 md:pt-24 pb-16 md:pb-24">
+      {/* Hero */}
+      <section className="bg-orange-50 px-4 pt-16 md:pt-24 pb-20 md:pb-28">
         <div className="container mx-auto">
 
           {/* Badge */}
-          <div className="flex justify-center mb-8">
-            <span className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 text-orange-700 px-4 py-1.5 rounded-full text-xs font-medium tracking-wide">
+          <div className="flex justify-center mb-7">
+            <span className="inline-flex items-center gap-1.5 bg-white border border-orange-200 text-orange-600 px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm">
               <Sparkles className="h-3 w-3" />
-              AI-Powered · Open Source · Free Forever
+              AI-Powered · Open Source · Made for India
             </span>
           </div>
 
           {/* Headline */}
-          <div className="max-w-3xl mx-auto text-center mb-10 md:mb-12">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 leading-[1.1] mb-5">
-              Build any form in
-              <br />
-              <span className="text-orange-500">10 seconds.</span>
+          <div className="max-w-2xl mx-auto text-center mb-10">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1] mb-4">
+              Create any form{' '}
+              <span className="text-orange-500">in seconds</span>
+              {' '}with AI
             </h1>
-            <p className="text-gray-500 text-base sm:text-lg md:text-xl max-w-lg mx-auto leading-relaxed">
-              Describe what you need in plain English — AI creates a complete, professional form instantly.
+            <p className="text-gray-500 text-base sm:text-lg max-w-md mx-auto leading-relaxed">
+              Describe what you need — AI builds a complete, professional form instantly.
             </p>
           </div>
 
-          {/* AI Input Card */}
-          <div className="max-w-xl mx-auto">
-            <div className="bg-white border border-gray-200 rounded-2xl p-4 md:p-5 shadow-sm">
+          {/* Input Card */}
+          <div className="max-w-lg mx-auto">
+            <div className="bg-white rounded-2xl shadow-md border border-orange-100 overflow-hidden">
 
-              {/* Card label */}
-              <div className="flex items-center gap-2 mb-3">
-                <Sparkles className="h-4 w-4 text-orange-500 flex-shrink-0" />
-                <span className="text-sm font-medium text-gray-700">AI Form Generator</span>
-                <span className="ml-auto text-xs font-medium text-orange-600 bg-orange-50 border border-orange-200 px-2 py-0.5 rounded-full">Free</span>
+              {/* Textarea area */}
+              <div className="px-5 pt-5 pb-3">
+                <textarea
+                  value={aiDescription}
+                  onChange={(e) => setAIDescription(e.target.value)}
+                  placeholder="Describe your form... e.g. Customer feedback form for a restaurant with ratings for food and service"
+                  className="w-full min-h-[88px] text-sm md:text-[15px] bg-transparent text-gray-900 placeholder-gray-400 outline-none resize-none leading-relaxed"
+                  maxLength={500}
+                />
               </div>
 
-              {/* Textarea */}
-              <textarea
-                value={aiDescription}
-                onChange={(e) => setAIDescription(e.target.value)}
-                placeholder="E.g., Customer feedback form for my restaurant with food quality and service ratings..."
-                className="w-full min-h-[96px] text-sm md:text-base p-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:border-orange-400 focus:ring-2 focus:ring-orange-100 focus:bg-white outline-none resize-none transition-all"
-                maxLength={500}
-              />
-
-              {/* Example chips */}
-              <div className="flex flex-wrap gap-2 mt-3 mb-4">
+              {/* Chips tray */}
+              <div className="px-5 py-2.5 border-t border-gray-100 bg-gray-50 flex items-center gap-2 flex-wrap">
+                <span className="text-xs text-gray-400 font-medium">Try:</span>
                 {[
-                  ['Restaurant feedback', 'Customer feedback form for my restaurant with food quality and service ratings'],
+                  ['Feedback form', 'Customer feedback form for a restaurant with ratings for food and service'],
                   ['Event registration', 'Event registration form for a tech conference'],
-                  ['Job application', 'Job application form for software engineer position'],
-                  ['Order form', 'Product order form for handmade jewelry business'],
-                  ['Student enrollment', 'Student enrollment form for online courses'],
+                  ['Job application', 'Job application form for a software engineer position'],
+                  ['Order form', 'Product order form for a handmade jewelry business'],
                 ].map(([label, full], index) => (
                   <button
                     key={index}
                     onClick={() => setAIDescription(full)}
-                    className="text-xs px-3 py-1.5 bg-gray-100 hover:bg-orange-50 hover:text-orange-700 hover:border-orange-200 text-gray-500 border border-gray-200 rounded-full transition-colors"
+                    className="text-xs px-2.5 py-1 bg-white border border-gray-200 text-gray-500 hover:text-orange-600 hover:border-orange-300 rounded-full transition-colors"
                   >
                     {label}
                   </button>
                 ))}
               </div>
 
-              {/* CTA */}
-              <Button
-                onClick={() => {
-                  if (!aiDescription.trim() || aiDescription.length < 10) {
-                    toast({
-                      title: 'Please describe your form',
-                      description: 'Enter at least 10 characters to generate a form',
-                      variant: 'destructive',
-                    })
-                    return
-                  }
-                  const token = localStorage.getItem('token')
-                  if (token) {
-                    localStorage.setItem('ai_generated_form_description', aiDescription)
-                    window.location.href = '/builder?ai=generated&new=true&generate=true'
-                    return
-                  }
-                  setShowAuthModal(true)
-                }}
-                disabled={!aiDescription.trim() || aiDescription.length < 10}
-                className="w-full h-11 text-sm font-semibold bg-orange-500 hover:bg-orange-600 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors rounded-xl"
-              >
-                <Sparkles className="mr-2 h-4 w-4" />
-                Generate Form — It's Free
-              </Button>
-
-              <p className="mt-3 text-center text-xs text-gray-400">
-                Powered by AWS Bedrock · No credit card · 5–10 seconds
-              </p>
+              {/* Button area */}
+              <div className="px-5 py-4">
+                <Button
+                  onClick={() => {
+                    if (!aiDescription.trim() || aiDescription.length < 10) {
+                      toast({
+                        title: 'Please describe your form',
+                        description: 'Enter at least 10 characters to generate a form',
+                        variant: 'destructive',
+                      })
+                      return
+                    }
+                    const token = localStorage.getItem('token')
+                    if (token) {
+                      localStorage.setItem('ai_generated_form_description', aiDescription)
+                      window.location.href = '/builder?ai=generated&new=true&generate=true'
+                      return
+                    }
+                    setShowAuthModal(true)
+                  }}
+                  disabled={!aiDescription.trim() || aiDescription.length < 10}
+                  className="w-full h-11 text-sm font-semibold bg-orange-500 hover:bg-orange-600 text-white disabled:bg-orange-300 disabled:cursor-not-allowed transition-colors rounded-xl"
+                >
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  Generate Form — It&apos;s Free
+                </Button>
+              </div>
             </div>
 
-            {/* Trust line */}
-            <div className="mt-5 flex items-center justify-center gap-4 text-xs text-gray-400">
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
-                No credit card
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
-                Free forever
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
-                Made in India 🇮🇳
-              </span>
-            </div>
+            {/* Sub-line */}
+            <p className="mt-4 text-center text-xs text-gray-400">
+              No credit card required · Free forever · Made in India 🇮🇳
+            </p>
           </div>
 
         </div>
