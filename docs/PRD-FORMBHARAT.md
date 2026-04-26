@@ -1,7 +1,7 @@
 # FormBharat - Product Requirements Document (PRD)
 
-**Version:** 1.0  
-**Last Updated:** April 21, 2026  
+**Version:** 2.0  
+**Last Updated:** April 26, 2026  
 **Owner:** Shivam Chawla  
 **Status:** Living Document
 
@@ -13,6 +13,7 @@
 2. [Goals & Success Metrics](#2-goals--success-metrics)
 3. [User Personas](#3-user-personas)
 4. [Core Features (Implemented)](#4-core-features-implemented)
+4a. [Phase 5 Features (April 2026)](#4a-phase-5-features-april-2026)
 5. [AI Features (Roadmap)](#5-ai-features-roadmap)
 6. [Technical Architecture](#6-technical-architecture)
 7. [Internationalization (i18n)](#7-internationalization-i18n)
@@ -109,7 +110,23 @@ Empower 10 million Indian businesses to collect customer data effortlessly throu
 
 ## 4. Core Features (Implemented)
 
-> **Note:** See `COMPLETE-FEATURES-LIST.md` for full technical details. This section covers product requirements.
+> **Note:** See `COMPLETE-FEATURES-LIST.md` for full technical details and `PROGRESS.md` for current status. This section covers product requirements.
+
+### Phase 1–4 Status Summary (as of April 26, 2026)
+
+| Feature | Status |
+|---------|--------|
+| Form Builder (drag-and-drop, 8+ field types) | ✅ Live |
+| Multi-Step Forms | ✅ Live |
+| 12+ Templates | ✅ Live |
+| WhatsApp Integration | ✅ Live |
+| Analytics Dashboard + CSV export | ✅ Live |
+| Webhook System | ✅ Live |
+| Email Notifications (Resend) | ✅ Live |
+| Google Auth + Email/Password Auth | ✅ Live |
+| Auth Protection (all private routes) | ✅ Live |
+| Help Center + 24-article Resources section | ✅ Live |
+| SEO (92/100 score) | ✅ Live |
 
 ### 4.1 Form Builder
 
@@ -353,6 +370,84 @@ Empower 10 million Indian businesses to collect customer data effortlessly throu
 - Rate limiting: 1 webhook per response
 - Timeout: 5 seconds max
 - No sensitive data in payload (no passwords, tokens)
+
+---
+
+---
+
+## 4a. Phase 5 Features (April 2026)
+
+> All shipped April 26, 2026. FormBharat is now feature-comparable to Tally.so (free tier).
+
+### 4a.1 Conditional Logic
+
+**Status:** ✅ Live
+
+**Requirements (all met):**
+- ✅ `FieldCondition` type on every `FormField` (fieldId, operator, value)
+- ✅ Operators: `equals`, `not_equals`, `contains`, `is_empty`, `is_not_empty`
+- ✅ Builder UI — per-field conditional logic section with trigger selector + operator dropdown
+- ✅ Builder preview respects conditions (live filtering)
+- ✅ Public form renderer filters hidden fields
+- ✅ Required validation skipped for hidden fields
+- ✅ Multi-step navigation skips hidden-only steps
+
+**Files:** `lib/types.ts`, `lib/conditional-logic.ts`, `components/form-builder/SortableField.tsx`, `components/form-builder/FormBuilder.tsx`, `app/f/[id]/page.tsx`
+
+---
+
+### 4a.2 Form Embed Code
+
+**Status:** ✅ Live
+
+**Requirements (all met):**
+- ✅ iframe embed snippet generated per form (in Settings page)
+- ✅ JS embed snippet (alternative, for dynamic height)
+- ✅ Copy-to-clipboard button for each snippet
+
+**Files:** `app/dashboard/forms/[id]/settings/page.tsx`
+
+---
+
+### 4a.3 Custom Thank-You Message + Redirect URL
+
+**Status:** ✅ Live
+
+**Requirements (all met):**
+- ✅ `successMessage` field on `Form` model (DB + API + UI)
+- ✅ `redirectUrl` field on `Form` model (DB + API + UI)
+- ✅ After submission: show custom message if set, else default
+- ✅ After submission: redirect to URL if set
+
+**Files:** `prisma/schema.prisma`, `app/api/forms/[id]/settings/route.ts`, `app/dashboard/forms/[id]/settings/page.tsx`, `app/f/[id]/page.tsx`
+
+---
+
+### 4a.4 Form Scheduling + Response Limits
+
+**Status:** ✅ Live
+
+**Requirements (all met):**
+- ✅ `opensAt`, `closesAt`, `maxResponses` fields on `Form` model
+- ✅ API enforces all three on every submission (403 with friendly message)
+- ✅ Settings UI — date/time pickers for open/close, number input for max responses
+- ✅ Public form shows banner when form is not yet open or has closed
+- ✅ DB migration applied to Supabase
+
+**Files:** `prisma/schema.prisma`, `app/api/forms/[id]/responses/route.ts`, `app/api/forms/[id]/settings/route.ts`, `app/dashboard/forms/[id]/settings/page.tsx`, `app/f/[id]/page.tsx`
+
+---
+
+### 4a.5 QR Code Generation
+
+**Status:** ✅ Live
+
+**Requirements (all met):**
+- ✅ Per-form QR code generated on-demand (`qrcode` npm package)
+- ✅ Displayed in Settings page
+- ✅ Downloadable as PNG
+
+**Files:** `app/dashboard/forms/[id]/settings/page.tsx`
 
 ---
 
@@ -1196,20 +1291,20 @@ model AIUsage {
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
 | 1.0 | Apr 21, 2026 | Shivam Chawla | Initial PRD created |
+| 2.0 | Apr 26, 2026 | Shivam Chawla | Phase 5 complete: conditional logic, embed, thank-you/redirect, scheduling, QR code, DB migration |
 
 ---
 
-**Next Steps:**
+**Next Steps (Phase 6):**
 
-1. ✅ Review and approve PRD
-2. [ ] Create wireframes for AI features (Figma)
-3. [ ] Prioritize AI features (P0, P1, P2)
-4. [ ] Estimate engineering effort (story points)
-5. [ ] Create sprint plan for AI Form Generator
-6. [ ] Set up OpenAI API account
-7. [ ] Implement AI Form Generator (2-week sprint)
-8. [ ] Beta test with 10 users
-9. [ ] Launch AI features publicly
+1. ✅ Phase 5 — Gap closure complete (conditional logic, embed, scheduling, QR)
+2. [ ] **AI Form Generator** — surface prominently on dashboard (API exists, needs UI prominence) — 1 day
+3. [ ] **Razorpay / UPI Payment Field** — new field type for workshops, events, orders — 2–3 days
+4. [ ] **Phone OTP Verification Field** — Indian mobile OTP before submission — 2 days
+5. [ ] **Google Sheets Sync** — new responses auto-populate a Google Sheet — 2–3 days
+6. [ ] **Multilingual Forms** — Hindi first, AI translation of field labels — 3–4 days
+7. [ ] Beta test Phase 6 features with 10 users
+8. [ ] Launch "India-First" features publicly (YourStory, Inc42 outreach)
 
 ---
 
