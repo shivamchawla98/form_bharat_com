@@ -206,28 +206,46 @@ export function AIFormGenerator({ open, onOpenChange, onFormGenerated }: AIFormG
                 </span>
               </div>
 
-              {/* Field list */}
-              <div className="divide-y divide-gray-100 max-h-[260px] overflow-y-auto">
+              {/* Field list — looks like a real form */}
+              <div className="divide-y divide-gray-100 max-h-[260px] overflow-y-auto bg-white">
                 {generatedForm.fields.map((field, index) => (
-                  <div key={index} className="px-4 py-3 flex items-start gap-3">
-                    <span className="mt-0.5 text-[10px] font-semibold text-gray-400 uppercase tracking-wider bg-gray-100 px-1.5 py-0.5 rounded flex-shrink-0">
-                      {field.type}
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium text-gray-900 leading-snug">
-                        {field.label}
-                        {field.required && <span className="text-orange-500 ml-0.5">*</span>}
-                      </p>
-                      {field.options && field.options.length > 0 && (
-                        <div className="mt-1.5 flex flex-wrap gap-1">
-                          {field.options.map((option, i) => (
-                            <span key={i} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">
-                              {option}
-                            </span>
-                          ))}
-                        </div>
+                  <div key={index} className="px-4 py-3.5">
+                    {/* Label row */}
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="text-sm font-medium text-gray-800">{field.label}</span>
+                      {field.required && (
+                        <span className="text-[10px] font-semibold bg-red-100 text-red-600 px-1.5 py-0.5 rounded uppercase tracking-wide">
+                          Required
+                        </span>
                       )}
                     </div>
+                    {/* Fake input based on field type */}
+                    {(field.type === 'textarea') ? (
+                      <div className="w-full rounded-md border border-gray-200 bg-gray-50 px-3 py-2 h-16 text-xs text-gray-400 leading-relaxed">
+                        {field.placeholder || field.label}
+                      </div>
+                    ) : (field.type === 'select') ? (
+                      <div className="w-full rounded-md border border-gray-200 bg-gray-50 px-3 py-2 flex items-center justify-between text-xs text-gray-400">
+                        <span>{field.options?.[0] ?? 'Select an option'}</span>
+                        <svg className="h-3.5 w-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                      </div>
+                    ) : (field.type === 'radio' || field.type === 'checkbox') ? (
+                      <div className="space-y-1.5 mt-1">
+                        {(field.options ?? []).slice(0, 3).map((opt, i) => (
+                          <div key={i} className="flex items-center gap-2">
+                            <div className={`h-3.5 w-3.5 rounded-${field.type === 'radio' ? 'full' : 'sm'} border-2 border-gray-300 bg-white flex-shrink-0`} />
+                            <span className="text-xs text-gray-600">{opt}</span>
+                          </div>
+                        ))}
+                        {(field.options?.length ?? 0) > 3 && (
+                          <p className="text-[10px] text-gray-400 pl-5">+{(field.options?.length ?? 0) - 3} more</p>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="w-full rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-xs text-gray-400">
+                        {field.placeholder || field.label}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
