@@ -196,5 +196,134 @@ export const aiForms: Pillar = {
         body: 'Generate a form in 10 seconds and see the difference yourself.',
       },
     },
+    {
+      slug: 'ai-multi-step-forms-guide',
+      title: 'How to Build Multi-Step Forms with AI: Higher Completion, Less Abandonment',
+      description: 'Multi-step forms convert 40% better than single-page forms. Learn how to create them instantly with AI and when to use them for your Indian business.',
+      readTime: '6 min read',
+      publishDate: '2026-04-26',
+      tags: ['AI', 'Multi-Step Forms', 'Conversion', 'Form Design'],
+      intro: 'A long form on a single page is one of the biggest reasons customers abandon without submitting. Breaking it into focused steps — each asking 2-3 questions — dramatically increases completion rates. With AI, you can generate a multi-step form in under a minute. Here\'s how.',
+      sections: [
+        {
+          heading: 'Why Multi-Step Forms Convert Better',
+          body: 'Single-page forms with 10+ fields feel overwhelming. Multi-step forms create a sense of progress ("Step 2 of 4") that keeps users engaged. Research shows multi-step forms achieve 40-80% higher completion rates than their single-page equivalents — especially on mobile devices, which is where most Indian users access forms.',
+          list: [
+            'Progress indicator removes uncertainty about how long the form takes',
+            'Each step focuses attention on a small, related group of questions',
+            'Users who complete step 1 are psychologically committed to finishing',
+            'Easier to validate each step before moving forward',
+            'Mobile-friendly — one step fits a phone screen without scrolling',
+          ],
+        },
+        {
+          heading: 'When to Use Multi-Step Forms',
+          body: 'Not every form needs multiple steps. Use multi-step when your form has more than 6-8 fields, collects information across different categories (personal → professional → preferences), or involves a significant commitment (job applications, loan inquiries, detailed surveys).',
+        },
+        {
+          heading: 'Generating a Multi-Step Form with AI',
+          body: 'In the FormBharat builder, click "Generate with AI" and describe your form. For multi-step output, add context like "split into sections" or "separate personal and professional details". The AI understands this instruction and generates a structured form with logical groupings that you can convert to steps in the builder.',
+          list: [
+            'Describe your form with natural language in the AI prompt box',
+            'Add "with sections" or "multi-step" to your prompt for structured output',
+            'AI generates field groups that map naturally to form steps',
+            'Toggle multi-step mode in the Form Settings panel',
+            'Each section automatically becomes a separate step with a progress bar',
+          ],
+        },
+        {
+          heading: 'Best Practices for Step Design',
+          body: 'Keep each step to 2-4 questions that belong together logically. Start with easy questions (name, email) to build momentum. Put the most important or sensitive questions in the middle — not at the beginning (where users may bounce) or end (where they\'re almost done anyway). Always show a clear progress indicator.',
+        },
+        {
+          heading: 'Using Conditional Logic Across Steps',
+          body: 'FormBharat\'s conditional logic works across steps — you can show or hide entire steps based on answers from earlier steps. For example, if a user selects "Freelancer" as their work type on step 1, step 3 can show freelance-specific questions instead of company-related ones. The AI can set up basic conditional rules for you; complex logic can be refined manually in the builder.',
+        },
+      ],
+      faq: [
+        {
+          q: 'Can I convert a single-page form to multi-step without rebuilding it?',
+          a: 'Yes. Open any existing form in the builder, go to Form Settings, and enable multi-step mode. Your existing fields are grouped into steps automatically — you can then reorganise them by dragging.',
+        },
+        {
+          q: 'Does multi-step work on mobile?',
+          a: 'Absolutely — multi-step forms are especially suited for mobile since each step fits the screen without scrolling. FormBharat\'s form rendering is fully mobile-responsive.',
+        },
+        {
+          q: 'Can I add a summary step at the end?',
+          a: 'A review/summary step before final submission is on our roadmap. Currently you can add a final step with a confirmation message field.',
+        },
+      ],
+      cta: {
+        heading: 'Build a Multi-Step Form with AI',
+        body: 'Describe your multi-step form and let AI structure it for you in seconds. Then publish and start collecting responses.',
+      },
+    },
+    {
+      slug: 'ai-form-templates-india',
+      title: 'AI Form Templates for India: Skip the Blank Canvas Entirely',
+      description: 'FormBharat\'s AI can generate from a blank prompt OR you can start from a pre-built Indian template. Here\'s how both approaches work and when to use each.',
+      readTime: '5 min read',
+      publishDate: '2026-04-26',
+      tags: ['Templates', 'AI', 'Indian Business', 'Quick Start'],
+      intro: 'There are two ways to start a new form in FormBharat: describe it to the AI generator, or pick an existing template built for Indian businesses. Both paths get you to a ready-to-publish form in under a minute — but they suit different situations. This guide explains how to choose and how to use both.',
+      sections: [
+        {
+          heading: 'Starting from an AI Prompt',
+          body: 'AI generation is ideal when you have a specific, non-standard use case. You describe exactly what you need in plain English — "job application form for warehouse staff with Aadhaar verification and shift preference" — and the AI creates a tailored form. This works well for anything that doesn\'t fit a standard category, or when you want to start fresh without being anchored to an existing structure.',
+          list: [
+            'Maximum flexibility — generates exactly what you describe',
+            'Works for any industry or use case',
+            'Great for unusual requirements or highly specific field sets',
+            'Supports Hinglish prompts for Indian context',
+            'Generates in 10 seconds — faster than browsing templates',
+          ],
+        },
+        {
+          heading: 'Starting from a Template',
+          body: 'Templates are pre-built forms for the most common Indian business use cases — customer feedback, event registration, job applications, vendor onboarding, and more. Click "Use Template", select the closest match, and you\'re editing a complete, well-structured form instead of starting from zero. Templates are maintained by the FormBharat team and reflect best practices for each form type.',
+          list: [
+            'Instant starting point for common use cases',
+            'Professionally structured with best-practice field order',
+            'Includes suggested validation rules and placeholder text',
+            'Available for retail, education, healthcare, events, services, and more',
+            'Fully editable — add, remove, and reorder fields after loading',
+          ],
+        },
+        {
+          heading: 'Combining Both: AI-Enhanced Templates',
+          body: 'The most powerful workflow is to load a template, then use AI to extend it. Open a Customer Feedback template, then type "add a section for WhatsApp number and consent to follow up" in the AI prompt. The AI appends the new fields to your existing template. This gives you structure from the template and customisation from AI.',
+        },
+        {
+          heading: 'Finding the Right Template for Indian Contexts',
+          body: 'FormBharat\'s template library is specifically designed for Indian business contexts. Templates include India-specific fields like GST number, Aadhaar verification consent, UPI payment reference, state/district dropdowns, and Indian phone number validation. This saves significant time compared to international form builders that don\'t understand local requirements.',
+          list: [
+            'GST & PAN fields pre-formatted for Indian compliance',
+            'State and district dropdowns with all Indian states',
+            'Indian phone number validation (10-digit, +91 prefix)',
+            'Pincode field with India-specific validation',
+            'UPI reference and payment confirmation fields',
+          ],
+        },
+      ],
+      faq: [
+        {
+          q: 'How many templates are available?',
+          a: 'FormBharat currently offers 20+ templates across retail, education, healthcare, events, professional services, and more. New templates are added regularly based on user requests.',
+        },
+        {
+          q: 'Can I save my customised template for reuse?',
+          a: 'Form saving and duplication are available for registered users. You can duplicate any published form and edit it as a new form — effectively creating your own template library.',
+        },
+        {
+          q: 'Are templates free?',
+          a: 'Yes, all templates are completely free. There are no premium templates or paywalls.',
+        },
+      ],
+      cta: {
+        heading: 'Try a Template or Generate with AI',
+        body: 'Open the FormBharat builder and choose your starting point — template or AI prompt. Either way, you\'ll be collecting responses in under a minute.',
+      },
+    },
   ],
 }

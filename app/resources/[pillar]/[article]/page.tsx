@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { getArticle, getPillar, pillars } from '@/lib/resources'
-import { ArrowRight, ArrowLeft, Clock, Calendar, ChevronRight, CheckCircle2, BookOpen, List } from 'lucide-react'
+import { ArrowRight, ArrowLeft, Clock, Calendar, ChevronRight, CheckCircle2, BookOpen, List, Sparkles, Zap } from 'lucide-react'
 import { PillarIcon } from '@/components/PillarIcon'
 import Script from 'next/script'
 
@@ -229,6 +229,32 @@ export default async function ArticlePage({
             </div>
           </header>
 
+          {/* ── Top action bar ── */}
+          <div className="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-orange-50 border border-orange-100 px-4 py-3">
+            <p className="text-sm text-gray-600">
+              {pillar.slug === 'ai-form-generation'
+                ? 'Try what you read — generate a form with AI in 10 seconds'
+                : 'Put this guide into practice — build your form free'
+              }
+            </p>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {pillar.slug === 'ai-form-generation' && (
+                <Link
+                  href="/builder"
+                  className="flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
+                >
+                  <Sparkles className="w-3.5 h-3.5" /> Try with AI
+                </Link>
+              )}
+              <Link
+                href="/builder"
+                className="flex items-center gap-1.5 border border-orange-300 text-orange-600 hover:bg-orange-100 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
+              >
+                <Zap className="w-3.5 h-3.5" /> Build Free →
+              </Link>
+            </div>
+          </div>
+
           {/* Mobile TOC */}
           <details className="xl:hidden mb-8 border border-gray-200 rounded-xl overflow-hidden">
             <summary className="flex items-center gap-2 px-4 py-3 cursor-pointer bg-gray-50 text-sm font-semibold text-gray-700 select-none">
@@ -289,7 +315,7 @@ export default async function ArticlePage({
             <p className="text-gray-600 text-sm mb-4 leading-relaxed">{article.cta.body}</p>
             <Link
               href="/builder"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity text-sm"
+              className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-5 py-2.5 rounded-lg transition-colors text-sm"
             >
               Get Started Free <ArrowRight className="w-4 h-4" />
             </Link>
@@ -368,16 +394,24 @@ export default async function ArticlePage({
               )}
             </nav>
 
-            <div className="mt-8 p-4 bg-gradient-to-br from-orange-50 to-pink-50 rounded-xl border border-orange-100">
-              <p className="text-xs font-semibold text-gray-700 mb-2">Try it free</p>
-              <p className="text-xs text-gray-500 mb-3 leading-relaxed">
+            <div className="mt-8 p-4 bg-orange-50 rounded-xl border border-orange-100 space-y-2">
+              <p className="text-xs font-semibold text-gray-700">Try it free</p>
+              <p className="text-xs text-gray-500 leading-relaxed">
                 Build forms that put this guide into practice.
               </p>
+              {pillar.slug === 'ai-form-generation' && (
+                <Link
+                  href="/builder"
+                  className="flex items-center justify-center gap-1.5 text-xs font-semibold bg-orange-500 hover:bg-orange-600 text-white px-3 py-1.5 rounded-lg transition-colors"
+                >
+                  <Sparkles className="w-3 h-3" /> Generate with AI
+                </Link>
+              )}
               <Link
                 href="/builder"
-                className="block text-center text-xs font-semibold bg-gradient-to-r from-orange-500 to-pink-500 text-white px-3 py-2 rounded-lg hover:opacity-90 transition-opacity"
+                className="block text-center text-xs font-semibold text-orange-600 hover:text-orange-700 border border-orange-200 hover:border-orange-300 px-3 py-1.5 rounded-lg transition-colors"
               >
-                Start Building →
+                Open Builder →
               </Link>
             </div>
           </div>
