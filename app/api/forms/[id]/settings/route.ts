@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { verifyAuth } from '@/lib/auth'
+import { extractSpreadsheetId } from '@/lib/google-sheets'
 
 // PUT - Update form settings
 export async function PUT(
@@ -27,6 +28,9 @@ export async function PUT(
       opensAt,
       closesAt,
       maxResponses,
+      googleSheetsEnabled,
+      googleSheetUrl,
+      googleSheetTab,
     } = await request.json()
 
     // Verify form ownership
@@ -55,6 +59,11 @@ export async function PUT(
         ...(opensAt !== undefined && { opensAt: opensAt ? new Date(opensAt) : null }),
         ...(closesAt !== undefined && { closesAt: closesAt ? new Date(closesAt) : null }),
         ...(maxResponses !== undefined && { maxResponses: maxResponses ? Number(maxResponses) : null }),
+        ...(googleSheetsEnabled !== undefined && { googleSheetsEnabled }),
+        ...(googleSheetUrl !== undefined && {
+          googleSheetId: googleSheetUrl ? extractSpreadsheetId(googleSheetUrl) : null,
+        }),
+        ...(googleSheetTab !== undefined && { googleSheetTab: googleSheetTab || null }),
       }
     })
 

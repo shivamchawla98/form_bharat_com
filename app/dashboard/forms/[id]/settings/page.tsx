@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import { Button } from '@/components/ui/button'
@@ -10,13 +10,14 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { useToast } from '@/components/ui/use-toast'
-import { ArrowLeft, Bell, Webhook, Zap, Send, Code, Copy, CheckCircle2, XCircle, Clock, Download, QrCode, CornerDownRight, CalendarClock } from 'lucide-react'
+import { ArrowLeft, Bell, Webhook, Zap, Send, Code, Copy, CheckCircle2, XCircle, Clock, Download, QrCode, CornerDownRight, CalendarClock, Table2, ExternalLink, Loader2 } from 'lucide-react'
 import QRCode from 'qrcode'
 import { getValidToken } from '@/lib/getToken'
 
 function FormSettingsContent() {
   const params = useParams()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { toast } = useToast()
   const [form, setForm] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -57,8 +58,23 @@ function FormSettingsContent() {
   const [closesAt, setClosesAt] = useState('')
   const [maxResponses, setMaxResponses] = useState('')
 
+  // Google Sheets
+  const [googleConnected, setGoogleConnected] = useState(false)
+  const [googleConnecting, setGoogleConnecting] = useState(false)
+  const [googleSheetsEnabled, setGoogleSheetsEnabled] = useState(false)
+  const [googleSheetUrl, setGoogleSheetUrl] = useState('')
+  const [googleSheetTab, setGoogleSheetTab] = useState('')
+
   useEffect(() => {
     fetchForm()
+    checkGoogleConnection()
+    // Show toast if returning from OAuth
+    const googleParam = searchParams.get('google')
+    if (googleParam === 'connected') {
+      toast({ title: 'Google Sheets connected', description: 'Your Google account is now linked.' })
+    } else if (googleParam === 'error' || googleParam === 'invalid') {
+      toast({ title: 'Connection failed', description: 'Could not connect Google Sheets. Please try again.', variant: 'destructive' })
+    }
   }, [])
 
   const fetchForm = async () => {
@@ -81,10 +97,59 @@ function FormSettingsContent() {
       setOpensAt(data.opensAt ? new Date(data.opensAt).toISOString().slice(0, 16) : '')
       setClosesAt(data.closesAt ? new Date(data.closesAt).toISOString().slice(0, 16) : '')
       setMaxResponses(data.maxResponses ? String(data.maxResponses) : '')
+      setGoogleSheetsEnabled(data.googleSheetsEnabled || false)
+      setGoogleSheetUrl(data.googleSheetId ? `https://docs.google.com/spreadsheets/d/${data.googleSheetId}` : '')
+      setGoogleSheetTab(data.googleSheetTab || '')
     } catch (error) {
       console.error('Error fetching form:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const checkGoogleConnection = async () => {
+    try {
+      const token = await getValidToken()
+      const res = await fetch('/api/auth/google-sheets/status', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        setGoogleConnected(data.connected)
+      }
+    } catch {
+      // silently ignore
+    }
+  }
+
+  const connectGoogle = async () => {
+    setGoogleConnecting(true)
+    try {
+      const token = await getValidToken()
+      const res = await fetch(`/api/auth/google-sheets?formId=${params.id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (!res.ok) throw new Error()
+      const { url } = await res.json()
+      window.location.href = url
+    } catch {
+      toast({ title: 'Error', description: 'Could not initiate Google connection.', variant: 'destructive' })
+      setGoogleConnecting(false)
+    }
+  }
+
+  const disconnectGoogle = async () => {
+    try {
+      const token = await getValidToken()
+      await fetch('/api/auth/google-sheets', {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      setGoogleConnected(false)
+      setGoogleSheetsEnabled(false)
+      toast({ title: 'Disconnected', description: 'Google account unlinked.' })
+    } catch {
+      toast({ title: 'Error', description: 'Failed to disconnect.', variant: 'destructive' })
     }
   }
 
@@ -204,6 +269,9 @@ function FormSettingsContent() {
           opensAt: opensAt ? new Date(opensAt).toISOString() : null,
           closesAt: closesAt ? new Date(closesAt).toISOString() : null,
           maxResponses: maxResponses ? parseInt(maxResponses, 10) : null,
+          googleSheetsEnabled,
+          googleSheetUrl: googleSheetUrl.trim() || null,
+          googleSheetTab: googleSheetTab.trim() || null,
         }),
       })
 
@@ -522,6 +590,88 @@ function FormSettingsContent() {
                 />
                 <p className="text-xs text-gray-500 mt-1">Redirect respondents to this URL after submission instead of showing the success screen.</p>
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Google Sheets */}
+          <Card>
+            <CardHeader className="p-4 md:p-6">
+              <div className="flex items-center gap-2 md:gap-3">
+                <div className="w-8 md:w-10 h-8 md:h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Table2 className="h-4 md:h-5 w-4 md:w-5 text-green-600" />
+                </div>
+                <div className="min-w-0">
+                  <CardTitle className="text-base md:text-lg">Google Sheets Sync</CardTitle>
+                  <CardDescription className="text-xs md:text-sm">Automatically append each response as a new row</CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4 p-4 md:p-6 pt-0">
+              {/* Connect / disconnect */}
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium">Google account</p>
+                  <p className="text-xs text-gray-500">
+                    {googleConnected ? 'Connected — your tokens are stored securely' : 'Not connected'}
+                  </p>
+                </div>
+                {googleConnected ? (
+                  <Button variant="outline" size="sm" onClick={disconnectGoogle}>
+                    <XCircle className="mr-2 h-4 w-4 text-red-500" />
+                    Disconnect
+                  </Button>
+                ) : (
+                  <Button size="sm" onClick={connectGoogle} disabled={googleConnecting}
+                    className="bg-orange-500 hover:bg-orange-600 text-white">
+                    {googleConnecting
+                      ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Connecting…</>
+                      : <><ExternalLink className="mr-2 h-4 w-4" />Connect Google</>}
+                  </Button>
+                )}
+              </div>
+
+              {googleConnected && (
+                <>
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="gs-enabled">Sync responses to sheet</Label>
+                    <Switch
+                      id="gs-enabled"
+                      checked={googleSheetsEnabled}
+                      onCheckedChange={setGoogleSheetsEnabled}
+                    />
+                  </div>
+
+                  {googleSheetsEnabled && (
+                    <div className="space-y-3">
+                      <div>
+                        <Label htmlFor="gs-url" className="text-sm">Google Sheet URL</Label>
+                        <Input
+                          id="gs-url"
+                          placeholder="https://docs.google.com/spreadsheets/d/…"
+                          value={googleSheetUrl}
+                          onChange={(e) => setGoogleSheetUrl(e.target.value)}
+                          className="mt-2"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Paste the full URL of the spreadsheet you want to write to.</p>
+                      </div>
+                      <div>
+                        <Label htmlFor="gs-tab" className="text-sm">Sheet tab name <span className="text-gray-400 font-normal">(optional)</span></Label>
+                        <Input
+                          id="gs-tab"
+                          placeholder="Sheet1"
+                          value={googleSheetTab}
+                          onChange={(e) => setGoogleSheetTab(e.target.value)}
+                          className="mt-2 max-w-xs"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Defaults to "Sheet1" if left blank.</p>
+                      </div>
+                      <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-xs text-green-800">
+                        A header row is written automatically on the first submission. Each subsequent response is appended as a new row with an IST timestamp.
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
             </CardContent>
           </Card>
 

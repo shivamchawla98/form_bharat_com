@@ -9,13 +9,16 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(uuid())
-  email     String     @unique
-  name      String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  forms     Form[]
-  aiUsage   AIUsage[]
+  id                 String     @id @default(uuid())
+  email              String     @unique
+  name               String?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+  googleAccessToken  String?
+  googleRefreshToken String?
+  googleTokenExpiry  DateTime?
+  forms              Form[]
+  aiUsage            AIUsage[]
 }
 
 model Form {
@@ -40,6 +43,9 @@ model Form {
   opensAt                   DateTime?
   closesAt                  DateTime?
   maxResponses              Int?
+  googleSheetsEnabled       Boolean      @default(false)
+  googleSheetId             String?
+  googleSheetTab            String?
   user                      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   responses                 Response[]
   webhookLogs               WebhookLog[]

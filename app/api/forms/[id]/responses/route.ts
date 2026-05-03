@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { sendWebhook } from '@/lib/webhook'
 import { sendFormNotification } from '@/lib/email'
+import { appendToGoogleSheet } from '@/lib/google-sheets'
 
 export async function GET(
   request: NextRequest,
@@ -75,6 +76,7 @@ export async function POST(
     Promise.all([
       sendWebhook(id, response.id, responseData),
       sendFormNotification(id, response.id, responseData),
+      appendToGoogleSheet(id, responseData),
     ]).catch(error => console.error('Integration error:', error))
 
     return NextResponse.json(response)
