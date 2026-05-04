@@ -9,531 +9,335 @@ import {
   Target, BarChart2, Layers, Building2, MessageCircle, TrendingUp,
   MessageSquare, CalendarCheck, Briefcase, ShoppingBag, IndianRupee,
   UtensilsCrossed, Stethoscope, GraduationCap, ShoppingCart,
-  Users, PartyPopper, Heart, Sparkles, Zap,
+  Users, PartyPopper, Heart,
 } from 'lucide-react'
 import { Logo } from '@/components/Logo'
 import { clearSession } from '@/lib/getToken'
 
-// ─── Nav data ────────────────────────────────────────────────────────────────
+// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const solutionItems = [
-  {
-    href: '/solutions/lead-generation',
-    icon: Target,
-    gradient: 'from-orange-500 to-amber-400',
-    bg: 'bg-orange-50',
-    title: 'Lead Generation',
-    desc: 'Capture leads from web, WhatsApp & events',
-  },
-  {
-    href: '/solutions/customer-feedback',
-    icon: MessageSquare,
-    gradient: 'from-blue-500 to-cyan-400',
-    bg: 'bg-blue-50',
-    title: 'Customer Feedback',
-    desc: 'NPS, CSAT, and product feedback forms',
-  },
-  {
-    href: '/solutions/event-registration',
-    icon: CalendarCheck,
-    gradient: 'from-purple-500 to-violet-400',
-    bg: 'bg-purple-50',
-    title: 'Event Registration',
-    desc: 'Registrations with built-in payment',
-  },
-  {
-    href: '/solutions/job-applications',
-    icon: Briefcase,
-    gradient: 'from-emerald-500 to-teal-400',
-    bg: 'bg-emerald-50',
-    title: 'Job Applications',
-    desc: 'Structured hiring & screening forms',
-  },
-  {
-    href: '/solutions/order-forms',
-    icon: ShoppingBag,
-    gradient: 'from-amber-500 to-yellow-400',
-    bg: 'bg-amber-50',
-    title: 'Order & Booking Forms',
-    desc: 'Orders and appointments — online or offline',
-  },
-  {
-    href: '/solutions/payment-collection',
-    icon: IndianRupee,
-    gradient: 'from-green-500 to-emerald-400',
-    bg: 'bg-green-50',
-    title: 'Payment Collection',
-    desc: 'UPI + card payments inside your forms',
-  },
+  { href: '/solutions/lead-generation',   icon: Target,        title: 'Lead Generation',     desc: 'Capture and qualify leads from web, WhatsApp, and offline events.' },
+  { href: '/solutions/customer-feedback', icon: MessageSquare, title: 'Customer Feedback',    desc: 'NPS, CSAT, and product feedback — automated and trackable.' },
+  { href: '/solutions/event-registration',icon: CalendarCheck, title: 'Event Registration',   desc: 'Registrations with built-in UPI and card payment collection.' },
+  { href: '/solutions/job-applications',  icon: Briefcase,     title: 'Job Applications',     desc: 'Structured hiring forms with resume upload and auto-screening.' },
+  { href: '/solutions/order-forms',       icon: ShoppingBag,   title: 'Order & Booking Forms',desc: 'Take orders and appointments online — with or without payment.' },
+  { href: '/solutions/payment-collection',icon: IndianRupee,   title: 'Payment Collection',   desc: 'UPI + card payments collected directly inside your form.' },
 ]
 
 const industryItems = [
-  {
-    href: '/industries/restaurants-food',
-    icon: UtensilsCrossed,
-    gradient: 'from-orange-500 to-red-400',
-    title: 'Restaurants & Food',
-    desc: 'Orders, feedback, reservations',
-  },
-  {
-    href: '/industries/healthcare-clinics',
-    icon: Stethoscope,
-    gradient: 'from-red-500 to-rose-400',
-    title: 'Healthcare & Clinics',
-    desc: 'Patient forms & appointments',
-  },
-  {
-    href: '/industries/education-coaching',
-    icon: GraduationCap,
-    gradient: 'from-blue-500 to-indigo-400',
-    title: 'Education & Coaching',
-    desc: 'Admissions, fees & feedback',
-  },
-  {
-    href: '/industries/real-estate',
-    icon: Building2,
-    gradient: 'from-emerald-500 to-green-400',
-    title: 'Real Estate',
-    desc: 'Leads, site visits & surveys',
-  },
-  {
-    href: '/industries/retail-ecommerce',
-    icon: ShoppingCart,
-    gradient: 'from-purple-500 to-fuchsia-400',
-    title: 'Retail & E-commerce',
-    desc: 'Orders, returns & signups',
-  },
-  {
-    href: '/industries/hr-recruitment',
-    icon: Users,
-    gradient: 'from-indigo-500 to-blue-400',
-    title: 'HR & Recruitment',
-    desc: 'Applications & onboarding',
-  },
-  {
-    href: '/industries/events-weddings',
-    icon: PartyPopper,
-    gradient: 'from-pink-500 to-rose-400',
-    title: 'Events & Weddings',
-    desc: 'RSVPs, vendor forms & payments',
-  },
-  {
-    href: '/industries/nonprofits',
-    icon: Heart,
-    gradient: 'from-rose-500 to-pink-400',
-    title: 'NGOs & Non-profits',
-    desc: 'Volunteers & donations',
-  },
+  { href: '/industries/restaurants-food',    icon: UtensilsCrossed, title: 'Restaurants' },
+  { href: '/industries/healthcare-clinics',  icon: Stethoscope,     title: 'Healthcare'  },
+  { href: '/industries/education-coaching',  icon: GraduationCap,   title: 'Education'   },
+  { href: '/industries/real-estate',         icon: Building2,       title: 'Real Estate' },
+  { href: '/industries/retail-ecommerce',    icon: ShoppingCart,    title: 'Retail'      },
+  { href: '/industries/hr-recruitment',      icon: Users,           title: 'HR & Hiring' },
+  { href: '/industries/events-weddings',     icon: PartyPopper,     title: 'Events'      },
+  { href: '/industries/nonprofits',          icon: Heart,           title: 'Non-profits' },
 ]
 
 const resourcePillars = [
-  {
-    slug: 'lead-generation',
-    icon: Target,
-    gradient: 'from-orange-500 to-amber-400',
-    title: 'Lead Generation',
-    desc: 'Capture & qualify leads from Indian markets',
-  },
-  {
-    slug: 'surveys-feedback',
-    icon: BarChart2,
-    gradient: 'from-blue-500 to-cyan-400',
-    title: 'Surveys & Feedback',
-    desc: 'Measure CSAT, NPS, and employee satisfaction',
-  },
-  {
-    slug: 'form-design',
-    icon: Layers,
-    gradient: 'from-purple-500 to-violet-400',
-    title: 'Form Design',
-    desc: 'Multi-step, mobile-first, high-converting forms',
-  },
-  {
-    slug: 'business-forms-india',
-    icon: Building2,
-    gradient: 'from-emerald-500 to-teal-400',
-    title: 'Business Forms',
-    desc: 'India-specific forms for SMBs',
-  },
-  {
-    slug: 'whatsapp-forms',
-    icon: MessageCircle,
-    gradient: 'from-green-500 to-emerald-400',
-    title: 'WhatsApp Forms',
-    desc: 'Collect responses via WhatsApp',
-  },
-  {
-    slug: 'form-analytics',
-    icon: TrendingUp,
-    gradient: 'from-pink-500 to-rose-400',
-    title: 'Form Analytics',
-    desc: 'Improve completion rates with data',
-  },
+  { slug: 'lead-generation',      icon: Target,        title: 'Lead Generation',    desc: 'Capture & qualify leads from Indian markets.' },
+  { slug: 'surveys-feedback',     icon: BarChart2,     title: 'Surveys & Feedback', desc: 'Measure CSAT, NPS, and employee satisfaction.' },
+  { slug: 'form-design',          icon: Layers,        title: 'Form Design',        desc: 'Multi-step, mobile-first, high-converting forms.' },
+  { slug: 'business-forms-india', icon: Building2,     title: 'Business Forms',     desc: 'India-specific forms built for SMBs.' },
+  { slug: 'whatsapp-forms',       icon: MessageCircle, title: 'WhatsApp Forms',     desc: 'Collect responses directly via WhatsApp.' },
+  { slug: 'form-analytics',       icon: TrendingUp,    title: 'Form Analytics',     desc: 'Improve completion rates with response data.' },
 ]
 
-// ─── Reusable mega menu item ──────────────────────────────────────────────────
+// ─── Dropdown panel shell ──────────────────────────────────────────────────────
 
-function MegaMenuItem({
-  href,
-  icon: Icon,
-  gradient,
-  title,
-  desc,
-  onClick,
-}: {
-  href: string
-  icon: React.ElementType
-  gradient: string
-  title: string
-  desc: string
-  onClick: () => void
-}) {
+function Panel({ ref: panelRef, children, className = '' }: { ref?: React.Ref<HTMLDivElement>; children: React.ReactNode; className?: string }) {
   return (
-    <Link
-      href={href}
-      onClick={onClick}
-      className="group flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-all duration-150"
+    <div
+      ref={panelRef}
+      className={`absolute top-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden ${className}`}
     >
-      <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center flex-shrink-0 shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all duration-150`}>
-        <Icon className="w-4 h-4 text-white" strokeWidth={2} />
-      </div>
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center justify-between">
-          <p className="text-sm font-semibold text-gray-800 group-hover:text-orange-600 transition-colors leading-tight">
-            {title}
-          </p>
-          <ArrowRight className="w-3 h-3 text-gray-300 group-hover:text-orange-500 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-150 flex-shrink-0 ml-1" />
-        </div>
-        <p className="text-xs text-gray-500 mt-0.5 leading-snug">{desc}</p>
-      </div>
-    </Link>
+      {children}
+    </div>
   )
 }
 
-// ─── Component ───────────────────────────────────────────────────────────────
+function PanelHeader({ label, href, onClose }: { label: string; href: string; onClose: () => void }) {
+  return (
+    <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+      <span className="text-[11px] font-semibold uppercase tracking-widest text-gray-400">{label}</span>
+      <Link href={href} onClick={onClose} className="flex items-center gap-1 text-[12px] text-orange-500 hover:text-orange-600 transition-colors font-medium">
+        View all <ArrowRight className="w-3 h-3" />
+      </Link>
+    </div>
+  )
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [resourcesOpen, setResourcesOpen] = useState(false)
-  const [solutionsOpen, setSolutionsOpen] = useState(false)
-  const [industriesOpen, setIndustriesOpen] = useState(false)
-  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false)
-  const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false)
-  const [mobileIndustriesOpen, setMobileIndustriesOpen] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [mobileOpen, setMobileOpen]           = useState(false)
+  const [solutionsOpen, setSolutionsOpen]     = useState(false)
+  const [industriesOpen, setIndustriesOpen]   = useState(false)
+  const [resourcesOpen, setResourcesOpen]     = useState(false)
+  const [mobileSolutions, setMobileSolutions] = useState(false)
+  const [mobileIndustries, setMobileIndustries] = useState(false)
+  const [mobileResources, setMobileResources] = useState(false)
+  const [isLoggedIn, setIsLoggedIn]           = useState(false)
   const router = useRouter()
 
-  const megaMenuRef = useRef<HTMLDivElement>(null)
-  const resourcesBtnRef = useRef<HTMLButtonElement>(null)
-  const solutionsMenuRef = useRef<HTMLDivElement>(null)
-  const solutionsBtnRef = useRef<HTMLButtonElement>(null)
-  const industriesMenuRef = useRef<HTMLDivElement>(null)
-  const industriesBtnRef = useRef<HTMLButtonElement>(null)
+  const solutionsPanelRef  = useRef<HTMLDivElement>(null)
+  const solutionsBtnRef    = useRef<HTMLButtonElement>(null)
+  const industriesPanelRef = useRef<HTMLDivElement>(null)
+  const industriesBtnRef   = useRef<HTMLButtonElement>(null)
+  const resourcesPanelRef  = useRef<HTMLDivElement>(null)
+  const resourcesBtnRef    = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => { setIsLoggedIn(!!localStorage.getItem('token')) }, [])
 
   useEffect(() => {
-    setIsLoggedIn(!!localStorage.getItem('token'))
-  }, [])
-
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
+    const handler = (e: MouseEvent) => {
       const t = e.target as Node
-      if (megaMenuRef.current && !megaMenuRef.current.contains(t) && resourcesBtnRef.current && !resourcesBtnRef.current.contains(t)) setResourcesOpen(false)
-      if (solutionsMenuRef.current && !solutionsMenuRef.current.contains(t) && solutionsBtnRef.current && !solutionsBtnRef.current.contains(t)) setSolutionsOpen(false)
-      if (industriesMenuRef.current && !industriesMenuRef.current.contains(t) && industriesBtnRef.current && !industriesBtnRef.current.contains(t)) setIndustriesOpen(false)
+      if (!solutionsPanelRef.current?.contains(t) && !solutionsBtnRef.current?.contains(t))   setSolutionsOpen(false)
+      if (!industriesPanelRef.current?.contains(t) && !industriesBtnRef.current?.contains(t)) setIndustriesOpen(false)
+      if (!resourcesPanelRef.current?.contains(t) && !resourcesBtnRef.current?.contains(t))   setResourcesOpen(false)
     }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
   }, [])
 
-  const closeAll = () => { setResourcesOpen(false); setSolutionsOpen(false); setIndustriesOpen(false) }
+  const handleLogout = () => { clearSession(); setIsLoggedIn(false); router.push('/') }
+  const closeAll = () => { setSolutionsOpen(false); setIndustriesOpen(false); setResourcesOpen(false) }
 
-  const handleLogout = () => {
-    clearSession()
-    setIsLoggedIn(false)
-    router.push('/')
-  }
-
-  const navLinkClass = "px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
-  const megaTriggerClass = (open: boolean) =>
-    `flex items-center gap-1 px-3 py-2 text-sm rounded-lg transition-colors ${open ? 'text-orange-600 bg-orange-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`
+  const triggerCls = (open: boolean) =>
+    `flex items-center gap-1 text-[13px] transition-colors ${open ? 'text-orange-500' : 'text-gray-500 hover:text-gray-900'}`
 
   return (
-    <header className="border-b border-gray-100 bg-white/90 backdrop-blur-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 md:py-3.5">
-        <div className="flex justify-between items-center">
+    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-5 h-14 flex items-center justify-between gap-8">
 
-          {/* Logo */}
-          <Logo href="/" size="md" />
+        {/* Logo */}
+        <Logo href="/" size="md" />
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-0.5">
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-6 flex-1">
 
-            <Link href="/features" className={navLinkClass}>Features</Link>
+          <Link href="/features" className="text-[13px] text-gray-500 hover:text-orange-500 transition-colors">Features</Link>
 
-            {/* ── Solutions ── */}
-            <div className="relative">
-              <button ref={solutionsBtnRef} onClick={() => { setSolutionsOpen(v => !v); setResourcesOpen(false); setIndustriesOpen(false) }} className={megaTriggerClass(solutionsOpen)}>
-                Solutions
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${solutionsOpen ? 'rotate-180' : ''}`} />
-              </button>
+          {/* Solutions */}
+          <div className="relative">
+            <button
+              ref={solutionsBtnRef}
+              onClick={() => { setSolutionsOpen(v => !v); setIndustriesOpen(false); setResourcesOpen(false) }}
+              className={triggerCls(solutionsOpen)}
+            >
+              Solutions
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${solutionsOpen ? 'rotate-180 text-orange-500' : 'text-gray-400'}`} />
+            </button>
 
-              {solutionsOpen && (
-                <div ref={solutionsMenuRef} className="absolute top-full left-1/2 -translate-x-1/2 mt-2.5 w-[500px] bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50">
-                  {/* Panel header */}
-                  <div className="flex items-center justify-between px-5 py-3.5 bg-gradient-to-r from-orange-50 to-amber-50 border-b border-orange-100">
-                    <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-orange-500 to-amber-400 flex items-center justify-center">
-                        <Zap className="w-3.5 h-3.5 text-white" />
-                      </div>
+            {solutionsOpen && (
+              <div ref={solutionsPanelRef} className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[520px] bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden">
+                <PanelHeader label="Solutions" href="/solutions" onClose={() => setSolutionsOpen(false)} />
+                <div className="p-3 grid grid-cols-2 gap-px">
+                  {solutionItems.map(({ href, icon: Icon, title, desc }) => (
+                    <Link
+                      key={href} href={href}
+                      onClick={() => setSolutionsOpen(false)}
+                      className="group flex items-start gap-3 px-3 py-3 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                      <Icon className="w-4 h-4 text-gray-400 group-hover:text-orange-500 mt-0.5 flex-shrink-0 transition-colors" strokeWidth={1.75} />
                       <div>
-                        <p className="text-xs font-bold text-gray-900 leading-none">Solutions</p>
-                        <p className="text-[11px] text-gray-500 mt-0.5">Pick the right workflow for your need</p>
+                        <p className="text-[13px] font-medium text-gray-800 group-hover:text-orange-500 leading-tight">{title}</p>
+                        <p className="text-[12px] text-gray-400 mt-0.5 leading-snug">{desc}</p>
                       </div>
-                    </div>
-                    <Link href="/solutions" onClick={() => setSolutionsOpen(false)} className="flex items-center gap-1 text-xs font-semibold text-orange-600 hover:text-orange-700 transition-colors">
-                      View all <ArrowRight className="w-3 h-3" />
                     </Link>
-                  </div>
-
-                  <div className="p-3 grid grid-cols-2 gap-1">
-                    {solutionItems.map(item => (
-                      <MegaMenuItem key={item.href} {...item} onClick={() => setSolutionsOpen(false)} />
-                    ))}
-                  </div>
+                  ))}
                 </div>
-              )}
-            </div>
-
-            {/* ── Industries ── */}
-            <div className="relative">
-              <button ref={industriesBtnRef} onClick={() => { setIndustriesOpen(v => !v); setResourcesOpen(false); setSolutionsOpen(false) }} className={megaTriggerClass(industriesOpen)}>
-                Industries
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${industriesOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {industriesOpen && (
-                <div ref={industriesMenuRef} className="absolute top-full left-1/2 -translate-x-1/2 mt-2.5 w-[600px] bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50">
-                  {/* Panel header */}
-                  <div className="flex items-center justify-between px-5 py-3.5 bg-gradient-to-r from-indigo-50 to-blue-50 border-b border-indigo-100">
-                    <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-indigo-500 to-blue-400 flex items-center justify-center">
-                        <Building2 className="w-3.5 h-3.5 text-white" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-gray-900 leading-none">Industries</p>
-                        <p className="text-[11px] text-gray-500 mt-0.5">Forms tailored to your business type</p>
-                      </div>
-                    </div>
-                    <Link href="/industries" onClick={() => setIndustriesOpen(false)} className="flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">
-                      View all <ArrowRight className="w-3 h-3" />
-                    </Link>
-                  </div>
-
-                  {/* 4-column grid */}
-                  <div className="p-3 grid grid-cols-4 gap-1">
-                    {industryItems.map(item => {
-                      const Icon = item.icon
-                      return (
-                        <Link
-                          key={item.href}
-                          href={item.href}
-                          onClick={() => setIndustriesOpen(false)}
-                          className="group flex flex-col items-center text-center gap-2 p-3 rounded-xl hover:bg-gray-50 transition-all duration-150"
-                        >
-                          <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all duration-150`}>
-                            <Icon className="w-5 h-5 text-white" strokeWidth={1.75} />
-                          </div>
-                          <div>
-                            <p className="text-xs font-semibold text-gray-800 group-hover:text-orange-600 transition-colors leading-tight">{item.title}</p>
-                            <p className="text-[10px] text-gray-400 mt-0.5 leading-snug">{item.desc}</p>
-                          </div>
-                        </Link>
-                      )
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <Link href="/templates" className={navLinkClass}>Templates</Link>
-            <Link href="/pricing" className={navLinkClass}>Pricing</Link>
-
-            {/* ── Resources ── */}
-            <div className="relative">
-              <button ref={resourcesBtnRef} onClick={() => { setResourcesOpen(v => !v); setSolutionsOpen(false); setIndustriesOpen(false) }} className={megaTriggerClass(resourcesOpen)}>
-                Resources
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${resourcesOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {resourcesOpen && (
-                <div ref={megaMenuRef} className="absolute top-full left-1/2 -translate-x-1/2 mt-2.5 w-[500px] bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50">
-                  <div className="flex items-center justify-between px-5 py-3.5 bg-gradient-to-r from-purple-50 to-pink-50 border-b border-purple-100">
-                    <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-purple-500 to-pink-400 flex items-center justify-center">
-                        <Sparkles className="w-3.5 h-3.5 text-white" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-gray-900 leading-none">Resources</p>
-                        <p className="text-[11px] text-gray-500 mt-0.5">In-depth guides for Indian businesses</p>
-                      </div>
-                    </div>
-                    <Link href="/resources" onClick={() => setResourcesOpen(false)} className="flex items-center gap-1 text-xs font-semibold text-purple-600 hover:text-purple-700 transition-colors">
-                      Browse all <ArrowRight className="w-3 h-3" />
-                    </Link>
-                  </div>
-
-                  <div className="p-3 grid grid-cols-2 gap-1">
-                    {resourcePillars.map(p => (
-                      <MegaMenuItem key={p.slug} href={`/resources/${p.slug}`} icon={p.icon} gradient={p.gradient} title={p.title} desc={p.desc} onClick={() => setResourcesOpen(false)} />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <Link href="/about" className={navLinkClass}>About</Link>
-
-          </nav>
-
-          {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-2">
-            {isLoggedIn ? (
-              <>
-                <Link href="/dashboard">
-                  <Button variant="outline" size="sm">My Forms</Button>
-                </Link>
-                <Button variant="ghost" size="sm" onClick={handleLogout} className="text-gray-600 hover:text-gray-900">
-                  <LogOut className="h-4 w-4 mr-1.5" />Logout
-                </Button>
-              </>
-            ) : (
-              <>
-                <Link href="/auth/login">
-                  <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">Login</Button>
-                </Link>
-                <Link href="/builder">
-                  <Button size="sm" className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white shadow-sm shadow-orange-200 border-0">
-                    Start Free →
-                  </Button>
-                </Link>
-              </>
+              </div>
             )}
           </div>
 
-          {/* Mobile hamburger */}
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2 text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-100 transition-colors" aria-label="Toggle menu">
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+          {/* Industries */}
+          <div className="relative">
+            <button
+              ref={industriesBtnRef}
+              onClick={() => { setIndustriesOpen(v => !v); setSolutionsOpen(false); setResourcesOpen(false) }}
+              className={triggerCls(industriesOpen)}
+            >
+              Industries
+              <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${industriesOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {industriesOpen && (
+              <div ref={industriesPanelRef} className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[440px] bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden">
+                <PanelHeader label="Industries" href="/industries" onClose={() => setIndustriesOpen(false)} />
+                <div className="p-3 grid grid-cols-4 gap-px">
+                  {industryItems.map(({ href, icon: Icon, title }) => (
+                    <Link
+                      key={href} href={href}
+                      onClick={() => setIndustriesOpen(false)}
+                      className="group flex flex-col items-center gap-2 px-2 py-3.5 rounded-lg hover:bg-gray-50 transition-colors text-center"
+                    >
+                      <Icon className="w-[18px] h-[18px] text-gray-400 group-hover:text-orange-500 transition-colors" strokeWidth={1.75} />
+                      <span className="text-[12px] font-medium text-gray-600 group-hover:text-orange-500 leading-tight transition-colors">{title}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <Link href="/templates" className="text-[13px] text-gray-500 hover:text-orange-500 transition-colors">Templates</Link>
+          <Link href="/pricing"   className="text-[13px] text-gray-500 hover:text-orange-500 transition-colors">Pricing</Link>
+
+          {/* Resources */}
+          <div className="relative">
+            <button
+              ref={resourcesBtnRef}
+              onClick={() => { setResourcesOpen(v => !v); setSolutionsOpen(false); setIndustriesOpen(false) }}
+              className={triggerCls(resourcesOpen)}
+            >
+              Resources
+              <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${resourcesOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {resourcesOpen && (
+              <div ref={resourcesPanelRef} className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[480px] bg-white border border-gray-200 rounded-xl shadow-lg z-50 overflow-hidden">
+                <PanelHeader label="Resources" href="/resources" onClose={() => setResourcesOpen(false)} />
+                <div className="p-3 grid grid-cols-2 gap-px">
+                  {resourcePillars.map(({ slug, icon: Icon, title, desc }) => (
+                    <Link
+                      key={slug} href={`/resources/${slug}`}
+                      onClick={() => setResourcesOpen(false)}
+                      className="group flex items-start gap-3 px-3 py-3 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                      <Icon className="w-4 h-4 text-gray-400 group-hover:text-orange-500 mt-0.5 flex-shrink-0 transition-colors" strokeWidth={1.75} />
+                      <div>
+                        <p className="text-[13px] font-medium text-gray-800 group-hover:text-orange-500 leading-tight">{title}</p>
+                        <p className="text-[12px] text-gray-400 mt-0.5 leading-snug">{desc}</p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+        </nav>
+
+        {/* Desktop auth */}
+        <div className="hidden md:flex items-center gap-2 flex-shrink-0">
+          {isLoggedIn ? (
+            <>
+              <Link href="/dashboard">
+                <Button variant="outline" size="sm" className="text-[13px]">Dashboard</Button>
+              </Link>
+              <Button variant="ghost" size="sm" onClick={handleLogout} className="text-[13px] text-gray-500 hover:text-gray-900">
+                <LogOut className="h-3.5 w-3.5 mr-1.5" />Log out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link href="/auth/login">
+                <Button variant="ghost" size="sm" className="text-[13px] text-gray-600 hover:text-gray-900">Log in</Button>
+              </Link>
+              <Link href="/builder">
+                <Button size="sm" className="text-[13px] bg-orange-500 hover:bg-orange-600 text-white shadow-none border-0 px-4">
+                  Get started free
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
+
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden p-1.5 text-gray-600 hover:text-gray-900 rounded-md transition-colors"
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
 
-      {/* ── Mobile drawer ──────────────────────────────────────────────────── */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-100 bg-white">
-          <nav className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-0.5">
+      {/* ── Mobile drawer ──────────────────────────────────────────────── */}
+      {mobileOpen && (
+        <div className="md:hidden border-t border-gray-200 bg-white">
+          <nav className="px-4 py-3 flex flex-col">
 
-            <Link href="/features" className="px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMobileMenuOpen(false)}>Features</Link>
+            <MobileLink href="/features" onClick={() => setMobileOpen(false)}>Features</MobileLink>
 
-            {/* Mobile solutions */}
-            <button onClick={() => setMobileSolutionsOpen(!mobileSolutionsOpen)} className="flex items-center justify-between px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg w-full text-left">
-              Solutions
-              <ChevronDown className={`w-4 h-4 transition-transform ${mobileSolutionsOpen ? 'rotate-180' : ''}`} />
-            </button>
-            {mobileSolutionsOpen && (
-              <div className="ml-2 space-y-0.5 border-l-2 border-orange-100 pl-3">
-                {solutionItems.map(item => {
-                  const Icon = item.icon
-                  return (
-                    <Link key={item.href} href={item.href} onClick={() => { setMobileMenuOpen(false); setMobileSolutionsOpen(false) }}
-                      className="flex items-center gap-2.5 px-2 py-2 text-sm text-gray-600 hover:text-orange-600 rounded-lg hover:bg-orange-50 transition-colors">
-                      <div className={`w-7 h-7 rounded-lg bg-gradient-to-br ${item.gradient} flex items-center justify-center flex-shrink-0`}>
-                        <Icon className="w-3.5 h-3.5 text-white" />
-                      </div>
-                      {item.title}
-                    </Link>
-                  )
-                })}
-                <Link href="/solutions" onClick={() => { setMobileMenuOpen(false); setMobileSolutionsOpen(false) }} className="flex items-center gap-1 px-2 py-2 text-sm font-semibold text-orange-600">
-                  All solutions <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            )}
+            {/* Solutions accordion */}
+            <MobileAccordion
+              label="Solutions"
+              open={mobileSolutions}
+              onToggle={() => setMobileSolutions(v => !v)}
+            >
+              {solutionItems.map(({ href, icon: Icon, title }) => (
+                <MobileSubLink key={href} href={href} icon={Icon} onClick={() => { setMobileOpen(false); setMobileSolutions(false) }}>
+                  {title}
+                </MobileSubLink>
+              ))}
+              <Link href="/solutions" onClick={() => { setMobileOpen(false); setMobileSolutions(false) }}
+                className="flex items-center gap-1 px-2 py-2 text-[13px] font-medium text-orange-500 hover:text-orange-600">
+                View all solutions <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </MobileAccordion>
 
-            {/* Mobile industries */}
-            <button onClick={() => setMobileIndustriesOpen(!mobileIndustriesOpen)} className="flex items-center justify-between px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg w-full text-left">
-              Industries
-              <ChevronDown className={`w-4 h-4 transition-transform ${mobileIndustriesOpen ? 'rotate-180' : ''}`} />
-            </button>
-            {mobileIndustriesOpen && (
-              <div className="ml-2 space-y-0.5 border-l-2 border-indigo-100 pl-3">
-                {industryItems.map(item => {
-                  const Icon = item.icon
-                  return (
-                    <Link key={item.href} href={item.href} onClick={() => { setMobileMenuOpen(false); setMobileIndustriesOpen(false) }}
-                      className="flex items-center gap-2.5 px-2 py-2 text-sm text-gray-600 hover:text-orange-600 rounded-lg hover:bg-orange-50 transition-colors">
-                      <div className={`w-7 h-7 rounded-lg bg-gradient-to-br ${item.gradient} flex items-center justify-center flex-shrink-0`}>
-                        <Icon className="w-3.5 h-3.5 text-white" />
-                      </div>
-                      {item.title}
-                    </Link>
-                  )
-                })}
-                <Link href="/industries" onClick={() => { setMobileMenuOpen(false); setMobileIndustriesOpen(false) }} className="flex items-center gap-1 px-2 py-2 text-sm font-semibold text-indigo-600">
-                  All industries <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            )}
+            {/* Industries accordion */}
+            <MobileAccordion
+              label="Industries"
+              open={mobileIndustries}
+              onToggle={() => setMobileIndustries(v => !v)}
+            >
+              {industryItems.map(({ href, icon: Icon, title }) => (
+                <MobileSubLink key={href} href={href} icon={Icon} onClick={() => { setMobileOpen(false); setMobileIndustries(false) }}>
+                  {title}
+                </MobileSubLink>
+              ))}
+              <Link href="/industries" onClick={() => { setMobileOpen(false); setMobileIndustries(false) }}
+                className="flex items-center gap-1 px-2 py-2 text-[13px] font-medium text-orange-500 hover:text-orange-600">
+                View all industries <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </MobileAccordion>
 
-            <Link href="/templates" className="px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMobileMenuOpen(false)}>Templates</Link>
-            <Link href="/pricing" className="px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMobileMenuOpen(false)}>Pricing</Link>
+            <MobileLink href="/templates" onClick={() => setMobileOpen(false)}>Templates</MobileLink>
+            <MobileLink href="/pricing"   onClick={() => setMobileOpen(false)}>Pricing</MobileLink>
 
-            {/* Mobile resources */}
-            <button onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)} className="flex items-center justify-between px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg w-full text-left">
-              Resources
-              <ChevronDown className={`w-4 h-4 transition-transform ${mobileResourcesOpen ? 'rotate-180' : ''}`} />
-            </button>
-            {mobileResourcesOpen && (
-              <div className="ml-2 space-y-0.5 border-l-2 border-purple-100 pl-3">
-                {resourcePillars.map(p => {
-                  const Icon = p.icon
-                  return (
-                    <Link key={p.slug} href={`/resources/${p.slug}`} onClick={() => { setMobileMenuOpen(false); setMobileResourcesOpen(false) }}
-                      className="flex items-center gap-2.5 px-2 py-2 text-sm text-gray-600 hover:text-orange-600 rounded-lg hover:bg-orange-50 transition-colors">
-                      <div className={`w-7 h-7 rounded-lg bg-gradient-to-br ${p.gradient} flex items-center justify-center flex-shrink-0`}>
-                        <Icon className="w-3.5 h-3.5 text-white" />
-                      </div>
-                      {p.title}
-                    </Link>
-                  )
-                })}
-                <Link href="/resources" onClick={() => { setMobileMenuOpen(false); setMobileResourcesOpen(false) }} className="flex items-center gap-1 px-2 py-2 text-sm font-semibold text-purple-600">
-                  All guides <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            )}
+            {/* Resources accordion */}
+            <MobileAccordion
+              label="Resources"
+              open={mobileResources}
+              onToggle={() => setMobileResources(v => !v)}
+            >
+              {resourcePillars.map(({ slug, icon: Icon, title }) => (
+                <MobileSubLink key={slug} href={`/resources/${slug}`} icon={Icon} onClick={() => { setMobileOpen(false); setMobileResources(false) }}>
+                  {title}
+                </MobileSubLink>
+              ))}
+              <Link href="/resources" onClick={() => { setMobileOpen(false); setMobileResources(false) }}
+                className="flex items-center gap-1 px-2 py-2 text-[13px] font-medium text-orange-500 hover:text-orange-600">
+                View all guides <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </MobileAccordion>
 
-            <Link href="/about" className="px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMobileMenuOpen(false)}>About</Link>
-            <Link href="/contact" className="px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
+            <MobileLink href="/about"   onClick={() => setMobileOpen(false)}>About</MobileLink>
+            <MobileLink href="/contact" onClick={() => setMobileOpen(false)}>Contact</MobileLink>
 
-            <div className="border-t border-gray-100 pt-3 mt-2 flex flex-col gap-2">
+            <div className="mt-3 pt-3 border-t border-gray-100 flex flex-col gap-2">
               {isLoggedIn ? (
                 <>
-                  <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="outline" className="w-full">My Forms</Button>
+                  <Link href="/dashboard" onClick={() => setMobileOpen(false)}>
+                    <Button variant="outline" className="w-full text-[13px]">Dashboard</Button>
                   </Link>
-                  <Button variant="ghost" className="w-full justify-center" onClick={() => { handleLogout(); setMobileMenuOpen(false) }}>
-                    <LogOut className="h-4 w-4 mr-2" />Logout
+                  <Button variant="ghost" className="w-full text-[13px] text-gray-500"
+                    onClick={() => { handleLogout(); setMobileOpen(false) }}>
+                    <LogOut className="h-4 w-4 mr-2" />Log out
                   </Button>
                 </>
               ) : (
                 <>
-                  <Link href="/auth/login" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="outline" className="w-full">Login</Button>
+                  <Link href="/auth/login" onClick={() => setMobileOpen(false)}>
+                    <Button variant="outline" className="w-full text-[13px]">Log in</Button>
                   </Link>
-                  <Link href="/builder" onClick={() => setMobileMenuOpen(false)}>
-                    <Button className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 border-0">
-                      Start Free →
-                    </Button>
+                  <Link href="/builder" onClick={() => setMobileOpen(false)}>
+                    <Button className="w-full text-[13px] bg-orange-500 hover:bg-orange-600 border-0">Get started free</Button>
                   </Link>
                 </>
               )}
@@ -542,5 +346,40 @@ export default function Header() {
         </div>
       )}
     </header>
+  )
+}
+
+// ─── Mobile helper components ─────────────────────────────────────────────────
+
+function MobileLink({ href, onClick, children }: { href: string; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <Link href={href} onClick={onClick} className="px-2 py-2.5 text-[13px] text-gray-700 hover:text-gray-900 rounded-lg hover:bg-gray-50 transition-colors">
+      {children}
+    </Link>
+  )
+}
+
+function MobileAccordion({ label, open, onToggle, children }: { label: string; open: boolean; onToggle: () => void; children: React.ReactNode }) {
+  return (
+    <>
+      <button onClick={onToggle} className="flex items-center justify-between px-2 py-2.5 text-[13px] text-gray-700 hover:text-gray-900 rounded-lg hover:bg-gray-50 w-full text-left transition-colors">
+        {label}
+        <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+      </button>
+      {open && (
+        <div className="ml-3 pl-3 border-l border-gray-100 mb-1 flex flex-col gap-0.5">
+          {children}
+        </div>
+      )}
+    </>
+  )
+}
+
+function MobileSubLink({ href, icon: Icon, onClick, children }: { href: string; icon: React.ElementType; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <Link href={href} onClick={onClick} className="group flex items-center gap-2.5 px-2 py-2 text-[13px] text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-50 transition-colors">
+      <Icon className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 flex-shrink-0 transition-colors" strokeWidth={1.75} />
+      {children}
+    </Link>
   )
 }
