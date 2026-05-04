@@ -5,8 +5,8 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 py-8 md:py-12 px-4">
       <div className="container mx-auto">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 md:gap-8 mb-8">
-          <div className="sm:col-span-2 md:col-span-1">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-6 md:gap-8 mb-8">
+          <div className="col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-1">
             <div className="mb-3 md:mb-4">
               <Logo href="/" size="md" dark />
             </div>
@@ -20,6 +20,27 @@ export default function Footer() {
               <li><Link href="#features" className="hover:text-white transition">Features</Link></li>
               <li><Link href="/templates" className="hover:text-white transition">Templates</Link></li>
               <li><Link href="/builder" className="hover:text-white transition">Form Builder</Link></li>
+              <li><Link href="/pricing" className="hover:text-white transition">Pricing</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-white font-semibold mb-3 md:mb-4">Solutions</h3>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="/solutions/lead-generation" className="hover:text-white transition">Lead Generation</Link></li>
+              <li><Link href="/solutions/customer-feedback" className="hover:text-white transition">Customer Feedback</Link></li>
+              <li><Link href="/solutions/event-registration" className="hover:text-white transition">Event Registration</Link></li>
+              <li><Link href="/solutions/job-applications" className="hover:text-white transition">Job Applications</Link></li>
+              <li><Link href="/solutions" className="hover:text-white transition">All Solutions</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-white font-semibold mb-3 md:mb-4">Industries</h3>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="/industries/restaurants-food" className="hover:text-white transition">Restaurants</Link></li>
+              <li><Link href="/industries/healthcare-clinics" className="hover:text-white transition">Healthcare</Link></li>
+              <li><Link href="/industries/education-coaching" className="hover:text-white transition">Education</Link></li>
+              <li><Link href="/industries/real-estate" className="hover:text-white transition">Real Estate</Link></li>
+              <li><Link href="/industries" className="hover:text-white transition">All Industries</Link></li>
             </ul>
           </div>
           <div>

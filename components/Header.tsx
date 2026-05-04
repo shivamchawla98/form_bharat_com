@@ -4,7 +4,13 @@ import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Menu, X, LogOut, ChevronDown, ArrowRight, Target, BarChart2, Layers, Building2, MessageCircle, TrendingUp } from 'lucide-react'
+import {
+  Menu, X, LogOut, ChevronDown, ArrowRight,
+  Target, BarChart2, Layers, Building2, MessageCircle, TrendingUp,
+  MessageSquare, CalendarCheck, Briefcase, ShoppingBag, IndianRupee,
+  UtensilsCrossed, Stethoscope, GraduationCap, ShoppingCart,
+  Users, PartyPopper, Heart,
+} from 'lucide-react'
 import { Logo } from '@/components/Logo'
 import { clearSession } from '@/lib/getToken'
 
@@ -59,14 +65,141 @@ const resourcePillars = [
   },
 ]
 
+const solutionItems = [
+  {
+    href: '/solutions/lead-generation',
+    icon: Target,
+    iconBg: 'bg-orange-100',
+    iconColor: 'text-orange-600',
+    title: 'Lead Generation',
+    desc: 'Capture leads from web, WhatsApp, and events',
+  },
+  {
+    href: '/solutions/customer-feedback',
+    icon: MessageSquare,
+    iconBg: 'bg-blue-100',
+    iconColor: 'text-blue-600',
+    title: 'Customer Feedback',
+    desc: 'NPS, CSAT, and product feedback',
+  },
+  {
+    href: '/solutions/event-registration',
+    icon: CalendarCheck,
+    iconBg: 'bg-purple-100',
+    iconColor: 'text-purple-600',
+    title: 'Event Registration',
+    desc: 'Registrations with payment collection',
+  },
+  {
+    href: '/solutions/job-applications',
+    icon: Briefcase,
+    iconBg: 'bg-emerald-100',
+    iconColor: 'text-emerald-600',
+    title: 'Job Applications',
+    desc: 'Structured hiring and screening forms',
+  },
+  {
+    href: '/solutions/order-forms',
+    icon: ShoppingBag,
+    iconBg: 'bg-amber-100',
+    iconColor: 'text-amber-600',
+    title: 'Order & Booking Forms',
+    desc: 'Orders and appointments online',
+  },
+  {
+    href: '/solutions/payment-collection',
+    icon: IndianRupee,
+    iconBg: 'bg-green-100',
+    iconColor: 'text-green-600',
+    title: 'Payment Collection',
+    desc: 'UPI + card payments inside your forms',
+  },
+]
+
+const industryItems = [
+  {
+    href: '/industries/restaurants-food',
+    icon: UtensilsCrossed,
+    iconBg: 'bg-orange-100',
+    iconColor: 'text-orange-600',
+    title: 'Restaurants & Food',
+    desc: 'Orders, feedback, reservations',
+  },
+  {
+    href: '/industries/healthcare-clinics',
+    icon: Stethoscope,
+    iconBg: 'bg-red-100',
+    iconColor: 'text-red-600',
+    title: 'Healthcare & Clinics',
+    desc: 'Patient forms and appointments',
+  },
+  {
+    href: '/industries/education-coaching',
+    icon: GraduationCap,
+    iconBg: 'bg-blue-100',
+    iconColor: 'text-blue-600',
+    title: 'Education & Coaching',
+    desc: 'Admissions, fees, and feedback',
+  },
+  {
+    href: '/industries/real-estate',
+    icon: Building2,
+    iconBg: 'bg-emerald-100',
+    iconColor: 'text-emerald-600',
+    title: 'Real Estate & Brokers',
+    desc: 'Leads, site visits, buyer surveys',
+  },
+  {
+    href: '/industries/retail-ecommerce',
+    icon: ShoppingCart,
+    iconBg: 'bg-purple-100',
+    iconColor: 'text-purple-600',
+    title: 'Retail & E-commerce',
+    desc: 'Orders, returns, loyalty signups',
+  },
+  {
+    href: '/industries/hr-recruitment',
+    icon: Users,
+    iconBg: 'bg-indigo-100',
+    iconColor: 'text-indigo-600',
+    title: 'HR & Recruitment',
+    desc: 'Applications, onboarding, exit surveys',
+  },
+  {
+    href: '/industries/events-weddings',
+    icon: PartyPopper,
+    iconBg: 'bg-pink-100',
+    iconColor: 'text-pink-600',
+    title: 'Events & Weddings',
+    desc: 'RSVPs, vendor forms, payments',
+  },
+  {
+    href: '/industries/nonprofits',
+    icon: Heart,
+    iconBg: 'bg-rose-100',
+    iconColor: 'text-rose-600',
+    title: 'NGOs & Non-profits',
+    desc: 'Volunteers, beneficiaries, donations',
+  },
+]
+
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [resourcesOpen, setResourcesOpen] = useState(false)
+  const [solutionsOpen, setSolutionsOpen] = useState(false)
+  const [industriesOpen, setIndustriesOpen] = useState(false)
   const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false)
+  const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false)
+  const [mobileIndustriesOpen, setMobileIndustriesOpen] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const router = useRouter()
+
   const megaMenuRef = useRef<HTMLDivElement>(null)
   const resourcesBtnRef = useRef<HTMLButtonElement>(null)
+  const solutionsMenuRef = useRef<HTMLDivElement>(null)
+  const solutionsBtnRef = useRef<HTMLButtonElement>(null)
+  const industriesMenuRef = useRef<HTMLDivElement>(null)
+  const industriesBtnRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -75,11 +208,24 @@ export default function Header() {
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
+      const target = e.target as Node
       if (
-        megaMenuRef.current && !megaMenuRef.current.contains(e.target as Node) &&
-        resourcesBtnRef.current && !resourcesBtnRef.current.contains(e.target as Node)
+        megaMenuRef.current && !megaMenuRef.current.contains(target) &&
+        resourcesBtnRef.current && !resourcesBtnRef.current.contains(target)
       ) {
         setResourcesOpen(false)
+      }
+      if (
+        solutionsMenuRef.current && !solutionsMenuRef.current.contains(target) &&
+        solutionsBtnRef.current && !solutionsBtnRef.current.contains(target)
+      ) {
+        setSolutionsOpen(false)
+      }
+      if (
+        industriesMenuRef.current && !industriesMenuRef.current.contains(target) &&
+        industriesBtnRef.current && !industriesBtnRef.current.contains(target)
+      ) {
+        setIndustriesOpen(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -105,6 +251,115 @@ export default function Header() {
             <Link href="/features" className="px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">
               Features
             </Link>
+
+            {/* Solutions mega menu */}
+            <div className="relative">
+              <button
+                ref={solutionsBtnRef}
+                onClick={() => { setSolutionsOpen(!solutionsOpen); setResourcesOpen(false); setIndustriesOpen(false) }}
+                className={`flex items-center gap-1 px-3 py-2 text-sm rounded-lg transition-colors ${
+                  solutionsOpen ? 'text-orange-600 bg-orange-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                }`}
+              >
+                Solutions
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${solutionsOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {solutionsOpen && (
+                <div
+                  ref={solutionsMenuRef}
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[480px] bg-white rounded-2xl shadow-xl border border-gray-100 p-5 z-50"
+                >
+                  <div className="grid grid-cols-2 gap-2 mb-4">
+                    {solutionItems.map((item) => {
+                      const Icon = item.icon
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setSolutionsOpen(false)}
+                          className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 group transition-colors"
+                        >
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${item.iconBg}`}>
+                            <Icon className={`w-4 h-4 ${item.iconColor}`} />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-gray-800 group-hover:text-orange-600 transition-colors leading-tight">
+                              {item.title}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-0.5 leading-snug">{item.desc}</p>
+                          </div>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                  <div className="border-t border-gray-100 pt-3 flex justify-end">
+                    <Link
+                      href="/solutions"
+                      onClick={() => setSolutionsOpen(false)}
+                      className="flex items-center gap-1 text-xs font-semibold text-orange-600 hover:text-orange-700 transition-colors"
+                    >
+                      All solutions <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Industries mega menu */}
+            <div className="relative">
+              <button
+                ref={industriesBtnRef}
+                onClick={() => { setIndustriesOpen(!industriesOpen); setResourcesOpen(false); setSolutionsOpen(false) }}
+                className={`flex items-center gap-1 px-3 py-2 text-sm rounded-lg transition-colors ${
+                  industriesOpen ? 'text-orange-600 bg-orange-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                }`}
+              >
+                Industries
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${industriesOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {industriesOpen && (
+                <div
+                  ref={industriesMenuRef}
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[560px] bg-white rounded-2xl shadow-xl border border-gray-100 p-5 z-50"
+                >
+                  <div className="grid grid-cols-2 gap-2 mb-4">
+                    {industryItems.map((item) => {
+                      const Icon = item.icon
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setIndustriesOpen(false)}
+                          className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 group transition-colors"
+                        >
+                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${item.iconBg}`}>
+                            <Icon className={`w-4 h-4 ${item.iconColor}`} />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-gray-800 group-hover:text-orange-600 transition-colors leading-tight">
+                              {item.title}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-0.5 leading-snug">{item.desc}</p>
+                          </div>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                  <div className="border-t border-gray-100 pt-3 flex justify-end">
+                    <Link
+                      href="/industries"
+                      onClick={() => setIndustriesOpen(false)}
+                      className="flex items-center gap-1 text-xs font-semibold text-orange-600 hover:text-orange-700 transition-colors"
+                    >
+                      All industries <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+
             <Link href="/templates" className="px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">
               Templates
             </Link>
@@ -113,7 +368,7 @@ export default function Header() {
             <div className="relative">
               <button
                 ref={resourcesBtnRef}
-                onClick={() => setResourcesOpen(!resourcesOpen)}
+                onClick={() => { setResourcesOpen(!resourcesOpen); setSolutionsOpen(false); setIndustriesOpen(false) }}
                 className={`flex items-center gap-1 px-3 py-2 text-sm rounded-lg transition-colors ${
                   resourcesOpen ? 'text-orange-600 bg-orange-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                 }`}
@@ -222,6 +477,79 @@ export default function Header() {
             <Link href="/features" className="px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMobileMenuOpen(false)}>
               Features
             </Link>
+
+            {/* Mobile solutions accordion */}
+            <button
+              onClick={() => setMobileSolutionsOpen(!mobileSolutionsOpen)}
+              className="flex items-center justify-between px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg w-full text-left"
+            >
+              Solutions
+              <ChevronDown className={`w-4 h-4 transition-transform ${mobileSolutionsOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {mobileSolutionsOpen && (
+              <div className="ml-4 space-y-1 border-l-2 border-orange-100 pl-3">
+                {solutionItems.map((item) => {
+                  const Icon = item.icon
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => { setMobileMenuOpen(false); setMobileSolutionsOpen(false) }}
+                      className="flex items-center gap-2 px-2 py-2 text-sm text-gray-600 hover:text-orange-600 rounded-lg hover:bg-orange-50 transition-colors"
+                    >
+                      <div className={`w-6 h-6 rounded flex items-center justify-center flex-shrink-0 ${item.iconBg}`}>
+                        <Icon className={`w-3.5 h-3.5 ${item.iconColor}`} />
+                      </div>
+                      {item.title}
+                    </Link>
+                  )
+                })}
+                <Link
+                  href="/solutions"
+                  onClick={() => { setMobileMenuOpen(false); setMobileSolutionsOpen(false) }}
+                  className="flex items-center gap-1 px-2 py-2 text-sm font-semibold text-orange-600"
+                >
+                  All solutions <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            )}
+
+            {/* Mobile industries accordion */}
+            <button
+              onClick={() => setMobileIndustriesOpen(!mobileIndustriesOpen)}
+              className="flex items-center justify-between px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg w-full text-left"
+            >
+              Industries
+              <ChevronDown className={`w-4 h-4 transition-transform ${mobileIndustriesOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {mobileIndustriesOpen && (
+              <div className="ml-4 space-y-1 border-l-2 border-orange-100 pl-3">
+                {industryItems.map((item) => {
+                  const Icon = item.icon
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => { setMobileMenuOpen(false); setMobileIndustriesOpen(false) }}
+                      className="flex items-center gap-2 px-2 py-2 text-sm text-gray-600 hover:text-orange-600 rounded-lg hover:bg-orange-50 transition-colors"
+                    >
+                      <div className={`w-6 h-6 rounded flex items-center justify-center flex-shrink-0 ${item.iconBg}`}>
+                        <Icon className={`w-3.5 h-3.5 ${item.iconColor}`} />
+                      </div>
+                      {item.title}
+                    </Link>
+                  )
+                })}
+                <Link
+                  href="/industries"
+                  onClick={() => { setMobileMenuOpen(false); setMobileIndustriesOpen(false) }}
+                  className="flex items-center gap-1 px-2 py-2 text-sm font-semibold text-orange-600"
+                >
+                  All industries <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            )}
+
             <Link href="/templates" className="px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMobileMenuOpen(false)}>
               Templates
             </Link>
