@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -169,6 +170,22 @@ const differentiators = [
     desc: 'Accept UPI and card payments directly inside your form. Powered by Razorpay. No separate payment link.',
   },
 ]
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const ind = industries[slug]
+  if (!ind) return {}
+  return {
+    title: `${ind.badge} Forms — ${ind.headline.split('—')[0].trim()}`,
+    description: ind.sub,
+    alternates: { canonical: `https://formbharat.com/industries/${slug}` },
+    openGraph: {
+      title: `${ind.badge} Forms | FormBharat`,
+      description: ind.sub,
+      url: `https://formbharat.com/industries/${slug}`,
+    },
+  }
+}
 
 export default async function IndustryDetailPage({
   params,

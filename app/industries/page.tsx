@@ -1,8 +1,25 @@
+import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import AnimatedSection from '@/components/AnimatedSection'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+
+export const metadata: Metadata = {
+  title: 'Industries — Form Builder for Every Sector in India',
+  description: 'FormBharat serves restaurants, clinics, schools, real estate agents, retailers, HR teams, event planners, and NGOs across India — with forms built for how they actually work.',
+  alternates: { canonical: 'https://formbharat.com/industries' },
+  openGraph: {
+    title: 'Industries — Form Builder for Every Sector | FormBharat',
+    description: 'Forms tailored for restaurants, healthcare, education, real estate, retail, HR, events, and non-profits in India. Free and AI-powered.',
+    url: 'https://formbharat.com/industries',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Industries — Form Builder for Every Sector | FormBharat',
+    description: 'Forms for restaurants, clinics, schools, real estate, retail, HR, events, and NGOs across India.',
+  },
+}
 import {
   UtensilsCrossed, Stethoscope, GraduationCap, Building2,
   ShoppingCart, Users, PartyPopper, Heart,

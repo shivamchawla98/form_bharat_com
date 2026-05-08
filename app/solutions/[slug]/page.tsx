@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -156,6 +157,22 @@ function colorClasses(color: string) {
     green:   { bg: 'bg-green-50',   text: 'text-green-600',   badge: 'bg-green-50 border-green-200 text-green-600',    border: 'border-green-200',  circle: 'bg-green-500'  },
   }
   return map[color] ?? map['orange']
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const s = solutions[slug]
+  if (!s) return {}
+  return {
+    title: s.headline,
+    description: s.sub,
+    alternates: { canonical: `https://formbharat.com/solutions/${slug}` },
+    openGraph: {
+      title: `${s.headline} | FormBharat`,
+      description: s.sub,
+      url: `https://formbharat.com/solutions/${slug}`,
+    },
+  }
 }
 
 export default async function SolutionDetailPage({

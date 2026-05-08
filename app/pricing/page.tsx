@@ -1,8 +1,20 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { CheckCircle, ArrowRight } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import AnimatedSection from '@/components/AnimatedSection'
+
+export const metadata: Metadata = {
+  title: 'Pricing — Free AI Form Builder, Forever',
+  description: 'FormBharat is free for early access users. Unlimited forms, unlimited responses, AI form generator, UPI payments, WhatsApp sharing — no credit card required.',
+  alternates: { canonical: 'https://formbharat.com/pricing' },
+  openGraph: {
+    title: 'Pricing — Free AI Form Builder | FormBharat',
+    description: 'Get every feature free during early access — unlimited forms, AI generation, UPI payments, Google Sheets sync, and more. No credit card needed.',
+    url: 'https://formbharat.com/pricing',
+  },
+}
 import { Button } from '@/components/ui/button'
 
 const freeFeatures = [

@@ -1,8 +1,25 @@
+import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import AnimatedSection from '@/components/AnimatedSection'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+
+export const metadata: Metadata = {
+  title: 'Solutions — Forms for Every Business Need',
+  description: 'From lead generation to payment collection — discover how FormBharat powers the workflows that matter most to Indian businesses. Free, WhatsApp-ready, India-built.',
+  alternates: { canonical: 'https://formbharat.com/solutions' },
+  openGraph: {
+    title: 'Solutions — Forms for Every Business Need | FormBharat',
+    description: 'Lead generation, feedback, event registration, job applications, order forms, and UPI payment collection — one free form builder built for India.',
+    url: 'https://formbharat.com/solutions',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Solutions — Forms for Every Business Need | FormBharat',
+    description: 'Lead generation, feedback, event registration, orders, and UPI payments — all in one free form builder for India.',
+  },
+}
 import {
   Target, MessageSquare, CalendarCheck, Briefcase,
   ShoppingBag, IndianRupee, ArrowRight, Sparkles, Zap, MessageCircle,
