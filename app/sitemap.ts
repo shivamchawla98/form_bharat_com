@@ -55,6 +55,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
     {
+      url: `${baseUrl}/pricing`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/builder`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
@@ -89,6 +95,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.5,
   }))
 
+  // Solutions
+  const solutionsPages = [
+    { url: `${baseUrl}/solutions`, priority: 0.9, changeFrequency: 'weekly' as const },
+    { url: `${baseUrl}/solutions/lead-generation`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${baseUrl}/solutions/customer-feedback`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${baseUrl}/solutions/event-registration`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${baseUrl}/solutions/job-applications`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${baseUrl}/solutions/order-forms`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${baseUrl}/solutions/payment-collection`, priority: 0.8, changeFrequency: 'monthly' as const },
+  ].map(p => ({ ...p, lastModified: new Date() }))
+
+  // Industries
+  const industriesPages = [
+    { url: `${baseUrl}/industries`, priority: 0.9, changeFrequency: 'weekly' as const },
+    { url: `${baseUrl}/industries/restaurants-food`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${baseUrl}/industries/healthcare-clinics`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${baseUrl}/industries/education-coaching`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${baseUrl}/industries/real-estate`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${baseUrl}/industries/retail-ecommerce`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${baseUrl}/industries/hr-recruitment`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${baseUrl}/industries/events-weddings`, priority: 0.8, changeFrequency: 'monthly' as const },
+    { url: `${baseUrl}/industries/nonprofits`, priority: 0.8, changeFrequency: 'monthly' as const },
+  ].map(p => ({ ...p, lastModified: new Date() }))
+
   // Resources hub
   const resourcesHub = [
     {
@@ -117,5 +147,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   )
 
-  return [...staticPages, ...helpArticles, ...resourcesHub, ...resourcesPillars, ...resourcesArticles]
+  return [
+    ...staticPages,
+    ...solutionsPages,
+    ...industriesPages,
+    ...helpArticles,
+    ...resourcesHub,
+    ...resourcesPillars,
+    ...resourcesArticles,
+  ]
 }
