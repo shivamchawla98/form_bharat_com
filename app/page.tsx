@@ -49,29 +49,41 @@ export default function Home() {
       <Header />
 
       {/* ── HERO ── */}
-      <section className="bg-orange-50 px-4 pt-16 md:pt-24 pb-20 md:pb-28">
-        <div className="container mx-auto">
-          <div className="flex justify-center mb-7">
-            <span className="inline-flex items-center gap-1.5 bg-white border border-orange-200 text-orange-600 px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm">
-              <Sparkles className="h-3 w-3" />
-              AI-Powered · Open Source · Made for India
-            </span>
+      <section className="bg-orange-50 px-4 pt-16 md:pt-20 pb-16 md:pb-24 overflow-hidden">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-16 items-center">
+
+            {/* Left: copy + prompt */}
+            <div>
+              <div className="flex mb-6">
+                <span className="inline-flex items-center gap-1.5 bg-white border border-orange-200 text-orange-600 px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm">
+                  <Sparkles className="h-3 w-3" />
+                  AI-Powered · Open Source · Made for India
+                </span>
+              </div>
+              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 leading-[1.1] mb-4">
+                Create any form{' '}
+                <span className="text-orange-500">in seconds</span>
+                {' '}with AI
+              </h1>
+              <p className="text-gray-500 text-base sm:text-lg leading-relaxed mb-8 max-w-md">
+                Describe what you need — AI builds a complete, ready-to-share form instantly. WhatsApp-native, UPI-ready.
+              </p>
+              <HeroInput />
+              <p className="mt-4 text-xs text-gray-400">
+                No credit card required · Free forever · Made in India 🇮🇳
+              </p>
+            </div>
+
+            {/* Right: live product demo */}
+            <div className="hidden lg:block">
+              <HeroDemo />
+            </div>
           </div>
-          <div className="max-w-2xl mx-auto text-center mb-10">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1] mb-4">
-              Create any form{' '}
-              <span className="text-orange-500">in seconds</span>
-              {' '}with AI
-            </h1>
-            <p className="text-gray-500 text-base sm:text-lg max-w-md mx-auto leading-relaxed">
-              Describe what you need — AI builds a complete, professional form instantly.
-            </p>
-          </div>
-          <div className="max-w-lg mx-auto">
-            <HeroInput />
-            <p className="mt-4 text-center text-xs text-gray-400">
-              No credit card required · Free forever · Made in India 🇮🇳
-            </p>
+
+          {/* Mobile demo — shown below input on small screens */}
+          <div className="lg:hidden mt-10">
+            <HeroDemo />
           </div>
         </div>
       </section>
@@ -205,29 +217,6 @@ export default function Home() {
               )
             })}
           </div>
-        </div>
-      </section>
-
-      {/* ── AI DEMO ── */}
-      <section className="py-20 md:py-28 px-4">
-        <div className="container mx-auto max-w-5xl">
-          <AnimatedSection className="text-center mb-12">
-            <p className="text-xs font-semibold uppercase tracking-widest text-orange-500 mb-3">See it in action</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Watch AI build your form live</h2>
-            <p className="text-gray-500 mt-3 max-w-md mx-auto text-sm md:text-base">
-              This animation runs in real-time — exactly how it works when you use it.
-            </p>
-          </AnimatedSection>
-          <AnimatedSection>
-            <HeroDemo />
-          </AnimatedSection>
-          <AnimatedSection className="mt-8 text-center">
-            <Link href="/builder">
-              <Button variant="outline" className="border-orange-200 text-orange-600 hover:bg-orange-50 rounded-xl">
-                Try it yourself — it&apos;s free <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </AnimatedSection>
         </div>
       </section>
 
