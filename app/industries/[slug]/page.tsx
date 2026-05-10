@@ -171,6 +171,10 @@ const differentiators = [
   },
 ]
 
+export function generateStaticParams() {
+  return Object.keys(industries).map(slug => ({ slug }))
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const ind = industries[slug]

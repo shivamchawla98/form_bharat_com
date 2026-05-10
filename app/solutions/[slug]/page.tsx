@@ -159,6 +159,10 @@ function colorClasses(color: string) {
   return map[color] ?? map['orange']
 }
 
+export function generateStaticParams() {
+  return Object.keys(solutions).map(slug => ({ slug }))
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const s = solutions[slug]
