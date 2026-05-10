@@ -29,56 +29,56 @@ const solutions = [
   {
     slug: 'lead-generation',
     title: 'Lead Generation',
-    desc: 'Capture and qualify leads from your website, WhatsApp, and offline events.',
+    desc: 'Embed on your website or share via WhatsApp. Leads land in your dashboard with name, phone, and intent.',
     icon: Target,
     bg: 'bg-orange-50',
     color: 'text-orange-600',
-    stat: '3× more leads',
+    tag: 'Conditional logic',
   },
   {
     slug: 'customer-feedback',
     title: 'Customer Feedback',
-    desc: 'Collect CSAT, NPS, and product feedback from customers automatically.',
+    desc: 'Star ratings, NPS, open-ended questions — structured feedback you can actually act on.',
     icon: MessageSquare,
     bg: 'bg-blue-50',
     color: 'text-blue-600',
-    stat: '92% completion',
+    tag: 'Star ratings + NPS',
   },
   {
     slug: 'event-registration',
     title: 'Event Registration',
-    desc: 'Registrations, payments, and attendance — all in one form.',
+    desc: 'Collect attendee details and event fees in a single form. Works with UPI, cards, and net banking.',
     icon: CalendarCheck,
     bg: 'bg-purple-50',
     color: 'text-purple-600',
-    stat: 'UPI payments',
+    tag: 'Payments built in',
   },
   {
     slug: 'job-applications',
     title: 'Job Applications',
-    desc: 'Screen applicants faster with structured application forms and auto-notifications.',
+    desc: 'Structured forms with resume upload and screening questions. Stop reading unformatted emails.',
     icon: Briefcase,
     bg: 'bg-emerald-50',
     color: 'text-emerald-600',
-    stat: '70% faster screening',
+    tag: 'Resume upload',
   },
   {
     slug: 'order-forms',
     title: 'Order & Booking Forms',
-    desc: 'Take orders, bookings, and appointments online — with or without payment.',
+    desc: 'Takes orders online without a full e-commerce setup. Share the link, collect orders, get paid.',
     icon: ShoppingBag,
     bg: 'bg-amber-50',
     color: 'text-amber-600',
-    stat: 'Works offline too',
+    tag: 'No website needed',
   },
   {
     slug: 'payment-collection',
     title: 'Payment Collection',
-    desc: 'Collect UPI and card payments directly inside your forms. No separate payment link needed.',
+    desc: 'Add a payment field to any form. The money goes straight to your Razorpay — no extra step.',
     icon: IndianRupee,
     bg: 'bg-green-50',
     color: 'text-green-600',
-    stat: 'UPI + Cards',
+    tag: 'UPI + Cards',
   },
 ]
 
@@ -161,7 +161,7 @@ export default function SolutionsPage() {
                       <h3 className="font-semibold text-gray-900 text-base mb-2">{s.title}</h3>
                       <p className="text-sm text-gray-500 leading-relaxed mb-4 flex-1">{s.desc}</p>
                       <div className={`inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-full ${s.bg} ${s.color}`}>
-                        {s.stat}
+                        {s.tag}
                       </div>
                     </div>
                   </Link>

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import {
   CheckCircle2, ArrowRight, MessageSquare, IndianRupee,
-  ShieldCheck, Sparkles, Zap, Share2, Star,
+  ShieldCheck, Sparkles, Zap, Share2,
 } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -93,23 +93,23 @@ export default function Home() {
       <section className="py-16 px-4 border-b border-gray-100">
         <div className="container mx-auto max-w-4xl">
           <AnimatedSection className="text-center mb-10">
-            <p className="text-sm text-gray-400 font-medium">The problem with every form tool you&apos;ve tried</p>
+            <p className="text-sm text-gray-400 font-medium">You&apos;ve probably already tried one of these</p>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
               {
                 tool: 'Typeform', price: '$25/month',
-                problem: 'Starts free, then gates responses behind a paywall. No UPI, no WhatsApp, no Indian context.',
+                problem: 'Beautiful forms — until you hit 10 responses and the paywall appears. No UPI field. No WhatsApp button. Support has never heard of India.',
                 bg: 'bg-red-50', border: 'border-red-100', tag: 'text-red-400',
               },
               {
                 tool: 'Google Forms', price: 'Free',
-                problem: 'No conditional logic, no payments, no branding. Fine for a school survey, not for a business.',
+                problem: 'Works fine for a classroom quiz. But no payments, no conditional logic, no custom branding, and a UI that hasn\'t changed since 2014.',
                 bg: 'bg-yellow-50', border: 'border-yellow-100', tag: 'text-yellow-500',
               },
               {
                 tool: 'JotForm', price: '$34/month',
-                problem: 'Powerful but complex and expensive. Not designed for how India operates.',
+                problem: '74 field types. 34 dollars a month to unlock half of them. Their payment integrations don\'t include Razorpay. You\'ll figure that out after you sign up.',
                 bg: 'bg-slate-50', border: 'border-slate-100', tag: 'text-slate-400',
               },
             ].map((item, i) => (
@@ -122,7 +122,7 @@ export default function Home() {
                   <p className="text-xs text-gray-500 leading-relaxed flex-1 mb-4">{item.problem}</p>
                   <div className="flex items-center gap-1.5 text-xs text-gray-400 mt-auto">
                     <span className="w-3 h-3 rounded-full bg-red-200 flex items-center justify-center text-red-400 font-bold text-[9px]">✕</span>
-                    Not built for India
+                    No UPI. No WhatsApp. No India.
                   </div>
                 </div>
               </AnimatedSection>
@@ -137,31 +137,31 @@ export default function Home() {
           <AnimatedSection className="text-center mb-12">
             <p className="text-xs font-semibold uppercase tracking-widest text-orange-500 mb-3">So we built FormBharat</p>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              The only form builder that<br className="hidden md:block" /> truly understands India
+              Google Forms won&apos;t add UPI.<br className="hidden md:block" /> Typeform won&apos;t add WhatsApp. We did.
             </h2>
             <p className="text-gray-500 mt-3 max-w-lg mx-auto text-sm md:text-base">
-              Not adapted from a Western product. Built from scratch for how India actually works.
+              Because we&apos;re Indian. We use the same apps, pay the same way, and run the same kind of businesses you do.
             </p>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
               {
                 icon: MessageSquare, color: 'text-green-600', bg: 'bg-green-50', border: 'border-green-100',
-                badge: 'WhatsApp native', title: 'WhatsApp Sharing',
-                desc: 'Share forms directly to WhatsApp with one click. India has 500M+ WhatsApp users — meet them where they are.',
-                detail: 'Every public form gets a WhatsApp share button built in.',
+                badge: '500M+ users on WhatsApp', title: 'Share on WhatsApp',
+                desc: 'One tap and your form goes straight to WhatsApp. Respondents fill it on their phone — no app install, no account needed.',
+                detail: 'Every public form gets a WhatsApp share button automatically.',
               },
               {
                 icon: IndianRupee, color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100',
-                badge: 'UPI + Cards', title: 'Razorpay Payments',
-                desc: 'Add a payment field and collect fees via UPI, cards, and net banking — as part of the form submission flow.',
-                detail: 'Perfect for order forms, event fees, and service bookings.',
+                badge: 'UPI + Cards', title: 'Collect Payments Inside Forms',
+                desc: 'Add a payment field and the money goes directly to your Razorpay account. No separate payment link. No extra steps.',
+                detail: 'Works for event fees, order deposits, tuition, bookings — anything.',
               },
               {
                 icon: ShieldCheck, color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-100',
-                badge: '10K free/month', title: 'Phone OTP Verification',
-                desc: "Verify respondents' Indian mobile numbers with Firebase OTP before submission. Stop fake entries cold.",
-                detail: 'Powered by Firebase Authentication.',
+                badge: '10K OTPs free/month', title: 'Phone OTP Verification',
+                desc: 'Before a form submits, we SMS an OTP to the respondent\'s Indian number. Fake entries stop. Real responses only.',
+                detail: 'Powered by Firebase. First 10,000 verifications are free.',
               },
             ].map((item, i) => {
               const Icon = item.icon
@@ -197,9 +197,9 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
             <div className="hidden md:block absolute top-10 left-[calc(16.67%+1rem)] right-[calc(16.67%+1rem)] h-px border-t-2 border-dashed border-orange-200" />
             {[
-              { num: '1', icon: Sparkles, title: 'Describe', desc: 'Tell the AI what kind of form you need in plain English. No technical knowledge required.' },
-              { num: '2', icon: Zap,      title: 'Generate', desc: 'AI builds your complete form with the right fields and structure in under 10 seconds.' },
-              { num: '3', icon: Share2,   title: 'Share & Collect', desc: 'Share via WhatsApp, embed on your site, or use the link. Responses arrive in real-time.' },
+              { num: '1', icon: Sparkles, title: 'Describe it', desc: 'Type what you need. Something like "feedback form for my restaurant with star ratings and a comments box." That\'s all.' },
+              { num: '2', icon: Zap,      title: 'AI builds it', desc: 'The AI picks the right fields, order, and labels. Done in about 10 seconds. You can edit anything after.' },
+              { num: '3', icon: Share2,   title: 'Send it out', desc: 'Paste the link in WhatsApp, print a QR code, or embed it on your site. Responses land in your dashboard live.' },
             ].map((step, i) => {
               const Icon = step.icon
               return (
@@ -271,49 +271,52 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ── */}
+      {/* ── WHAT PEOPLE BUILD ── */}
       <section className="py-20 md:py-28 px-4 bg-white">
-        <div className="container mx-auto max-w-5xl">
-          <AnimatedSection className="text-center mb-12">
-            <p className="text-xs font-semibold uppercase tracking-widest text-orange-500 mb-3">Early users</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Loved by Indian businesses</h2>
+        <div className="container mx-auto max-w-4xl">
+          <AnimatedSection className="text-center mb-10">
+            <p className="text-xs font-semibold uppercase tracking-widest text-orange-500 mb-3">Real use cases</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">What people are building</h2>
+            <p className="text-gray-500 mt-3 max-w-md mx-auto text-sm md:text-base">
+              A small sample of forms created in the last 30 days.
+            </p>
           </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              {
-                quote: 'Finally a form tool that just works in India. Set up our restaurant feedback form in 2 minutes using AI. Customers love filling it via WhatsApp.',
-                name: 'Priya Sharma', role: 'Restaurant Owner, Pune', initials: 'PS', color: 'bg-orange-100 text-orange-700',
-              },
-              {
-                quote: 'We use it for event registrations. Conditional logic is powerful — attendees only see fields relevant to them. Switched from Typeform, saving ₹2,000/month.',
-                name: 'Rahul Verma', role: 'Event Organizer, Delhi', initials: 'RV', color: 'bg-blue-100 text-blue-700',
-              },
-              {
-                quote: 'The UPI payment field is a game-changer. We collect booking fees directly in the form. No separate payment link needed.',
-                name: 'Ananya Patel', role: 'Studio Owner, Bengaluru', initials: 'AP', color: 'bg-purple-100 text-purple-700',
-              },
-            ].map((t, i) => (
-              <AnimatedSection key={i} delay={i * 120}>
-                <div className="bg-white border border-gray-100 rounded-2xl p-6 hover:border-orange-100 hover:shadow-sm transition-all duration-300 h-full flex flex-col">
-                  <div className="flex gap-0.5 mb-4">
-                    {[...Array(5)].map((_, j) => (
-                      <Star key={j} className="h-3.5 w-3.5 text-orange-400 fill-orange-400" />
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed flex-1 mb-5">&quot;{t.quote}&quot;</p>
-                  <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${t.color}`}>
-                      {t.initials}
-                    </div>
-                    <div>
-                      <p className="text-xs font-semibold text-gray-800">{t.name}</p>
-                      <p className="text-xs text-gray-400">{t.role}</p>
-                    </div>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
+          <AnimatedSection>
+            <div className="flex flex-wrap gap-2.5 justify-center">
+              {[
+                'Restaurant feedback form',
+                'Workshop registration with UPI payment',
+                'Job application — delivery staff',
+                'Patient appointment booking',
+                'Coaching centre admission form',
+                'Product order form with COD option',
+                'Event RSVP + t-shirt size',
+                'Staff daily attendance sheet',
+                'Property site visit booking',
+                'Volunteer registration — NGO',
+                'Customer complaint form',
+                'Vendor onboarding checklist',
+                'Salon appointment booking',
+                'Student fee payment form',
+                'Return & exchange request',
+                'Donor details collection',
+              ].map((label) => (
+                <span
+                  key={label}
+                  className="inline-flex items-center bg-gray-50 border border-gray-200 text-gray-600 text-xs font-medium px-4 py-2 rounded-full"
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+          </AnimatedSection>
+          <AnimatedSection className="mt-10 text-center">
+            <Link href="/builder">
+              <Button variant="outline" className="border-orange-200 text-orange-600 hover:bg-orange-50 rounded-xl">
+                Build yours — it&apos;s free <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          </AnimatedSection>
         </div>
       </section>
 
