@@ -27,44 +27,42 @@ export default function OGImage() {
             backgroundColor: '#f97316',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            <div style={{ color: '#fff', fontSize: 22, fontWeight: 900 }}>F</div>
+            <span style={{ color: '#fff', fontSize: 22, fontWeight: 900 }}>F</span>
           </div>
-          <div style={{ fontSize: 26, fontWeight: 700, color: '#111827', letterSpacing: '-0.5px' }}>
+          <span style={{ fontSize: 26, fontWeight: 700, color: '#111827', letterSpacing: '-0.5px' }}>
             FormBharat
-          </div>
+          </span>
         </div>
 
-        {/* Headline */}
+        {/* Headline — flex wrap so mixed colors work inline */}
         <div style={{
+          display: 'flex', flexWrap: 'wrap', alignItems: 'baseline',
+          columnGap: 18, rowGap: 0,
           fontSize: 62, fontWeight: 800, color: '#111827',
           lineHeight: 1.1, marginBottom: 28, maxWidth: 900,
           letterSpacing: '-1.5px',
         }}>
-          {'Create any form '}
+          <span>Create any form</span>
           <span style={{ color: '#f97316' }}>in seconds</span>
-          {' with AI'}
+          <span>with AI</span>
         </div>
 
         {/* Sub */}
         <div style={{ fontSize: 24, color: '#6b7280', maxWidth: 680, lineHeight: 1.5, marginBottom: 52 }}>
-          Free AI form builder built for Indian businesses.
-          WhatsApp-native, UPI-ready, open source.
+          Free AI form builder built for Indian businesses. WhatsApp-native, UPI-ready, open source.
         </div>
 
         {/* Tags */}
         <div style={{ display: 'flex', gap: 14 }}>
-          {['🤖  AI-Powered', '🇮🇳  Made for India', '✅  Free Forever'].map(tag => (
-            <div key={tag} style={{
-              display: 'flex',
-              backgroundColor: '#fff7ed',
-              border: '1.5px solid #fed7aa',
-              borderRadius: 100,
-              padding: '10px 22px',
-              fontSize: 18, fontWeight: 600, color: '#ea580c',
-            }}>
-              {tag}
-            </div>
-          ))}
+          <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#fff7ed', border: '1.5px solid #fed7aa', borderRadius: 100, padding: '10px 22px', fontSize: 18, fontWeight: 600, color: '#ea580c' }}>
+            AI-Powered
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#fff7ed', border: '1.5px solid #fed7aa', borderRadius: 100, padding: '10px 22px', fontSize: 18, fontWeight: 600, color: '#ea580c' }}>
+            Made for India
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#fff7ed', border: '1.5px solid #fed7aa', borderRadius: 100, padding: '10px 22px', fontSize: 18, fontWeight: 600, color: '#ea580c' }}>
+            Free Forever
+          </div>
         </div>
 
         {/* URL watermark */}

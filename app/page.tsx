@@ -11,7 +11,8 @@ import Footer from '@/components/Footer'
 import AnimatedSection from '@/components/AnimatedSection'
 import HeroInput from '@/components/HeroInput'
 import HeroDemo from '@/components/HeroDemo'
-import FAQAccordion, { FAQ_ITEMS } from '@/components/FAQAccordion'
+import FAQAccordion from '@/components/FAQAccordion'
+import { FAQ_ITEMS } from '@/lib/faq-data'
 
 export const metadata: Metadata = {
   title: {
