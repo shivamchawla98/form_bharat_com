@@ -7,7 +7,7 @@ import ProtectedRoute from '@/components/ProtectedRoute'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/components/ui/use-toast'
-import { ArrowLeft, Download, BarChart3, Calendar, Loader2 } from 'lucide-react'
+import { ArrowLeft, Download, BarChart3, Calendar, Loader2, FileText } from 'lucide-react'
 import { getValidToken } from '@/lib/getToken'
 
 function ResponsesContent() {
@@ -57,6 +57,35 @@ function ResponsesContent() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const exportToPDF = () => {
+    // Inject a temporary print stylesheet then call print
+    const styleId = 'pdf-print-style'
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style')
+      style.id = styleId
+      style.innerHTML = `
+        @media print {
+          body * { visibility: hidden; }
+          #pdf-print-area, #pdf-print-area * { visibility: visible; }
+          #pdf-print-area { position: absolute; inset: 0; padding: 32px; }
+          header, nav, button, .no-print { display: none !important; }
+          .pdf-response-card { page-break-inside: avoid; margin-bottom: 24px; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; }
+          .pdf-response-title { font-size: 14px; font-weight: 700; color: #111827; margin-bottom: 4px; }
+          .pdf-response-date { font-size: 12px; color: #6b7280; margin-bottom: 12px; }
+          .pdf-field { border-left: 3px solid #f97316; padding-left: 12px; margin-bottom: 10px; }
+          .pdf-field-label { font-size: 11px; font-weight: 600; color: #374151; text-transform: uppercase; letter-spacing: 0.05em; }
+          .pdf-field-value { font-size: 13px; color: #111827; margin-top: 2px; }
+          .pdf-header { margin-bottom: 24px; border-bottom: 2px solid #f97316; padding-bottom: 12px; }
+          .pdf-form-title { font-size: 20px; font-weight: 800; color: #111827; }
+          .pdf-meta { font-size: 12px; color: #6b7280; margin-top: 4px; }
+          @page { margin: 20mm; size: A4; }
+        }
+      `
+      document.head.appendChild(style)
+    }
+    window.print()
   }
 
   const exportToCSV = () => {
@@ -149,10 +178,16 @@ function ResponsesContent() {
               Total: {responses.length} {responses.length === 1 ? 'response' : 'responses'}
             </p>
             {responses.length > 0 && (
-              <Button onClick={exportToCSV} variant="outline" size="sm" className="text-xs md:text-sm">
-                <Download className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
-                Export to CSV
-              </Button>
+              <div className="flex gap-2">
+                <Button onClick={exportToCSV} variant="outline" size="sm" className="text-xs md:text-sm no-print">
+                  <Download className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
+                  Export CSV
+                </Button>
+                <Button onClick={exportToPDF} variant="outline" size="sm" className="text-xs md:text-sm no-print">
+                  <FileText className="mr-1 md:mr-2 h-3 md:h-4 w-3 md:w-4" />
+                  Export PDF
+                </Button>
+              </div>
             )}
           </div>
         </div>
@@ -214,43 +249,65 @@ function ResponsesContent() {
             </CardContent>
           </Card>
         ) : (
-          <div className="space-y-4">
-            {responses.map((response, idx) => (
-              <Card key={response.id} className="hover:shadow-md transition-shadow">
-                <CardHeader className="bg-gradient-to-r from-orange-50 to-pink-50">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <CardTitle className="text-lg">
-                        Response #{responses.length - idx}
-                      </CardTitle>
-                      <CardDescription className="flex items-center gap-2 mt-1">
-                        <Calendar className="h-4 w-4" />
-                        {new Date(response.createdAt).toLocaleString()}
-                      </CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-6">
-                  <div className="grid gap-4">
+          <div id="pdf-print-area">
+            {/* PDF-only header */}
+            <div className="pdf-header hidden print:block">
+              <div className="pdf-form-title">{form.title}</div>
+              <div className="pdf-meta">{responses.length} responses · Exported {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+            </div>
+
+            <div className="space-y-4">
+              {responses.map((response, idx) => (
+                <div key={response.id} className="pdf-response-card">
+                  {/* Screen view */}
+                  <Card className="hover:shadow-md transition-shadow print:hidden">
+                    <CardHeader className="bg-gradient-to-r from-orange-50 to-pink-50">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <CardTitle className="text-lg">
+                            Response #{responses.length - idx}
+                          </CardTitle>
+                          <CardDescription className="flex items-center gap-2 mt-1">
+                            <Calendar className="h-4 w-4" />
+                            {new Date(response.createdAt).toLocaleString()}
+                          </CardDescription>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="pt-6">
+                      <div className="grid gap-4">
+                        {form.fields.map((field: any) => {
+                          const value = response.data[field.id]
+                          if (!value && value !== 0 && value !== false) return null
+                          return (
+                            <div key={field.id} className="border-l-4 border-orange-300 pl-4 py-2">
+                              <div className="text-sm font-semibold text-gray-700 mb-1">{field.label}</div>
+                              <div className="text-gray-900">{Array.isArray(value) ? value.join(', ') : String(value)}</div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Print view */}
+                  <div className="hidden print:block">
+                    <div className="pdf-response-title">Response #{responses.length - idx}</div>
+                    <div className="pdf-response-date">{new Date(response.createdAt).toLocaleString('en-IN')}</div>
                     {form.fields.map((field: any) => {
                       const value = response.data[field.id]
                       if (!value && value !== 0 && value !== false) return null
-
                       return (
-                        <div key={field.id} className="border-l-4 border-orange-300 pl-4 py-2">
-                          <div className="text-sm font-semibold text-gray-700 mb-1">
-                            {field.label}
-                          </div>
-                          <div className="text-gray-900">
-                            {Array.isArray(value) ? value.join(', ') : String(value)}
-                          </div>
+                        <div key={field.id} className="pdf-field">
+                          <div className="pdf-field-label">{field.label}</div>
+                          <div className="pdf-field-value">{Array.isArray(value) ? value.join(', ') : String(value)}</div>
                         </div>
                       )
                     })}
                   </div>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </main>

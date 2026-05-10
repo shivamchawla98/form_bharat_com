@@ -33,12 +33,14 @@ export const metadata: Metadata = {
     siteName: 'FormBharat',
     title: 'FormBharat - Free AI Form Builder for Indian Businesses',
     description: 'Create beautiful forms in minutes or let AI build one in 10 seconds — free. WhatsApp integration, Indian templates, and local support.',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'FormBharat — Free AI Form Builder for Indian Businesses' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'FormBharat - Free AI Form Builder for Indian Businesses',
     description: 'Create forms instantly or let AI build one in 10 seconds. Free, WhatsApp-ready, built for India.',
-    creator: '@formbharat'
+    creator: '@formbharat',
+    images: ['/opengraph-image'],
   },
   robots: {
     index: true,

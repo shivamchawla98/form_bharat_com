@@ -4,6 +4,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import AnimatedSection from '@/components/AnimatedSection'
 import Link from 'next/link'
+import Script from 'next/script'
 import { Button } from '@/components/ui/button'
 import { Check, ArrowRight, Sparkles } from 'lucide-react'
 
@@ -146,6 +147,16 @@ const solutions: Record<string, SolutionData> = {
   },
 }
 
+// Related industries per solution
+const relatedIndustries: Record<string, { slug: string; label: string }[]> = {
+  'lead-generation':    [{ slug: 'real-estate', label: 'Real Estate' }, { slug: 'education-coaching', label: 'Education & Coaching' }, { slug: 'retail-ecommerce', label: 'Retail & E-commerce' }],
+  'customer-feedback':  [{ slug: 'restaurants-food', label: 'Restaurants & Food' }, { slug: 'healthcare-clinics', label: 'Healthcare & Clinics' }, { slug: 'retail-ecommerce', label: 'Retail & E-commerce' }],
+  'event-registration': [{ slug: 'events-weddings', label: 'Events & Weddings' }, { slug: 'nonprofits', label: 'NGOs & Non-profits' }, { slug: 'education-coaching', label: 'Education & Coaching' }],
+  'job-applications':   [{ slug: 'hr-recruitment', label: 'HR & Recruitment' }, { slug: 'education-coaching', label: 'Education & Coaching' }, { slug: 'nonprofits', label: 'NGOs & Non-profits' }],
+  'order-forms':        [{ slug: 'restaurants-food', label: 'Restaurants & Food' }, { slug: 'retail-ecommerce', label: 'Retail & E-commerce' }, { slug: 'events-weddings', label: 'Events & Weddings' }],
+  'payment-collection': [{ slug: 'retail-ecommerce', label: 'Retail & E-commerce' }, { slug: 'education-coaching', label: 'Education & Coaching' }, { slug: 'events-weddings', label: 'Events & Weddings' }],
+}
+
 // Map color name to Tailwind classes
 function colorClasses(color: string) {
   const map: Record<string, { bg: string; text: string; badge: string; border: string; circle: string }> = {
@@ -192,9 +203,21 @@ export default async function SolutionDetailPage({
   }
 
   const c = colorClasses(data.color)
+  const related = relatedIndustries[slug] ?? []
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://formbharat.com' },
+      { '@type': 'ListItem', position: 2, name: 'Solutions', item: 'https://formbharat.com/solutions' },
+      { '@type': 'ListItem', position: 3, name: data.badge, item: `https://formbharat.com/solutions/${slug}` },
+    ],
+  }
 
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
+      <Script id="breadcrumb-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <Header />
 
       {/* Hero */}
@@ -298,6 +321,27 @@ export default async function SolutionDetailPage({
           </AnimatedSection>
         </div>
       </section>
+
+      {/* Related industries */}
+      {related.length > 0 && (
+        <section className="py-14 px-4 border-b border-gray-100">
+          <div className="max-w-4xl mx-auto">
+            <AnimatedSection className="text-center mb-8">
+              <p className="text-xs font-semibold uppercase tracking-widest text-orange-500 mb-3">Explore by industry</p>
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">Popular industries using this solution</h2>
+            </AnimatedSection>
+            <div className="flex flex-wrap gap-3 justify-center">
+              {related.map(r => (
+                <Link key={r.slug} href={`/industries/${r.slug}`}>
+                  <span className="inline-flex items-center gap-1.5 bg-white border border-gray-200 hover:border-orange-300 hover:text-orange-600 text-gray-700 text-sm font-medium px-5 py-2.5 rounded-xl transition-colors">
+                    {r.label} <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* CTA banner */}
       <section className="py-20 md:py-28 px-4 bg-gray-900">

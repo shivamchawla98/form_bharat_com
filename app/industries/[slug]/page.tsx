@@ -4,8 +4,9 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import AnimatedSection from '@/components/AnimatedSection'
 import Link from 'next/link'
+import Script from 'next/script'
 import { Button } from '@/components/ui/button'
-import { Check, ArrowRight, Sparkles, MessageCircle, Zap, IndianRupee } from 'lucide-react'
+import { Check, ArrowRight, Sparkles, MessageCircle, IndianRupee } from 'lucide-react'
 
 interface IndustryData {
   headline: string
@@ -153,6 +154,18 @@ function colorClasses(color: string) {
   return map[color] ?? map['orange']
 }
 
+// Related solutions per industry
+const relatedSolutions: Record<string, { slug: string; label: string }[]> = {
+  'restaurants-food':   [{ slug: 'order-forms', label: 'Order & Booking Forms' }, { slug: 'payment-collection', label: 'Payment Collection' }, { slug: 'customer-feedback', label: 'Customer Feedback' }],
+  'healthcare-clinics': [{ slug: 'lead-generation', label: 'Lead Generation' }, { slug: 'customer-feedback', label: 'Customer Feedback' }, { slug: 'job-applications', label: 'Job Applications' }],
+  'education-coaching': [{ slug: 'payment-collection', label: 'Payment Collection' }, { slug: 'job-applications', label: 'Job Applications' }, { slug: 'customer-feedback', label: 'Customer Feedback' }],
+  'real-estate':        [{ slug: 'lead-generation', label: 'Lead Generation' }, { slug: 'event-registration', label: 'Event Registration' }, { slug: 'job-applications', label: 'Job Applications' }],
+  'retail-ecommerce':   [{ slug: 'order-forms', label: 'Order & Booking Forms' }, { slug: 'payment-collection', label: 'Payment Collection' }, { slug: 'customer-feedback', label: 'Customer Feedback' }],
+  'hr-recruitment':     [{ slug: 'job-applications', label: 'Job Applications' }, { slug: 'customer-feedback', label: 'Customer Feedback' }, { slug: 'event-registration', label: 'Event Registration' }],
+  'events-weddings':    [{ slug: 'event-registration', label: 'Event Registration' }, { slug: 'payment-collection', label: 'Payment Collection' }, { slug: 'order-forms', label: 'Order & Booking Forms' }],
+  'nonprofits':         [{ slug: 'event-registration', label: 'Event Registration' }, { slug: 'job-applications', label: 'Job Applications' }, { slug: 'lead-generation', label: 'Lead Generation' }],
+}
+
 const differentiators = [
   {
     icon: Sparkles,
@@ -204,9 +217,21 @@ export default async function IndustryDetailPage({
   }
 
   const c = colorClasses(data.accentColor)
+  const related = relatedSolutions[slug] ?? []
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://formbharat.com' },
+      { '@type': 'ListItem', position: 2, name: 'Industries', item: 'https://formbharat.com/industries' },
+      { '@type': 'ListItem', position: 3, name: data.badge, item: `https://formbharat.com/industries/${slug}` },
+    ],
+  }
 
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
+      <Script id="breadcrumb-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <Header />
 
       {/* Hero */}
@@ -320,6 +345,27 @@ export default async function IndustryDetailPage({
           </div>
         </div>
       </section>
+
+      {/* Related solutions */}
+      {related.length > 0 && (
+        <section className="py-14 px-4 border-b border-gray-100">
+          <div className="max-w-4xl mx-auto">
+            <AnimatedSection className="text-center mb-8">
+              <p className="text-xs font-semibold uppercase tracking-widest text-orange-500 mb-3">Explore by use case</p>
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">Solutions popular in this industry</h2>
+            </AnimatedSection>
+            <div className="flex flex-wrap gap-3 justify-center">
+              {related.map(r => (
+                <Link key={r.slug} href={`/solutions/${r.slug}`}>
+                  <span className="inline-flex items-center gap-1.5 bg-white border border-gray-200 hover:border-orange-300 hover:text-orange-600 text-gray-700 text-sm font-medium px-5 py-2.5 rounded-xl transition-colors">
+                    {r.label} <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* CTA banner */}
       <section className="py-20 md:py-28 px-4 bg-gray-900">
