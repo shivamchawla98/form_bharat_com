@@ -40,9 +40,13 @@ export async function POST(request: NextRequest) {
       data: {
         title,
         description: description || '',
-        userId: dbUser.id, // Use the database user ID
+        userId: dbUser.id,
         fields,
         published: true,
+        // Auto-enable email notifications to the form owner on every new form.
+        // Owner can turn this off in Form Settings any time.
+        emailNotificationsEnabled: true,
+        emailRecipients: [dbUser.email],
       },
     })
 

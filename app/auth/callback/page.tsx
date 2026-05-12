@@ -17,11 +17,27 @@ function AuthCallbackContent() {
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        // Get the session from the URL hash
-        const { data: { session }, error } = await supabase.auth.getSession()
+        let session = null
+        let sessionError = null
 
-        if (error) {
-          console.error('Auth callback error:', error)
+        // Strategy 1: PKCE flow — Supabase sends back a `code` query param
+        const code = searchParams.get('code')
+        if (code) {
+          const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+          session = data?.session ?? null
+          sessionError = error
+        }
+
+        // Strategy 2: Implicit flow — tokens arrive in the URL hash (#access_token=...)
+        // The Supabase client detects these automatically; getSession() picks them up.
+        if (!session) {
+          const { data, error } = await supabase.auth.getSession()
+          session = data?.session ?? null
+          if (!sessionError) sessionError = error
+        }
+
+        if (sessionError) {
+          console.error('Auth callback error:', sessionError)
           router.push('/auth/login?error=authentication_failed')
           return
         }
@@ -38,7 +54,39 @@ function AuthCallbackContent() {
             },
           })
 
-          // If coming from AI form generation flow, redirect to builder
+          // Priority 1: pending form save from builder (Google OAuth flow)
+          const pendingSave = localStorage.getItem('pending_form_save')
+          if (pendingSave) {
+            try {
+              const formData = JSON.parse(pendingSave)
+              const saveResponse = await fetch('/api/forms', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${session.access_token}`,
+                },
+                body: JSON.stringify(formData),
+              })
+
+              localStorage.removeItem('pending_form_save')
+              localStorage.removeItem('form_builder_draft')
+
+              if (saveResponse.ok) {
+                const saved = await saveResponse.json()
+                // Redirect to dashboard with a success indicator
+                router.push(`/dashboard?saved=${saved.id}`)
+              } else {
+                // Save failed — go to dashboard, draft still in localStorage
+                router.push('/dashboard')
+              }
+            } catch (_) {
+              localStorage.removeItem('pending_form_save')
+              router.push('/dashboard')
+            }
+            return
+          }
+
+          // Priority 2: AI form generation flow
           const aiDescription = localStorage.getItem('ai_form_description')
           if (aiDescription) {
             router.push('/builder?ai=generated&new=true')

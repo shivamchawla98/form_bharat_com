@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { sendEmail } from '@/lib/email'
+import { sendEmail, buildOTPEmail } from '@/lib/email'
 import { checkIPRateLimit, getClientIP } from '@/lib/rate-limit'
 import { otpStore } from '@/lib/otp-store'
 
@@ -64,25 +64,8 @@ export async function POST(request: NextRequest) {
       // Send OTP email
       await sendEmail({
         to: email,
-        subject: 'Your FormBharat verification code',
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #ea580c;">Your Verification Code</h2>
-            <p>Hi there!</p>
-            <p>Your verification code for FormBharat is:</p>
-            <div style="background: #f3f4f6; padding: 20px; text-align: center; border-radius: 8px; margin: 20px 0;">
-              <h1 style="font-size: 36px; letter-spacing: 8px; margin: 0; color: #ea580c;">${otp}</h1>
-            </div>
-            <p>This code will expire in 10 minutes.</p>
-            ${description ? `<p style="color: #6b7280; font-style: italic;">You're generating: "${description}"</p>` : ''}
-            <p>If you didn't request this code, you can safely ignore this email.</p>
-            <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;">
-            <p style="color: #6b7280; font-size: 12px;">
-              FormBharat - Free & Open Source Form Builder<br>
-              Made in India 🇮🇳
-            </p>
-          </div>
-        `,
+        subject: `${otp} is your FormBharat code`,
+        html: buildOTPEmail(otp, description),
       })
 
       return NextResponse.json({

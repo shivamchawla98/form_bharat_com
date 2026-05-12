@@ -12,6 +12,20 @@ import { FormField } from '@/lib/types'
 import { Loader2, Lock } from 'lucide-react'
 import { getValidToken, storeSession } from '@/lib/getToken'
 
+const PENDING_SAVE_KEY = 'pending_form_save'
+const FORM_DRAFT_KEY = 'form_builder_draft'
+
+function GoogleIcon() {
+  return (
+    <svg className="w-4 h-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+    </svg>
+  )
+}
+
 function BuilderPageInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -41,6 +55,26 @@ function BuilderPageInner() {
         localStorage.setItem('token', accessToken)
         // Clean hash from URL without reload
         window.history.replaceState(null, '', window.location.pathname + window.location.search)
+      }
+    }
+
+    // Restore saved draft (e.g. user was building and navigated away)
+    if (!isAIGenerated && !searchParams.get('template')) {
+      const savedDraft = localStorage.getItem(FORM_DRAFT_KEY)
+      if (savedDraft) {
+        try {
+          const draft = JSON.parse(savedDraft)
+          if (draft.fields?.length > 0) {
+            setTemplateData(draft)
+            setIsNewForm(true)
+            toast({
+              title: 'Draft restored',
+              description: 'Your unsaved form has been restored.',
+            })
+          }
+        } catch (_) {
+          localStorage.removeItem(FORM_DRAFT_KEY)
+        }
       }
     }
 
@@ -182,6 +216,10 @@ function BuilderPageInner() {
         })
       }
 
+      // Clear draft after successful save
+      localStorage.removeItem(FORM_DRAFT_KEY)
+      localStorage.removeItem(PENDING_SAVE_KEY)
+
       toast({
         title: 'Success',
         description: 'Form saved successfully!',
@@ -274,6 +312,11 @@ function BuilderPageInner() {
       return
     }
 
+    // Always persist a draft so work isn't lost on redirect/refresh
+    try {
+      localStorage.setItem(FORM_DRAFT_KEY, JSON.stringify(data))
+    } catch (_) {}
+
     // Check if user is logged in
     const token = await getValidToken()
     if (token) {
@@ -332,6 +375,31 @@ function BuilderPageInner() {
     }
   }
 
+  const handleGoogleAuth = async () => {
+    if (!formData) return
+    try {
+      // Persist form data so it survives the OAuth redirect
+      localStorage.setItem(PENDING_SAVE_KEY, JSON.stringify(formData))
+
+      const response = await fetch('/api/auth/google', { method: 'POST' })
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      const { url } = await response.json()
+      if (url) {
+        window.location.href = url
+      } else {
+        throw new Error('No redirect URL returned')
+      }
+    } catch (error: any) {
+      // Clean up pending save if OAuth couldn't start
+      localStorage.removeItem(PENDING_SAVE_KEY)
+      toast({
+        title: 'Error',
+        description: 'Could not start Google sign-in. Please try email instead.',
+        variant: 'destructive',
+      })
+    }
+  }
+
   return (
     <>
       <FormBuilder 
@@ -352,6 +420,25 @@ function BuilderPageInner() {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
+            {/* Google OAuth — primary, lowest friction */}
+            <Button
+              onClick={handleGoogleAuth}
+              variant="outline"
+              className="w-full flex items-center gap-3 border-gray-200 hover:border-gray-300 hover:bg-gray-50 h-11 font-medium"
+            >
+              <GoogleIcon />
+              Continue with Google
+            </Button>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-gray-200" />
+              </div>
+              <div className="relative flex justify-center text-xs">
+                <span className="bg-white px-3 text-gray-400">or use email</span>
+              </div>
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -370,15 +457,16 @@ function BuilderPageInner() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
+                onKeyDown={(e) => e.key === 'Enter' && handleAuth()}
               />
             </div>
-            <Button 
+            <Button
               onClick={handleAuth}
               className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
             >
               {isSignUp ? 'Sign up & Save Form' : 'Login & Save Form'}
             </Button>
-            <Button 
+            <Button
               variant="ghost"
               onClick={() => setIsSignUp(!isSignUp)}
               className="w-full"

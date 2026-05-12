@@ -12,6 +12,7 @@ import AnimatedSection from '@/components/AnimatedSection'
 import HeroInput from '@/components/HeroInput'
 import HeroDemo from '@/components/HeroDemo'
 import FAQAccordion from '@/components/FAQAccordion'
+import EmailCapture from '@/components/EmailCapture'
 import { FAQ_ITEMS } from '@/lib/faq-data'
 
 export const metadata: Metadata = {
@@ -316,6 +317,19 @@ export default function Home() {
                 Build yours — it&apos;s free <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* ── EMAIL CAPTURE ── */}
+      <section className="py-14 px-4 bg-white border-t border-gray-100">
+        <div className="container mx-auto max-w-xl">
+          <AnimatedSection className="text-center mb-6">
+            <h2 className="text-xl font-bold text-gray-900 mb-1">Stay in the loop</h2>
+            <p className="text-sm text-gray-500">New features, templates, and early-access updates. No spam.</p>
+          </AnimatedSection>
+          <AnimatedSection className="flex justify-center">
+            <EmailCapture />
           </AnimatedSection>
         </div>
       </section>
