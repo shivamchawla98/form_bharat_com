@@ -2,16 +2,16 @@ import type { Pillar } from './types'
 
 export const formDesign: Pillar = {
   slug: 'form-design',
-  title: 'Form Design & Conversion Optimization',
-  description: 'Design online forms that people actually complete. Proven UX principles and conversion optimization strategies for Indian audiences.',
+  title: 'Form Design Guide — Build Forms People Actually Complete',
+  description: 'Learn multi-step forms, mobile-first design, reducing abandonment, and field best practices. Practical guides for Indian businesses, with examples.',
   icon: '🎨',
   color: 'purple',
   tagline: 'Beautiful forms get more responses',
   articles: [
     {
       slug: 'multi-step-forms-guide',
-      title: 'Multi-Step Forms: The Complete Guide to Building Conversational Forms',
-      description: 'Learn why multi-step forms convert 2x better than single-page forms and how to build them. Includes best practices, logic, and real examples.',
+      title: 'Multi-Step Forms Guide — Higher Conversions, Less Abandonment',
+      description: 'Multi-step forms get 2x more completions than single-page forms. Learn when to use them, how to build them, and see examples from Indian businesses.',
       readTime: '8 min',
       publishDate: '2024-03-16',
       tags: ['Multi-Step Forms', 'UX', 'Conversion', 'Form Design'],
@@ -258,8 +258,8 @@ export const formDesign: Pillar = {
     },
     {
       slug: 'form-fields-best-practices',
-      title: 'Form Fields Best Practices: A Complete Guide to Every Field Type',
-      description: 'The definitive guide to using form fields correctly. When to use dropdowns vs radio buttons, how to handle phone numbers in India, and more.',
+      title: 'Form Fields Guide — Dropdowns, Radio Buttons, Phone Numbers & More',
+      description: 'Know when to use dropdowns vs radio buttons, how to handle Indian phone numbers and pincodes, and which fields kill completion rates. With examples.',
       readTime: '6 min',
       publishDate: '2024-04-08',
       tags: ['Form Fields', 'UX', 'Design', 'Best Practices'],

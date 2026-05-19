@@ -2,8 +2,8 @@ import type { Pillar } from './types'
 
 export const formAnalytics: Pillar = {
   slug: 'form-analytics',
-  title: 'Form Analytics & Data Management',
-  description: 'Measure, analyse, and improve your forms. Learn to track completion rates, export data, and integrate with your tools for maximum impact.',
+  title: 'Form Analytics & Data — Track, Export, and Improve Your Forms',
+  description: 'Measure form completion rates, export responses to Excel or Google Sheets, and connect to your CRM via webhooks. Analytics guides for Indian businesses.',
   icon: '📈',
   color: 'indigo',
   tagline: 'Data-driven forms perform better',
@@ -107,8 +107,8 @@ export const formAnalytics: Pillar = {
     },
     {
       slug: 'form-data-export',
-      title: 'How to Export and Analyse Form Data: A Complete Guide',
-      description: 'Export form responses to CSV, Excel, or connect to Google Sheets. Learn how to analyse form data to make better business decisions.',
+      title: 'Export Form Responses to Excel & Google Sheets — Free Guide',
+      description: 'Download your form responses as CSV, open in Excel, or sync automatically to Google Sheets. Step-by-step guide with screenshots for FormBharat users.',
       readTime: '6 min',
       publishDate: '2024-03-29',
       tags: ['Data Export', 'CSV', 'Google Sheets', 'Analytics', 'Forms'],

@@ -2,8 +2,8 @@ import type { Pillar } from './types'
 
 export const leadGeneration: Pillar = {
   slug: 'lead-generation',
-  title: 'Lead Generation with Online Forms',
-  description: 'Capture, qualify, and convert more leads using online forms. Strategies tailored for Indian businesses.',
+  title: 'Lead Generation Forms for Indian Businesses — Free Templates & Guides',
+  description: 'Capture and qualify leads with WhatsApp forms, landing page forms, and B2B lead capture. Proven strategies for Indian SMEs, startups, and real estate.',
   icon: '🎯',
   color: 'orange',
   tagline: 'Turn website visitors into paying customers',
@@ -102,8 +102,8 @@ export const leadGeneration: Pillar = {
     },
     {
       slug: 'landing-page-form-optimization',
-      title: 'Landing Page Form Optimization: How to Get More Leads from Your Forms',
-      description: 'Step-by-step guide to optimizing your landing page forms for higher conversion rates. Includes A/B testing strategies and India-specific tips.',
+      title: 'Landing Page Form Optimization — Get More Leads Without More Traffic',
+      description: 'Small form changes lead to big conversion jumps. A/B testing tips, field reduction strategies, and India-specific landing page form best practices.',
       readTime: '7 min',
       publishDate: '2024-03-20',
       tags: ['Conversion Rate', 'Forms', 'Landing Pages', 'A/B Testing'],

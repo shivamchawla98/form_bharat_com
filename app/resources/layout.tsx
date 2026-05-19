@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Resources - AI Forms, Guides & Best Practices for Indian Businesses',
-  description: 'Free guides on AI form generation, lead generation, WhatsApp marketing, survey design, and data analytics — written for Indian businesses.',
+  title: 'Free Form Building Guides for Indian Businesses | FormBharat Resources',
+  description: 'Step-by-step guides on WhatsApp forms, lead generation, surveys, and AI form building — written for Indian SMEs and startups. Free templates included.',
   keywords: [
     'AI form generation guide', 'form builder guide India', 'online forms India',
     'WhatsApp lead generation', 'survey best practices', 'form design tips',
@@ -12,8 +12,8 @@ export const metadata: Metadata = {
     canonical: 'https://formbharat.com/resources',
   },
   openGraph: {
-    title: 'Resources — AI Forms, Guides & Best Practices | FormBharat',
-    description: 'Free guides on AI form generation, lead generation, WhatsApp marketing, and survey design — written for Indian businesses.',
+    title: 'Free Form Building Guides for Indian Businesses | FormBharat',
+    description: 'Step-by-step guides on WhatsApp forms, lead generation, surveys, and AI form building — written for Indian SMEs and startups. Free templates included.',
     url: 'https://formbharat.com/resources',
     type: 'website',
   },
