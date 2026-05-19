@@ -2,16 +2,16 @@ import type { Pillar } from './types'
 
 export const surveysFeedback: Pillar = {
   slug: 'surveys-feedback',
-  title: 'Surveys & Customer Feedback',
-  description: 'Design surveys and feedback forms that get responses. Learn methodologies used by top Indian brands to understand their customers.',
+  title: 'Customer Surveys & Feedback Forms for Indian Businesses',
+  description: 'Free survey templates and guides for CSAT, NPS, employee feedback, and event feedback — built for Indian businesses. Get more responses with less effort.',
   icon: '📊',
   color: 'blue',
   tagline: 'Understand your customers, grow your business',
   articles: [
     {
       slug: 'customer-satisfaction-survey',
-      title: 'How to Create a Customer Satisfaction Survey for Indian Businesses',
-      description: 'Build CSAT surveys that get high response rates and actionable insights. Step-by-step guide with templates for Indian businesses.',
+      title: 'Customer Satisfaction Survey Template for Indian Businesses — Free',
+      description: 'Free CSAT survey template that gets real responses. Built for Indian customers — short, mobile-friendly, and easy to share via WhatsApp or email.',
       readTime: '7 min',
       publishDate: '2024-03-18',
       tags: ['CSAT', 'Customer Satisfaction', 'Survey', 'India'],

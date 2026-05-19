@@ -14,8 +14,8 @@ const articleMeta: Record<string, { title: string; description: string }> = {
     description: 'Save time by using ready-made form templates for Indian businesses. Customize and deploy in minutes.',
   },
   'whatsapp-share': {
-    title: 'Sharing Forms via WhatsApp',
-    description: 'Learn how to share your FormBharat forms through WhatsApp to maximize reach with Indian audiences.',
+    title: 'How to Share Your Form on WhatsApp — Step-by-Step Guide',
+    description: 'Share your FormBharat form link on WhatsApp in seconds. Works on personal WhatsApp, WhatsApp Business, and WhatsApp groups — no extra app needed.',
   },
   'collect-responses': {
     title: 'Collecting Form Responses',
@@ -26,24 +26,24 @@ const articleMeta: Record<string, { title: string; description: string }> = {
     description: 'Integrate FormBharat with your tools using webhooks. Send form data to any endpoint in real-time.',
   },
   'view-analytics': {
-    title: 'Viewing Form Analytics',
-    description: 'Understand your form performance with FormBharat analytics: views, submissions, conversion rates, and more.',
+    title: 'How to View Your Form Analytics — Submissions, Views & Drop-offs',
+    description: 'See exactly how your form is performing — total views, submissions, completion rate, and where people drop off. Built into every FormBharat form.',
   },
   'export-data': {
     title: 'Exporting Form Data',
     description: 'Export form responses to CSV, Excel, or JSON. Keep your data backed up and portable.',
   },
   'email-notifications': {
-    title: 'Email Notifications',
-    description: 'Set up email notifications to be alerted whenever someone submits your form.',
+    title: 'Set Up Email Notifications for Form Submissions — FormBharat',
+    description: 'Get an email alert every time someone fills your form. Set up instant notifications in under 2 minutes — works with Gmail, Outlook, and any email.',
   },
   'multi-step-forms': {
     title: 'Creating Multi-Step Forms',
     description: 'Build multi-step forms to increase completion rates. Split long forms into digestible pages.',
   },
   'account-setup': {
-    title: 'Account Setup',
-    description: 'Set up and customize your FormBharat account. Manage profile, password, and preferences.',
+    title: 'Account Setup Guide — FormBharat',
+    description: 'Set up your FormBharat account in minutes. Add your business name, logo, and notification preferences so your forms look professional from day one.',
   },
   'troubleshooting': {
     title: 'Troubleshooting',

@@ -2,16 +2,16 @@ import type { Pillar } from './types'
 
 export const businessFormsIndia: Pillar = {
   slug: 'business-forms-india',
-  title: 'Business Forms for Indian Companies',
-  description: 'Essential online forms every Indian business needs. Templates and guides for contact, registration, onboarding, and compliance forms.',
+  title: 'Business Forms for Indian Companies — Free Templates',
+  description: 'Free templates for vendor onboarding, job applications, contact forms, and event registration — with GST, PAN, and compliance fields built in.',
   icon: '🏢',
   color: 'green',
   tagline: 'Forms that work for Indian businesses',
   articles: [
     {
       slug: 'contact-form-guide',
-      title: 'How to Create the Perfect Contact Form for Your Indian Business Website',
-      description: 'Build contact forms that convert visitors into inquiries. Includes templates for service businesses, e-commerce, and B2B companies in India.',
+      title: 'Contact Form for Indian Business Websites — Free Template & Guide',
+      description: 'Add a contact form to your website in minutes. Free template with WhatsApp fallback, name, email, and message fields — works on any Indian business site.',
       readTime: '6 min',
       publishDate: '2024-03-19',
       tags: ['Contact Form', 'Website', 'India', 'Leads'],
@@ -166,8 +166,8 @@ export const businessFormsIndia: Pillar = {
     },
     {
       slug: 'job-application-form',
-      title: 'Online Job Application Forms for Indian Recruiters: Best Practices',
-      description: 'Build job application forms that attract quality candidates and streamline your hiring process. Templates for startups, SMEs, and enterprises in India.',
+      title: 'Job Application Form for Indian Businesses — Free Template',
+      description: 'Free online job application form template for Indian recruiters. Covers work experience, qualifications, and references — ready to share via WhatsApp or email.',
       readTime: '7 min',
       publishDate: '2024-04-03',
       tags: ['Job Application', 'Recruitment', 'HR', 'India'],
@@ -237,8 +237,8 @@ export const businessFormsIndia: Pillar = {
     },
     {
       slug: 'vendor-onboarding-form',
-      title: 'Vendor Onboarding Forms: Templates and Best Practices for Indian Businesses',
-      description: 'Create vendor registration and onboarding forms that collect KYC, banking details, and compliance documents. Includes GST and MSME considerations.',
+      title: 'Vendor Onboarding Form for Indian Businesses — Free Template',
+      description: 'Get a ready-to-use vendor registration form with GSTIN, PAN, MSME, and bank fields built in. Collect everything you need before your first PO — no paperwork, no chasing.',
       readTime: '6 min',
       publishDate: '2024-04-10',
       tags: ['Vendor', 'Onboarding', 'KYC', 'India', 'Compliance'],
