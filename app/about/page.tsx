@@ -4,14 +4,14 @@ import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Heart, Users, Target, Zap, ArrowRight, MapPin, Github, MessageCircle, Flag, Lock } from 'lucide-react'
+import { Heart, Users, Target, Zap, ArrowRight, MapPin, MessageCircle, Flag, Gift } from 'lucide-react'
 import AnimatedSection from '@/components/AnimatedSection'
 
 const missionCards = [
   { icon: Flag, bg: 'bg-orange-50', color: 'text-orange-500', label: 'India-first design' },
   { icon: MessageCircle, bg: 'bg-green-50', color: 'text-green-500', label: 'WhatsApp native' },
   { icon: Zap, bg: 'bg-amber-50', color: 'text-amber-500', label: 'Built for speed' },
-  { icon: Lock, bg: 'bg-blue-50', color: 'text-blue-500', label: 'Open source' },
+  { icon: Gift, bg: 'bg-blue-50', color: 'text-blue-500', label: 'Free forever' },
 ]
 
 const values = [
@@ -61,7 +61,7 @@ export default function AboutPage() {
             <span className="text-orange-500">India does business</span>
           </h1>
           <p className="text-lg text-gray-500 max-w-xl mx-auto leading-relaxed">
-            FormBharat is a free, open-source form builder designed specifically for Indian businesses — from kirana stores to funded startups.
+            FormBharat is a free form builder designed specifically for Indian businesses — from kirana stores to funded startups.
           </p>
         </div>
       </section>
@@ -176,9 +176,9 @@ export default function AboutPage() {
                   Create your first form <ArrowRight className="w-4 h-4 ml-1.5" />
                 </Button>
               </Link>
-              <Link href="/open-source">
+              <Link href="/contact">
                 <Button size="lg" variant="outline" className="px-8 rounded-xl border-white/40 text-white hover:bg-white/10">
-                  <Github className="w-4 h-4 mr-2" /> View on GitHub
+                  Get in touch
                 </Button>
               </Link>
             </div>

@@ -64,7 +64,7 @@ Cascade is an AI-powered coding assistant integrated into the Windsurf IDE. I he
 
 ## Project Context: FormBharat
 
-**Current Project:** FormBharat - Open Source Form Builder for India
+**Current Project:** FormBharat - Free AI Form Builder for India (Closed Source)
 
 **Tech Stack:**
 - Next.js 15 with App Router
@@ -81,11 +81,12 @@ Cascade is an AI-powered coding assistant integrated into the Windsurf IDE. I he
 - ProtectedRoute authentication wrapper
 - Dynamic OG image generation (opengraph-image.tsx)
 - Favicon and Apple touch icon generation
-- Open Source page (/open-source)
+- Closed source strategy implementation — removed open source messaging (May 21)
 - All pages converted to Client Components for auth state
 - Custom SVG icons replacing Lucide icons
 - Google Analytics integration
 - Mobile responsive design across all pages
+- "Free Forever" positioning across all marketing copy
 
 **Latest Audit:** SEO-AUDIT-APR-16-2026.md
 
@@ -134,4 +135,17 @@ Cascade is an AI-powered coding assistant integrated into the Windsurf IDE. I he
 
 ---
 
-**Last Updated:** April 15, 2026
+**Last Updated:** May 21, 2026
+
+---
+
+## Strategy Notes
+
+**Closed Source Direction (Option C):**
+- Removed all "open source" branding from website
+- Replaced with "Free Forever" positioning
+- Deleted `/open-source` route entirely
+- Updated FAQ to focus on data security instead of self-hosting
+- Removed GitHub links from footer and CTAs
+- No public GitHub repository (closed source)
+- Focus: execution & India-specific UX as the moat, not code availability
