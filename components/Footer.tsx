@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 py-8 md:py-12 px-4">
       <div className="container mx-auto">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-6 md:gap-8 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8 mb-8">
           <div className="col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-1">
             <div className="mb-3 md:mb-4">
               <Logo href="/" size="md" dark />
@@ -44,14 +44,6 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h3 className="text-white font-semibold mb-3 md:mb-4">Open Source</h3>
-            <ul className="space-y-2 text-sm">
-              <li><a href="https://github.com/formbharat/formbharat" target="_blank" rel="noopener noreferrer" className="hover:text-white transition flex items-center gap-1">GitHub ↗</a></li>
-              <li><Link href="/open-source" className="hover:text-white transition">Documentation</Link></li>
-              <li><Link href="/open-source#contribute" className="hover:text-white transition">Contribute</Link></li>
-            </ul>
-          </div>
-          <div>
             <h3 className="text-white font-semibold mb-3 md:mb-4">Resources</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="/resources" className="hover:text-white transition">All Guides</Link></li>
@@ -73,12 +65,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-800 pt-6 md:pt-8 text-center text-xs md:text-sm">
-          <p>© 2024 FormBharat. Open Source & Made with ❤️ in India 🇮🇳</p>
-          <p className="text-gray-500 mt-2">
-            <a href="https://github.com/formbharat/formbharat" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
-              Star us on GitHub ⭐
-            </a>
-          </p>
+          <p>© 2025 FormBharat. Made with ❤️ in India 🇮🇳</p>
         </div>
       </div>
     </footer>

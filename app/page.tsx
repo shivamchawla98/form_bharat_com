@@ -60,7 +60,7 @@ export default function Home() {
               <div className="flex mb-6">
                 <span className="inline-flex items-center gap-1.5 bg-white border border-orange-200 text-orange-600 px-4 py-1.5 rounded-full text-xs font-semibold shadow-sm">
                   <Sparkles className="h-3 w-3" />
-                  AI-Powered · Open Source · Made for India
+                  AI-Powered · Free Forever · Made for India
                 </span>
               </div>
               <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 leading-[1.1] mb-4">

@@ -49,7 +49,7 @@ export default function OGImage() {
 
         {/* Sub */}
         <div style={{ fontSize: 24, color: '#6b7280', maxWidth: 680, lineHeight: 1.5, marginBottom: 52 }}>
-          Free AI form builder built for Indian businesses. WhatsApp-native, UPI-ready, open source.
+          Free AI form builder built for Indian businesses. WhatsApp-native, UPI-ready, free forever.
         </div>
 
         {/* Tags */}

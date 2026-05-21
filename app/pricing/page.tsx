@@ -62,7 +62,6 @@ const comparisonRows: { feature: string; free: boolean | 'soon'; pro: boolean | 
 interface FaqItem {
   q: string
   a: string
-  githubLink?: boolean
 }
 
 const faqs: FaqItem[] = [
@@ -83,9 +82,8 @@ const faqs: FaqItem[] = [
     a: "Add a Payment field to your form and connect your Razorpay account in settings. FormBharat doesn't charge any platform fee on top of Razorpay's standard rates.",
   },
   {
-    q: 'Can I self-host FormBharat?',
-    a: 'Yes — FormBharat is open source. You can deploy your own instance for free.',
-    githubLink: true,
+    q: 'Where is my data stored?',
+    a: 'Your form data is stored securely on servers hosted in India. We never sell your data or share it with third parties.',
   },
 ]
 
@@ -249,19 +247,6 @@ export default function PricingPage() {
                     <h3 className="text-base font-semibold text-gray-900 mb-2">{faq.q}</h3>
                     <p className="text-sm text-gray-600 leading-relaxed">
                       {faq.a}
-                      {faq.githubLink && (
-                        <>
-                          {' '}
-                          <a
-                            href="https://github.com/formbharat/formbharat"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-orange-600 font-semibold hover:underline"
-                          >
-                            See our GitHub ↗
-                          </a>
-                        </>
-                      )}
                     </p>
                   </div>
                 </AnimatedSection>

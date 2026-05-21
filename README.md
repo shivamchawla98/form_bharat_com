@@ -2,13 +2,10 @@
 
 # 📝 FormBharat
 
-### Open Source Form Builder for Indian Businesses
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+### Free AI Form Builder for Indian Businesses
 [![Made in India](https://img.shields.io/badge/Made%20in-India%20🇮🇳-orange)](https://formbharat.com)
 
-**[Website](https://formbharat.com)** • **[Documentation](https://formbharat.com/open-source)** • **[Contributing](CONTRIBUTING.md)** • **[License](LICENSE)**
+**[Website](https://formbharat.com)** • **[Help & Support](https://formbharat.com/help)** • **[Contact](https://formbharat.com/contact)**
 
 Create beautiful forms, collect responses, and manage your data — all for free, forever.
 
@@ -80,27 +77,12 @@ Open [http://localhost:3000](http://localhost:3000) to see your application.
 - **Authentication**: Supabase Auth
 - **Drag & Drop**: dnd-kit
 
-## 🤝 Contributing
+## 📧 Support & Feedback
 
-We love contributions! FormBharat is made better by amazing people like you.
-
-### Ways to Contribute
-
-- 🐛 **Report Bugs**: Found a bug? [Open an issue](https://github.com/formbharat/formbharat/issues)
-- 💡 **Suggest Features**: Have ideas? We'd love to hear them!
-- 📝 **Improve Documentation**: Help others understand the project better
-- 🌐 **Translate**: Make FormBharat accessible in regional languages
-- 💻 **Code**: Pick an issue and submit a PR
-
-Read our [Contributing Guide](CONTRIBUTING.md) to get started.
-
-### Good First Issues
-
-Looking for a place to start? Check out issues labeled [`good first issue`](https://github.com/formbharat/formbharat/labels/good%20first%20issue).
-
-## 📄 License
-
-FormBharat is [MIT licensed](LICENSE). You can use it for personal or commercial projects, modify it, and distribute it freely.
+Have questions or feature requests? Reach out to us:
+- **Email:** hello@formbharat.com
+- **Website:** [formbharat.com](https://formbharat.com)
+- **Help Center:** [formbharat.com/help](https://formbharat.com/help)
 
 ## 🙏 Acknowledgments
 
@@ -121,8 +103,8 @@ Built with ❤️ by the FormBharat community and powered by:
 
 <div align="center">
 
-**[⭐ Star us on GitHub](https://github.com/formbharat/formbharat)** — it motivates us to keep improving!
-
 Made with ❤️ in India 🇮🇳
+
+Empowering Indian businesses with free, powerful tools.
 
 </div>
